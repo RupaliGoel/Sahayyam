@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".EmergencyPost">
 
-    <include layout="@layout/content_emergency_post" />
+
 
 </android.support.design.widget.CoordinatorLayout>

@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        Intent intent = new Intent(MainActivity.this,Profile.class);
+                        Intent intent = new Intent(MainActivity.this,MyProfile.class);
                         MainActivity.this.startActivity(intent);
                         return false;
                     }

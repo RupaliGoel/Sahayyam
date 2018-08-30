@@ -62,7 +62,8 @@
         <activity android:name=".SearchDirectory" />
         <activity android:name=".InputDirectory" />
         <activity android:name=".SearchAppeal" />
-        <activity android:name=".RaiseOnAppeal"></activity>
+        <activity android:name=".RaiseOnAppeal" />
+        <activity android:name=".MyProfile"></activity>
     </application>
 
 </manifest>
