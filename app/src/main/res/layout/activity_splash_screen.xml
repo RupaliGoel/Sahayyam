@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".SplashScreen">
+
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Welcome"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="to"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/welcome" />
+
+    <TextView
+        android:id="@+id/indian_railways"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Indian Railways"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/to" />
+
+    <TextView
+        android:id="@+id/sahayyam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="'Sahayyam'"
+        android:textAlignment="center"
+        android:textSize="50dp"
+        android:textColor="#FFFF00"
+        android:layout_below="@+id/indian_railways" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="201dp"
+        android:layout_height="195dp"
+        android:layout_below="@+id/sahayyam"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp"
+        app:srcCompat="@drawable/animal_human" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:text="Neeraj Gupta"
+        android:textAlignment="center"
+        android:textColor="#FFFF00"
+        android:textSize="20dp"
+        android:layout_above="@+id/organisation"/>
+
+    <TextView
+        android:id="@+id/organisation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Centre for Railway Information Systems"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:layout_above="@+id/address" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chanakyapuri, New  Delhi - 110021"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:layout_above="@+id/contact" />
+
+    <TextView
+        android:id="@+id/contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="9968150228"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp" />
+
+</RelativeLayout>

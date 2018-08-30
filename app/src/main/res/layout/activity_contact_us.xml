@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ContactUs">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/page_name"
+        android:minHeight="?android:attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Us"
+            android:textColor="@android:color/white"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/person_name1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Neeraj Gupta"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_below="@+id/page_name"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/person1_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="nrjgpt69@gmail.com"
+        android:layout_below="@+id/person_name1"
+        android:layout_marginTop="10dp"/>
+
+
+    <TextView
+        android:id="@+id/person_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rupali Goel"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_below="@+id/person1_email"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/person2_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="rupaligoel@yahoo.com"
+        android:layout_below="@+id/person_name2"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/person_name3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ananta Singh"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_below="@+id/person2_email"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/person3_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="singhananta@gmail.com"
+        android:layout_below="@+id/person_name3"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/person_name4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Anchal Singh"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_below="@+id/person3_email"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/person4_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="raghuvanshijasmine@gmail.com"
+        android:layout_below="@+id/person_name4"
+        android:layout_marginTop="10dp"/>
+
+    <ImageButton
+        android:id="@+id/mail1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/person1_email"
+        android:layout_toEndOf="@+id/person1_email"
+        android:background="#000000"
+        android:tag="nrjgpt69@gmail.com"
+        android:onClick="sendEmail"
+        app:srcCompat="@android:drawable/sym_action_email" />
+
+    <ImageButton
+        android:id="@+id/mail2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/person2_email"
+        android:layout_toEndOf="@+id/person2_email"
+        android:tag="rupaligoel@yahoo.com"
+        android:background="#000000"
+        android:onClick="sendEmail"
+        app:srcCompat="@android:drawable/sym_action_email" />
+
+    <ImageButton
+        android:id="@+id/mail3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/person3_email"
+        android:layout_alignTop="@+id/person3_email"
+        android:background="#000000"
+        android:tag="singhananta@gmail.com"
+        android:onClick="sendEmail"
+        app:srcCompat="@android:drawable/sym_action_email" />
+
+    <ImageButton
+        android:id="@+id/mail4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/person4_email"
+        android:layout_toEndOf="@+id/person4_email"
+        android:background="#000000"
+        android:onClick="sendEmail"
+        android:tag="raghuvanshijasmine@gmail.com"
+        app:srcCompat="@android:drawable/sym_action_email" />
+
+
+</RelativeLayout>

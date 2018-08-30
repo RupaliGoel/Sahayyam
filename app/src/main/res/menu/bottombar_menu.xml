@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Bottom bar menu by roughike-->
+<!--https://github.com/roughike/BottomBar-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <!--Every item for another tab-->
+    <item
+        android:id="@+id/bottomBarItemOne"
+        android:icon="@drawable/ic_search_emergency"
+        android:title="Search" />
+    <item
+        android:id="@+id/bottomBarItemSecond"
+        android:icon="@drawable/ic_input_emergency"
+        android:title="Declare" />
+    <item
+        android:id="@+id/bottomBarItemThird"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+</menu>

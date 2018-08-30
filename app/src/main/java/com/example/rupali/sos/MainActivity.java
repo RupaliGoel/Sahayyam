@@ -1,0 +1,289 @@
+package com.example.rupali.sos;
+
+import android.content.Intent;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.ncapdevi.fragnav.FragNavController;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabClickListener;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    //-----------------------------------
+    FirebaseAuth auth;
+    DatabaseReference databaseReference;
+    FirebaseDatabase database;
+    FirebaseUser user;
+    private FirebaseAuth.AuthStateListener authListener;
+    //-----------------------------------
+
+    //------------------------------code for bottom navigation tabs-----------------------------------
+    private BottomBar mBottomBar;
+    private FragNavController fragNavController;
+
+    //indices to fragments
+    private final int TAB_SEARCH = FragNavController.TAB1;
+    private final int TAB_DECLARE = FragNavController.TAB2;
+    private final int TAB_HOME = FragNavController.TAB3;
+
+    //------------------------------code for bottom navigation tabs-----------------------------------
+
+    String user_name,user_email;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //------------------------------code for bottom navigation tabs-----------------------------------
+        //FragNav
+        //list of fragments
+        final List<Fragment> fragments = new ArrayList<>(3);
+
+        //add fragments to list
+        fragments.add(new SearchEmergency());
+        fragments.add(new InputEmergency());
+        fragments.add(new HomeFragment());
+
+        //link fragments to container
+        fragNavController = new FragNavController(getSupportFragmentManager(), R.id.container, fragments);
+        //End of FragNav
+
+        //BottomBar menu
+        mBottomBar = BottomBar.attach(this, savedInstanceState);
+        mBottomBar.setItems(R.menu.bottombar_menu);
+        mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
+            @Override
+            public void onMenuTabSelected(@IdRes int menuItemId) {
+                //switch between tabs
+                switch (menuItemId) {
+                    case R.id.bottomBarItemOne:
+                        fragNavController.switchTab(TAB_SEARCH);
+                        break;
+                    case R.id.bottomBarItemSecond:
+                        fragNavController.switchTab(TAB_DECLARE);
+                        break;
+                    case R.id.bottomBarItemThird:
+                        fragNavController.switchTab(TAB_HOME);
+                        break;
+                }
+            }
+
+            @Override
+            public void onMenuTabReSelected(@IdRes int menuItemId) {
+                if (menuItemId == R.id.bottomBarItemOne) {
+                    fragNavController.clearStack();
+                }
+            }
+        });
+        //------------------------------code for bottom navigation tabs-----------------------------------
+
+        //--------------------------------------------------
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try{
+                    // Toast.makeText(getBaseContext(),"SEARCH",Toast.LENGTH_SHORT).show();
+//                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+//                    user_name= (String) map.get("Name");
+//                    user_email= (String) map.get("Email-ID");
+
+                    Toast.makeText(getBaseContext(),"Enter",Toast.LENGTH_SHORT).show();
+                   // user_name = (String) dataSnapshot.child("Users").child(user.getUid()).child("UserDetails").child("Name").getValue();
+                    //Toast.makeText(getBaseContext(),user.getUid(),Toast.LENGTH_SHORT).show();
+//                    System.out.println(user_name);
+
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+
+        });
+        //------------------------------------------------
+
+        //-----------------------------Code for Navigation Drawer--------------------------------------
+        new DrawerBuilder().withActivity(this).build();
+
+        //primary items
+        PrimaryDrawerItem primary_item1 = new PrimaryDrawerItem()
+                .withIdentifier(2)
+                .withName(R.string.drawer_item_upload_photo)
+                .withIcon(R.drawable.ic_upload_photo);
+        PrimaryDrawerItem primary_item2 = new PrimaryDrawerItem()
+                .withIdentifier(3)
+                .withName(R.string.drawer_item_add_role)
+                .withIcon(R.drawable.ic_add_role);
+        PrimaryDrawerItem primary_item3 = new PrimaryDrawerItem()
+                .withIdentifier(4)
+                .withName(R.string.drawer_item_write_review)
+                .withIcon(R.drawable.ic_write_review);
+        PrimaryDrawerItem primary_item4 = new PrimaryDrawerItem()
+                .withIdentifier(5)
+                .withName(R.string.drawer_item_glossary)
+                .withIcon(R.drawable.ic_glossary);
+        //settings, help, contact items
+        SecondaryDrawerItem settings = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                .withIdentifier(97)
+                .withName(R.string.drawer_item_settings)
+                .withIcon(R.drawable.ic_settings);
+        SecondaryDrawerItem rate = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                .withIdentifier(98)
+                .withName(R.string.drawer_item_rateus)
+                .withIcon(R.drawable.ic_rate_us);
+        SecondaryDrawerItem contact = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                .withIdentifier(99)
+                .withName(R.string.drawer_item_contactus)
+                .withIcon(R.drawable.ic_contact_us);
+        SecondaryDrawerItem signout = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                .withIdentifier(100)
+                .withName(R.string.sign_out)
+                .withIcon(R.drawable.ic_sign_out);
+
+        //-----------------------------code for Toolbar---------------------------------------------
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+        //-----------------------------code for Toolbar---------------------------------------------
+
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.header)
+                .addProfiles(
+                        new ProfileDrawerItem().withName(user_name).withEmail(user_email).withIcon(getResources().getDrawable(R.drawable.profile))
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        Intent intent = new Intent(MainActivity.this,Profile.class);
+                        MainActivity.this.startActivity(intent);
+                        return false;
+                    }
+                })
+                .build();
+
+        Drawer result = new DrawerBuilder()
+                .withAccountHeader(headerResult)
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withActionBarDrawerToggleAnimated(true)
+                .withTranslucentStatusBar(false)
+                .withFullscreen(true)
+                .withSavedInstance(savedInstanceState)
+                .addDrawerItems(
+                        primary_item1,
+                        primary_item2,
+                        primary_item3,
+                        primary_item4,
+                        new SectionDrawerItem().withName("Others"),
+                        settings,
+                        rate,
+                        contact,
+                        signout
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if (drawerItem != null) {
+                            Intent intent = null;
+                            if (drawerItem.getIdentifier() == 2) {
+                                intent = new Intent(MainActivity.this, UploadPhoto.class);
+                            } else if (drawerItem.getIdentifier() == 3) {
+                                intent = new Intent(MainActivity.this, AddRole.class);
+                            } else if (drawerItem.getIdentifier() == 4) {
+                                intent = new Intent(MainActivity.this, WriteReview.class);
+                            } else if (drawerItem.getIdentifier() == 5) {
+                                intent = new Intent(MainActivity.this, Glossary.class);
+                            } else if (drawerItem.getIdentifier() == 97) {
+                                intent = new Intent(MainActivity.this, Settings.class);
+                            } else if (drawerItem.getIdentifier() == 98) {
+                                intent = new Intent(MainActivity.this, RateUs.class);
+                            } else if (drawerItem.getIdentifier() == 99) {
+                                intent = new Intent(MainActivity.this, ContactUs.class);
+                            }
+                            else if (drawerItem.getIdentifier() == 100) {
+                                FirebaseAuth.getInstance().signOut();
+
+                            }
+                            if (intent != null) {
+                                MainActivity.this.startActivity(intent);
+                            }
+                        }
+
+                        return false;
+                    }
+                })
+                .build();
+
+//        //-------------------------------------
+//        auth = FirebaseAuth.getInstance();
+//        user = auth.getCurrentUser();
+//
+//        authListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if (user == null) {
+//                    // user auth state is changed - user is null
+//                    // launch login activity
+//
+//                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//
+//                    finish();
+//                }
+//            }
+//        };
+        //------------------------------------
+
+    }
+    @Override
+    public void onBackPressed() {
+        if (fragNavController.getCurrentStack().size() > 1) {
+            fragNavController.pop();
+        } else {
+            super.onBackPressed();
+        }
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Necessary to restore the BottomBar's state, otherwise we would
+        // lose the current tab on orientation change.
+        mBottomBar.onSaveInstanceState(outState);
+    }
+    //-----------------------------Code for Navigation Drawer--------------------------------------
+
+
+}
