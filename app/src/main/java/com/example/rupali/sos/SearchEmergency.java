@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -32,6 +34,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -166,6 +170,15 @@ public class SearchEmergency extends Fragment {
                 for (int i = 0; i < count; i++) {
                     if (position == i) {
                         Intent myIntent = new Intent(view.getContext(), EmergencyPost.class);
+                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_post);
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byte[] byteArray = stream.toByteArray();
+                        String headline = "This is title of the post.";
+                        String content = "Post Description.";
+                        myIntent.putExtra("Headline", headline);
+                        myIntent.putExtra("Content", content);
+                        myIntent.putExtra("Picture", byteArray);
                         startActivityForResult(myIntent, i);
                     }
                 }

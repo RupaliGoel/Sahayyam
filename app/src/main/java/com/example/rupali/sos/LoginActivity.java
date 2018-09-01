@@ -1,14 +1,17 @@
 package com.example.rupali.sos;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import com.google.firebase.auth.FirebaseAuth;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -16,52 +19,24 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
-    private FirebaseAuth auth;
 
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
-
         // set the view now
         setContentView(R.layout.activity_login);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
-
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        initViews();
+        initObjects();
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,43 +77,68 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
-
-                //authenticate user
-                auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (password.length() < 6) {
-                                        inputPassword.setError(getString(R.string.minimum_password));
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-//                                    getSupportFragmentManager().getFragments().get(2);
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        });
+                verifyFromSQLite();
             }
         });
     }
 
+    /**
+     * This method is to initialize views
+     */
+    private void initViews(){
+        inputEmail = (EditText) findViewById(R.id.email);
+        inputPassword = (EditText) findViewById(R.id.password);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btnSignup = (Button) findViewById(R.id.btn_signup);
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnReset = (Button) findViewById(R.id.btn_reset_password);
+    }
+
+    /**
+     * This method is to initialize objects to be used
+     */
+    private void initObjects() {
+        databaseHelper = new DatabaseHelper(LoginActivity.this);
+    }
+
     @Override
     public void onBackPressed() {
-       Toast.makeText(getApplicationContext(),"Dsafdgtfjhg",Toast.LENGTH_LONG).show();
        int count=getFragmentManager().getBackStackEntryCount();
 
        if(count==0)
            super.onBackPressed();
        else
         getFragmentManager().popBackStack();
+    }
+
+    /**
+     * This method is to validate the input text fields and verify login credentials from SQLite
+     */
+    private void verifyFromSQLite() {
+
+        if (databaseHelper.checkUser(inputEmail.getText().toString().trim()
+                , inputPassword.getText().toString().trim())) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("Islogin", true).commit();
+            editor.putString("user_email",inputEmail.getText().toString().trim()).commit();
+            editor.putString("user_name",databaseHelper.getUsername(inputEmail.getText().toString().trim())).commit();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            setResult(Activity.RESULT_OK, intent);
+            //startActivity(intent);
+            finish();
+
+        } else {
+            // Snack Bar to show success message that record is wrong
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * This method is to empty all input edit text
+     */
+    private void emptyInputEditText() {
+        inputEmail.setText(null);
+        inputPassword.setText(null);
     }
 }

@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/usr/share/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_backspace_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/home/rupaligoel/android-studio-ide-173.4720617-linux/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_accessibility_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -33,7 +33,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_sign_out" />
+                                      <entry key="outputName" value="ic_post" />
                                     </map>
                                   </option>
                                 </PersistentState>

@@ -1,6 +1,9 @@
 package com.example.rupali.sos;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -35,11 +38,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     //-----------------------------------
-    FirebaseAuth auth;
-    DatabaseReference databaseReference;
-    FirebaseDatabase database;
-    FirebaseUser user;
-    private FirebaseAuth.AuthStateListener authListener;
+    Toolbar toolbar;
+    Bundle SavedInstanceState;
+    Boolean Islogin;
     //-----------------------------------
 
     //------------------------------code for bottom navigation tabs-----------------------------------
@@ -54,11 +55,22 @@ public class MainActivity extends AppCompatActivity {
     //------------------------------code for bottom navigation tabs-----------------------------------
 
     String user_name,user_email;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SavedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_main);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = prefs.edit();
+        Islogin = prefs.getBoolean("Islogin", false);
+        user_email = prefs.getString("user_email","guest@guest.com");
+        user_name = prefs.getString("user_name","Guest");
+
 
         //------------------------------code for bottom navigation tabs-----------------------------------
         //FragNav
@@ -103,171 +115,27 @@ public class MainActivity extends AppCompatActivity {
         });
         //------------------------------code for bottom navigation tabs-----------------------------------
 
-        //--------------------------------------------------
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                try{
-                    // Toast.makeText(getBaseContext(),"SEARCH",Toast.LENGTH_SHORT).show();
-//                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-//                    user_name= (String) map.get("Name");
-//                    user_email= (String) map.get("Email-ID");
-
-                    Toast.makeText(getBaseContext(),"Enter",Toast.LENGTH_SHORT).show();
-                   // user_name = (String) dataSnapshot.child("Users").child(user.getUid()).child("UserDetails").child("Name").getValue();
-                    //Toast.makeText(getBaseContext(),user.getUid(),Toast.LENGTH_SHORT).show();
-//                    System.out.println(user_name);
-
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-
-        });
-        //------------------------------------------------
-
         //-----------------------------Code for Navigation Drawer--------------------------------------
-        new DrawerBuilder().withActivity(this).build();
 
-        //primary items
-        PrimaryDrawerItem primary_item1 = new PrimaryDrawerItem()
-                .withIdentifier(2)
-                .withName(R.string.drawer_item_upload_photo)
-                .withIcon(R.drawable.ic_upload_photo);
-        PrimaryDrawerItem primary_item2 = new PrimaryDrawerItem()
-                .withIdentifier(3)
-                .withName(R.string.drawer_item_add_role)
-                .withIcon(R.drawable.ic_add_role);
-        PrimaryDrawerItem primary_item3 = new PrimaryDrawerItem()
-                .withIdentifier(4)
-                .withName(R.string.drawer_item_write_review)
-                .withIcon(R.drawable.ic_write_review);
-        PrimaryDrawerItem primary_item4 = new PrimaryDrawerItem()
-                .withIdentifier(5)
-                .withName(R.string.drawer_item_glossary)
-                .withIcon(R.drawable.ic_glossary);
-        //settings, help, contact items
-        SecondaryDrawerItem settings = (SecondaryDrawerItem) new SecondaryDrawerItem()
-                .withIdentifier(97)
-                .withName(R.string.drawer_item_settings)
-                .withIcon(R.drawable.ic_settings);
-        SecondaryDrawerItem rate = (SecondaryDrawerItem) new SecondaryDrawerItem()
-                .withIdentifier(98)
-                .withName(R.string.drawer_item_rateus)
-                .withIcon(R.drawable.ic_rate_us);
-        SecondaryDrawerItem contact = (SecondaryDrawerItem) new SecondaryDrawerItem()
-                .withIdentifier(99)
-                .withName(R.string.drawer_item_contactus)
-                .withIcon(R.drawable.ic_contact_us);
-        SecondaryDrawerItem signout = (SecondaryDrawerItem) new SecondaryDrawerItem()
-                .withIdentifier(100)
-                .withName(R.string.sign_out)
-                .withIcon(R.drawable.ic_sign_out);
-
-        //-----------------------------code for Toolbar---------------------------------------------
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(false);
-        //-----------------------------code for Toolbar---------------------------------------------
-
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
-                .addProfiles(
-                        new ProfileDrawerItem().withName(user_name).withEmail(user_email).withIcon(getResources().getDrawable(R.drawable.profile))
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        Intent intent = new Intent(MainActivity.this,MyProfile.class);
-                        MainActivity.this.startActivity(intent);
-                        return false;
-                    }
-                })
-                .build();
-
-        Drawer result = new DrawerBuilder()
-                .withAccountHeader(headerResult)
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withActionBarDrawerToggleAnimated(true)
-                .withTranslucentStatusBar(false)
-                .withFullscreen(true)
-                .withSavedInstance(savedInstanceState)
-                .addDrawerItems(
-                        primary_item1,
-                        primary_item2,
-                        primary_item3,
-                        primary_item4,
-                        new SectionDrawerItem().withName("Others"),
-                        settings,
-                        rate,
-                        contact,
-                        signout
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem != null) {
-                            Intent intent = null;
-                            if (drawerItem.getIdentifier() == 2) {
-                                intent = new Intent(MainActivity.this, UploadPhoto.class);
-                            } else if (drawerItem.getIdentifier() == 3) {
-                                intent = new Intent(MainActivity.this, AddRole.class);
-                            } else if (drawerItem.getIdentifier() == 4) {
-                                intent = new Intent(MainActivity.this, WriteReview.class);
-                            } else if (drawerItem.getIdentifier() == 5) {
-                                intent = new Intent(MainActivity.this, Glossary.class);
-                            } else if (drawerItem.getIdentifier() == 97) {
-                                intent = new Intent(MainActivity.this, Settings.class);
-                            } else if (drawerItem.getIdentifier() == 98) {
-                                intent = new Intent(MainActivity.this, RateUs.class);
-                            } else if (drawerItem.getIdentifier() == 99) {
-                                intent = new Intent(MainActivity.this, ContactUs.class);
-                            }
-                            else if (drawerItem.getIdentifier() == 100) {
-                                FirebaseAuth.getInstance().signOut();
-
-                            }
-                            if (intent != null) {
-                                MainActivity.this.startActivity(intent);
-                            }
-                        }
-
-                        return false;
-                    }
-                })
-                .build();
-
-//        //-------------------------------------
-//        auth = FirebaseAuth.getInstance();
-//        user = auth.getCurrentUser();
-//
-//        authListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser user = firebaseAuth.getCurrentUser();
-//                if (user == null) {
-//                    // user auth state is changed - user is null
-//                    // launch login activity
-//
-//                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//
-//                    finish();
-//                }
-//            }
-//        };
-        //------------------------------------
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Islogin = prefs.getBoolean("Islogin", false);
+        buildNavigationDrawer();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            editor = prefs.edit();
+            Islogin = prefs.getBoolean("Islogin", false);
+            user_email = prefs.getString("user_email","guest@guest.com");
+            user_name = prefs.getString("user_name","Guest");
+
+            buildNavigationDrawer();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (fragNavController.getCurrentStack().size() > 1) {
@@ -285,5 +153,202 @@ public class MainActivity extends AppCompatActivity {
     }
     //-----------------------------Code for Navigation Drawer--------------------------------------
 
+    public void buildNavigationDrawer() {
+        if (Islogin) {   // condition true means user is logged in
+            new DrawerBuilder().withActivity(this).build();
+
+            //primary items
+            PrimaryDrawerItem primary_item1 = new PrimaryDrawerItem()
+                    .withIdentifier(2)
+                    .withName(R.string.drawer_item_upload_photo)
+                    .withIcon(R.drawable.ic_upload_photo);
+            PrimaryDrawerItem primary_item2 = new PrimaryDrawerItem()
+                    .withIdentifier(3)
+                    .withName(R.string.drawer_item_add_role)
+                    .withIcon(R.drawable.ic_add_role);
+            PrimaryDrawerItem primary_item3 = new PrimaryDrawerItem()
+                    .withIdentifier(4)
+                    .withName(R.string.drawer_item_write_review)
+                    .withIcon(R.drawable.ic_write_review);
+            PrimaryDrawerItem primary_item4 = new PrimaryDrawerItem()
+                    .withIdentifier(5)
+                    .withName(R.string.drawer_item_glossary)
+                    .withIcon(R.drawable.ic_glossary);
+            //settings, help, contact items
+            SecondaryDrawerItem settings = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                    .withIdentifier(97)
+                    .withName(R.string.drawer_item_settings)
+                    .withIcon(R.drawable.ic_settings);
+            SecondaryDrawerItem rate = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                    .withIdentifier(98)
+                    .withName(R.string.drawer_item_rateus)
+                    .withIcon(R.drawable.ic_rate_us);
+            SecondaryDrawerItem contact = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                    .withIdentifier(99)
+                    .withName(R.string.drawer_item_contactus)
+                    .withIcon(R.drawable.ic_contact_us);
+            SecondaryDrawerItem signout = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                    .withIdentifier(100)
+                    .withName(R.string.sign_out)
+                    .withIcon(R.drawable.ic_sign_out);
+            AccountHeader headerResult = new AccountHeaderBuilder()
+                    .withActivity(this)
+                    .withHeaderBackground(R.drawable.header)
+                    .addProfiles(
+                            new ProfileDrawerItem().withName(user_name).withEmail(user_email).withIcon(getResources().getDrawable(R.drawable.profile))
+                    )
+                    .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                        @Override
+                        public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                            Intent intent = new Intent(MainActivity.this, MyProfile.class);
+                            MainActivity.this.startActivity(intent);
+                            return false;
+                        }
+                    })
+                    .build();
+            new DrawerBuilder()
+                    .withAccountHeader(headerResult)
+                    .withActivity(this)
+                    .withToolbar(toolbar)
+                    .withActionBarDrawerToggleAnimated(true)
+                    .withTranslucentStatusBar(false)
+                    .withFullscreen(true)
+                    .withSavedInstance(SavedInstanceState)
+                    .addDrawerItems(
+                            primary_item1,
+                            primary_item2,
+                            primary_item3,
+                            primary_item4,
+                            new SectionDrawerItem().withName("Others"),
+                            settings,
+                            rate,
+                            contact,
+                            signout
+                    )
+                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                        @Override
+                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                            if (drawerItem != null) {
+                                Intent intent = null;
+                                if (drawerItem.getIdentifier() == 2) {
+                                    intent = new Intent(MainActivity.this, UploadPhoto.class);
+                                } else if (drawerItem.getIdentifier() == 3) {
+                                    intent = new Intent(MainActivity.this, AddRole.class);
+                                } else if (drawerItem.getIdentifier() == 4) {
+                                    intent = new Intent(MainActivity.this, WriteReview.class);
+                                } else if (drawerItem.getIdentifier() == 5) {
+                                    intent = new Intent(MainActivity.this, Glossary.class);
+                                } else if (drawerItem.getIdentifier() == 97) {
+                                    intent = new Intent(MainActivity.this, Settings.class);
+                                } else if (drawerItem.getIdentifier() == 98) {
+                                    intent = new Intent(MainActivity.this, RateUs.class);
+                                } else if (drawerItem.getIdentifier() == 99) {
+                                    intent = new Intent(MainActivity.this, ContactUs.class);
+                                } else if (drawerItem.getIdentifier() == 100) {
+                                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                                    prefs.edit().putBoolean("Islogin", false).commit();
+                                    prefs.edit().putString("user_email","guest@guest.com");
+                                    prefs.edit().putString("user_name","Guest");
+                                    Toast.makeText(getBaseContext(), "Successfully Signed Out", Toast.LENGTH_SHORT).show();
+                                    Islogin = false;
+                                    buildNavigationDrawer();
+                                }
+                                if (intent != null) {
+                                    MainActivity.this.startActivity(intent);
+                                }
+                            }
+
+                            return false;
+                        }
+                    })
+                    .build();
+        } else {
+            user_name = "Guest";
+            user_email = "guest@email.com";
+            new DrawerBuilder().withActivity(this).build();
+
+            //primary items
+            PrimaryDrawerItem primary_item4 = new PrimaryDrawerItem()
+                    .withIdentifier(5)
+                    .withName(R.string.drawer_item_glossary)
+                    .withIcon(R.drawable.ic_glossary);
+            //settings, help, contact items
+            SecondaryDrawerItem settings = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                    .withIdentifier(97)
+                    .withName(R.string.drawer_item_settings)
+                    .withIcon(R.drawable.ic_settings);
+            SecondaryDrawerItem rate = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                    .withIdentifier(98)
+                    .withName(R.string.drawer_item_rateus)
+                    .withIcon(R.drawable.ic_rate_us);
+            SecondaryDrawerItem contact = (SecondaryDrawerItem) new SecondaryDrawerItem()
+                    .withIdentifier(99)
+                    .withName(R.string.drawer_item_contactus)
+                    .withIcon(R.drawable.ic_contact_us);
+
+            //-----------------------------code for Toolbar---------------------------------------------
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeButtonEnabled(false);
+            //-----------------------------code for Toolbar---------------------------------------------
+
+            AccountHeader headerResult = new AccountHeaderBuilder()
+                    .withActivity(this)
+                    .withHeaderBackground(R.drawable.header)
+                    .addProfiles(
+                            new ProfileDrawerItem().withName(user_name).withEmail(user_email).withIcon(getResources().getDrawable(R.drawable.profile))
+                    )
+                    .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                        @Override
+                        public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                            Intent intent = new Intent(MainActivity.this, MyProfile.class);
+                            MainActivity.this.startActivity(intent);
+                            return false;
+                        }
+                    })
+                    .build();
+
+            new DrawerBuilder()
+                    .withAccountHeader(headerResult)
+                    .withActivity(this)
+                    .withToolbar(toolbar)
+                    .withActionBarDrawerToggleAnimated(true)
+                    .withTranslucentStatusBar(false)
+                    .withFullscreen(true)
+                    .withSavedInstance(SavedInstanceState)
+                    .addDrawerItems(
+                            primary_item4,
+                            new SectionDrawerItem().withName("Others"),
+                            settings,
+                            rate,
+                            contact
+                    )
+                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                        @Override
+                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                            if (drawerItem != null) {
+                                Intent intent = null;
+                                if (drawerItem.getIdentifier() == 5) {
+                                    intent = new Intent(MainActivity.this, Glossary.class);
+                                } else if (drawerItem.getIdentifier() == 97) {
+                                    intent = new Intent(MainActivity.this, Settings.class);
+                                } else if (drawerItem.getIdentifier() == 98) {
+                                    intent = new Intent(MainActivity.this, RateUs.class);
+                                } else if (drawerItem.getIdentifier() == 99) {
+                                    intent = new Intent(MainActivity.this, ContactUs.class);
+                                }
+                                if (intent != null) {
+                                    MainActivity.this.startActivity(intent);
+                                }
+                            }
+
+                            return false;
+                        }
+                    })
+                    .build();
+        }
+    }
 
 }

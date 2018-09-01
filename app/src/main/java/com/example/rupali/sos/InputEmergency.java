@@ -3,12 +3,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,11 +48,6 @@ public class InputEmergency extends Fragment {
     Button submit, choose;
     ImageView ivImage;
     private android.support.v7.widget.Toolbar page_name;
-    public String userChoosenTask;
-    FirebaseAuth auth;
-    FirebaseUser user;
-    private FirebaseAuth.AuthStateListener authListener;
-
     public InputEmergency() {
         // Required empty public constructor
     }
@@ -88,12 +85,13 @@ public class InputEmergency extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        boolean Islogin = prefs.getBoolean("Islogin", false);
 
-        if (user == null) {
-            startActivity(new Intent(getActivity().getApplicationContext(), LoginActivity.class));
-            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        if(!Islogin)
+        {   // condition true means user is not logged in
+            Intent i = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+            startActivityForResult(i, 1);
         }
 
         ivImage = view.findViewById(R.id.uploadedphoto);
@@ -105,6 +103,7 @@ public class InputEmergency extends Fragment {
         time = view.findViewById(R.id.time);
         submit = view.findViewById(R.id.submit);
         upload = view.findViewById(R.id.upload);
+
     }
 }
 //    public void selectImage() {
