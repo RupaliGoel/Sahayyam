@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sahayyam</string>
+    <string name="app_name">SOS</string>
     <string name="search_emergency">Search Emergency</string>
     <string name="input_emergency">Input Emergency</string>
     <string name="todo">TODO</string>
@@ -59,4 +59,5 @@
     <string name="text_hello">Hello,</string>
     <string name="text_title">Android Tutorials Hub</string>
     <string name="post">Post</string>
+    <string name="search_directory">Search Directory</string>
 </resources>

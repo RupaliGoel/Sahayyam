@@ -32,11 +32,11 @@ public class EmergencyPost extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String headline = bundle.getString("Headline");
         String content = bundle.getString("Content");
-        byte[] byteArray = bundle.getByteArray("Picture");
+//        byte[] byteArray = bundle.getByteArray("Picture");
 
-        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        /*Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         imagePost = (ImageView) findViewById(R.id.imagePost);
-        imagePost.setImageBitmap(bmp);
+        imagePost.setImageBitmap(bmp);*/
 
         titlePost = findViewById(R.id.titlePost);
         titlePost.setText(headline);

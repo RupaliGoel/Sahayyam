@@ -1,64 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SearchAppeal">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/page_name"
-        android:minHeight="?android:attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:fitsSystemWindows="true"
-        android:layout_width="match_parent"
-        android:layout_height="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search Appeal"
-            android:textColor="@android:color/white"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:layout_gravity="center"/>
-    </android.support.v7.widget.Toolbar>
+<android.support.v7.widget.Toolbar
+    android:id="@+id/search_appeal"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="?attr/colorPrimary"
+    android:fitsSystemWindows="true"
+    android:minHeight="?android:attr/actionBarSize">
 
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Search Appeal"
+        android:textColor="@android:color/white"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+</android.support.v7.widget.Toolbar>
 
-        <ImageButton
-            android:id="@+id/adopt"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:gravity="center"
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/adoption"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:paddingTop="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="15dp" />
+<EditText
+android:id="@+id/currentLocation"
+android:layout_width="138dp"
+android:layout_height="40dp"
+android:layout_alignParentStart="true"
+android:layout_below="@+id/search_appeal"
+android:background="@drawable/edit_text_style"
+android:drawableLeft="@drawable/location_drop_symbol_small"
+android:ems="5"
+android:focusable="false"
+android:hint="Current Location"
+android:inputType="textPostalAddress"
+android:padding="5dip"
+android:textSize="15sp" />
 
-        <ImageButton
-            android:id="@+id/donate"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:gravity="center"
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/donate"
-            android:layout_row="1"
-            android:layout_column="2"
-            android:paddingTop="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="15dp"/>
 
-    </GridView>
+<EditText
+android:id="@+id/apptype"
+android:layout_width="97dp"
+android:layout_height="40dp"
+android:layout_below="@+id/search_appeal"
+android:layout_centerHorizontal="true"
+android:ems="10"
+android:focusable="false"
+android:hint="Appeal Type"
+android:inputType="text"
+android:textSize="15sp" />
 
+<ListView
+android:id="@+id/DirectoryListView"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_below="@+id/currentLocation" />
+
+
+<Button
+android:id="@+id/changeButton"
+android:layout_width="wrap_content"
+android:layout_height="40dp"
+android:layout_alignTop="@+id/currentLocation"
+android:layout_toStartOf="@+id/audioModeButton"
+android:background="@color/colorPrimary"
+android:text="Search"
+android:textAllCaps="false"
+android:textColor="@color/white" />
+
+<ImageButton
+android:id="@+id/audioModeButton"
+android:layout_width="40dp"
+android:layout_height="40dp"
+android:layout_alignParentEnd="true"
+android:layout_alignTop="@+id/currentLocation"
+android:src="@drawable/red_microphone_small" />
 </RelativeLayout>

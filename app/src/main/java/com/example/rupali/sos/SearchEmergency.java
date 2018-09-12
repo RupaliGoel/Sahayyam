@@ -11,6 +11,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -32,12 +34,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import javax.security.auth.Subject;
 
 public class SearchEmergency extends Fragment {
 
@@ -52,6 +65,15 @@ public class SearchEmergency extends Fragment {
     //---------------------------------get location-----------------------------------------
 
     //-------------------------------listview---------------------------------------------------
+
+    ListView EmergencyListView;
+    JSONArray jsonArray = null;
+    JSONObject jsonObject;
+    Emergency emergency;
+
+    String HttpURL = "https://sahayyam.000webhostapp.com/get_emergencies.php";
+    String name,desc;
+
     int[] images = {R.drawable.ananta,
             R.drawable.anchal,
             R.drawable.nikita,
@@ -81,7 +103,7 @@ public class SearchEmergency extends Fragment {
     }
 
     //-------------------------------listview---------------------------------------------------
-    class CustomAdapter extends BaseAdapter {
+    /*class CustomAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -107,7 +129,7 @@ public class SearchEmergency extends Fragment {
             textView.setText(incidents[position]);
             return view;
         }
-    }
+    }*/
     //-------------------------------listview---------------------------------------------------
 
     @Override
@@ -159,7 +181,7 @@ public class SearchEmergency extends Fragment {
         //--------------------------------get location----------------------------------------------
 
         //-------------------------------listview---------------------------------------------------
-        ListView listView;
+        /*ListView listView;
         listView = (ListView) view.findViewById(R.id.EmergencyListView);
         final SearchEmergency.CustomAdapter customAdapter = new SearchEmergency.CustomAdapter();
         final int count = customAdapter.getCount();
@@ -183,7 +205,11 @@ public class SearchEmergency extends Fragment {
                     }
                 }
             }
-        });
+        });*/
+
+        EmergencyListView = (ListView) view.findViewById(R.id.EmergencyListView);
+
+        new ParseJSonDataClass(getActivity()).execute();
         //----------------------------------listview------------------------------------------------
     }
 
@@ -288,4 +314,115 @@ public class SearchEmergency extends Fragment {
 //        Toast.makeText(getActivity().getApplicationContext(),"thailand",Toast.LENGTH_LONG).show();
 //        ft.commit();
 //    }
+
+    private class ParseJSonDataClass extends AsyncTask<Void, Void, Void> {
+        public Context context;
+        String FinalJSonResult;
+        List<Emergency> EmergencyList;
+
+        public ParseJSonDataClass(Context context) {
+
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            HttpServiceClass httpServiceClass = new HttpServiceClass(HttpURL);
+
+            try {
+                httpServiceClass.ExecutePostRequest();
+
+                if (httpServiceClass.getResponseCode() == 200) {
+
+                    FinalJSonResult = httpServiceClass.getResponse();
+
+                    if (FinalJSonResult != null) {
+
+
+                        try {
+
+                            jsonArray = new JSONArray(FinalJSonResult);
+
+                            int image;
+
+                            EmergencyList = new ArrayList<Emergency>();
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                emergency = new Emergency();
+
+                                jsonObject = jsonArray.getJSONObject(i);
+
+                                emergency.Emergency_Name = jsonObject.getString("emer_title");
+
+
+                                emergency.Emergency_Desc = jsonObject.getString("emer_desc");
+
+                               /* image = jsonObject.getInt("emer_image");
+                                emergency.Emergency_Image = image;*/
+
+                                EmergencyList.add(emergency);
+
+
+                            }
+                            EmergencyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Intent myIntent = new Intent(view.getContext(), EmergencyPost.class);
+                                    try {
+                                        jsonObject = jsonArray.getJSONObject(position);
+                                        name = jsonObject.getString("emer_title");
+                                        desc = jsonObject.getString("emer_desc");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                        /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
+                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                        byte[] byteArray = stream.toByteArray();*/
+                                    myIntent.putExtra("Headline", name);
+                                    myIntent.putExtra("Content", desc);
+//                                        myIntent.putExtra("Picture", byteArray);
+                                    startActivity(myIntent);
+                                }
+                            });
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+
+                    Toast.makeText(context, httpServiceClass.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result)
+
+        {
+
+            EmergencyListView.setVisibility(View.VISIBLE);
+
+            if (EmergencyList != null) {
+
+                ListAdapter adapter = new ListAdapter(EmergencyList, context);
+
+                EmergencyListView.setAdapter(adapter);
+            }
+        }
+    }
+
 }

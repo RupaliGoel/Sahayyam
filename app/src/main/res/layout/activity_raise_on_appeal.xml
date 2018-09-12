@@ -1,9 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     tools:context=".RaiseOnAppeal">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/raise_appeal"
+        android:minHeight="?android:attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Raise Appeal"
+            android:textColor="@android:color/white"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".RaiseOnAppeal" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".RaiseOnAppeal">
+
+            <TextView
+                android:id="@+id/person_details"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:text="Appellent's Details"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/label_role"
+                android:layout_width="wrap_content"
+                android:text="Role"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+            <EditText
+                android:id="@+id/role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Name"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Address"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Contact"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+            <EditText
+                android:id="@+id/contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Place"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+            <EditText
+                android:id="@+id/place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"/>
+
+            <View android:layout_width="1px"
+                android:layout_height="fill_parent"
+                android:background="#909090"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/separator1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Appeal Type"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/apptype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Appeal"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+
+            <EditText
+                android:id="@+id/appealdescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:inputType="textMultiLine" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/upload"
+                android:text="Upload :"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+
+            <!--EditText
+                android:id="@+id/upload"
+                android:layout_width="match_parent"
+                android:hint="Browse to upload photos"
+                android:layout_height="wrap_content" /-->
+
+            <ImageView
+                android:id="@+id/uploadedphoto"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/choose"
+                android:text="Choose"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"/>
+
+            <View android:layout_width="1px"
+                android:layout_height="fill_parent"
+                android:background="#909090"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/separator2" />
+
+            <Button
+                android:id="@+id/submit"
+                android:text="Submit"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

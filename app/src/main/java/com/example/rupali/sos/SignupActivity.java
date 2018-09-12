@@ -1,32 +1,28 @@
 package com.example.rupali.sos;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -40,9 +36,16 @@ public class SignupActivity extends AppCompatActivity {
     private String userId;
     DatabaseHelper databaseHelper;
     User user;
-//
-//    private DatabaseReference mFirebaseDatabase;
-//    private FirebaseDatabase mFirebaseInstance;
+    String email,password,name,role,contact;
+    // Progress Dialog
+    private ProgressDialog pDialog;
+
+    JSONParser jsonParser = new JSONParser();
+    // url to create new product
+    private static String url_create_user = "https://sahayyam.000webhostapp.com/create_user.php";
+
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
 
 
 
@@ -52,7 +55,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         initViews();
-        initObjects();
+        //initObjects();
 
 //        //Get Firebase auth instance
 //        auth = FirebaseAuth.getInstance();
@@ -89,11 +92,11 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-                String name = inputName.getText().toString().trim();
-                String role = inputRole.getText().toString().trim();
-                String contact = inputContact.getText().toString().trim();
+                email = inputEmail.getText().toString().trim();
+                password = inputPassword.getText().toString().trim();
+                name = inputName.getText().toString().trim();
+                role = inputRole.getText().toString().trim();
+                contact = inputContact.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter Email Address !", Toast.LENGTH_SHORT).show();
@@ -124,107 +127,12 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                // Check for already existed userId
-                //if (TextUtils.isEmpty(userId)) {
-                // createUser(name1, email);
-                //}
-
 
                 progressBar.setVisibility(View.VISIBLE);
-//                //create user
-//                auth.createUserWithEmailAndPassword(email, password)
-//                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-//                                progressBar.setVisibility(View.GONE);
-//                                // If sign in fails, display a message to the user. If sign in succeeds
-//                                // the auth state listener will be notified and logic to handle the
-//                                // signed in user can be handled in the listener.
-//                                if (!task.isSuccessful()) {
-//                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
-//                                            Toast.LENGTH_SHORT).show();
-//                                } else {
-//                                   user=auth.getCurrentUser();
-//                                    Toast.makeText(getBaseContext(),user.getUid(),Toast.LENGTH_SHORT).show();
-//
-//                                    database = FirebaseDatabase.getInstance();
-//                                    databaseReference = database.getReference();
-//                                    databaseReference.addValueEventListener(new ValueEventListener() {
-//                                        @SuppressLint("ResourceType")
-//                                        @Override
-//                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                            try{
-//                                                // Toast.makeText(getBaseContext(),"SEARCH",Toast.LENGTH_SHORT).show();
-//                                                databaseReference.child("Users").child(user.getUid()).child("UserDetails").child("Name").setValue(name.getText().toString().trim());
-//                                                databaseReference.child("Users").child(user.getUid()).child("UserDetails").child("Role").setValue(role.getText().toString().trim());
-//                                                databaseReference.child("Users").child(user.getUid()).child("UserDetails").child("Contact").setValue(Long.parseLong(contact.getText().toString().trim()));
-//                                                databaseReference.child("Users").child(user.getUid()).child("UserDetails").child("Email-ID").setValue(inputEmail.getText().toString().trim());
-//                                                //Toast.makeText(getBaseContext(),"SEARCH",Toast.LENGTH_SHORT).show();
-//
-//                                    Intent intent=new Intent(SignupActivity.this, MainActivity.class);
-//                                    // String[] myString= new String[]{name.getText().toString(),role.getText().toString()};
-//                                    intent.putExtra("name",name.getText().toString());
-//                                    intent.putExtra("role",role.getText().toString());
-//                                    intent.putExtra("contact",contact.getText().toString().trim());
-//                                    intent.putExtra("email",inputEmail.getText().toString().trim());
-//                                    startActivity(intent);
-//                                    finish();
-//
-//
-//                                            }catch (Exception e){
-//                                                e.printStackTrace();
-//                                            }
-//                                        }
-//
-//                                        @Override
-//                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//                                            System.out.println("The Read Failed."+databaseError.getCode());
-//                                        }
-//                                    });
-//
-//
-//
-////                                    Intent intent=new Intent(SignupActivity.this, MainActivity.class);
-////                                    // String[] myString= new String[]{name.getText().toString(),role.getText().toString()};
-////                                    intent.putExtra("name",name.getText().toString());
-////                                    intent.putExtra("role",role.getText().toString());
-////                                    intent.putExtra("contact",contact.getText().toString().trim());
-////                                    startActivity(intent);
-////                                    finish();
-//                                }
-//                            }
-//                        });
+                //postDataToSQLite();
+                // creating new product in background thread
+                new CreateNewUser().execute();
 
-//                user=auth.getCurrentUser();
-//                database = FirebaseDatabase.getInstance();
-//                databaseReference = database.getReference();
-//
-//                Toast.makeText(SignupActivity.this, "" + "DONE\n" + databaseReference + "\n " + user.getUid(), Toast.LENGTH_LONG).show();
-
-
-//                database = FirebaseDatabase.getInstance();
-//                databaseReference = database.getReference();
-//                databaseReference.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        try{
-//                            // Toast.makeText(getBaseContext(),"SEARCH",Toast.LENGTH_SHORT).show();
-//                            databaseReference.child("Users").child(user.getUid()).child("UserDetails").child("Name").setValue(getIntent().getExtras().getString("name"));
-//                            databaseReference.child("Users").child(user.getUid()).child("UserDetails").child("Role").setValue(getIntent().getExtras().getString("role"));
-//                            databaseReference.child("Users").child(user.getUid()).child("UserDetails").child("Contact").setValue(Long.parseLong(getIntent().getExtras().getString("contact")));
-//                            Toast.makeText(getBaseContext(),"SEARCH",Toast.LENGTH_SHORT).show();
-//                        }catch (Exception e){
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                        System.out.println("The Read Failed."+databaseError.getCode());
-//                    }
-//                });
-                postDataToSQLite();
             }
         });
     }
@@ -243,43 +151,44 @@ public class SignupActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
-    private void initObjects() {
-        databaseHelper = new DatabaseHelper(SignupActivity.this);
-        user = new User();
-    }
+//    private void initObjects() {
+//        databaseHelper = new DatabaseHelper(SignupActivity.this);
+//        user = new User();
+//    }
 
     /**
      * This method is to validate the input text fields and post data to SQLite
      */
-    private void postDataToSQLite() {
-
-        if (!databaseHelper.checkUser(inputEmail.getText().toString().trim())) {
-
-            user.setName(inputName.getText().toString().trim());
-            user.setEmail(inputEmail.getText().toString().trim());
-            user.setPassword(inputPassword.getText().toString().trim());
-            user.setContact(inputContact.getText().toString().trim());
-            user.setRole(inputRole.getText().toString().trim());
-
-            databaseHelper.addUser(user);
-
-            // Snack Bar to show success message that record saved successfully
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
-            Intent intent=new Intent(SignupActivity.this, MainActivity.class);
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("Islogin", true).apply();
-            editor.putString("user_email",inputEmail.getText().toString().trim()).commit();
-            editor.putString("user_name",inputName.getText().toString().trim()).commit();
-            setResult(Activity.RESULT_OK, intent);
-            //startActivity(intent);
-            finish();
-
-        } else {
-            // Snack Bar to show error message that record already exists
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
-        }
-    }
+//    private void postDataToSQLite() {
+//
+//
+//        if (!databaseHelper.checkUser(inputEmail.getText().toString().trim())) {
+//
+//            user.setName(inputName.getText().toString().trim());
+//            user.setEmail(inputEmail.getText().toString().trim());
+//            user.setPassword(inputPassword.getText().toString().trim());
+//            user.setContact(inputContact.getText().toString().trim());
+//            user.setRole(inputRole.getText().toString().trim());
+//
+//            databaseHelper.addUser(user);
+//
+//            // Snack Bar to show success message that record saved successfully
+//            Snackbar.make(findViewById(android.R.id.content), getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
+//            Intent intent=new Intent(SignupActivity.this, MainActivity.class);
+//            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.putBoolean("Islogin", true).apply();
+//            editor.putString("user_email",inputEmail.getText().toString().trim()).commit();
+//            editor.putString("user_name",inputName.getText().toString().trim()).commit();
+//            setResult(Activity.RESULT_OK, intent);
+//            //startActivity(intent);
+//            finish();
+//
+//        } else {
+//            // Snack Bar to show error message that record already exists
+//            Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
+//        }
+//    }
 
 
 //    /**
@@ -299,5 +208,82 @@ public class SignupActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
+    }
+
+
+    /**
+     * Background Async Task to Create new user
+     * */
+    class CreateNewUser extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(SignupActivity.this);
+            pDialog.setMessage("Creating User..");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        /**
+         * Creating user
+         */
+        protected String doInBackground(String... args) {
+
+
+            try {
+                System.out.println("It's Working");
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("name", name));
+                params.add(new BasicNameValuePair("role", role));
+                params.add(new BasicNameValuePair("contact", contact));
+                params.add(new BasicNameValuePair("email", email));
+                params.add(new BasicNameValuePair("password", password));
+
+                // getting JSON Object
+                // Note that create user url accepts POST method
+                JSONObject json = jsonParser.makeHttpRequest(url_create_user, "POST", params);
+                System.out.print("JSON OBJECT'S VALUE : " + json);
+                // check log cat fro response
+                Log.d("Create Response", json.toString());
+
+                // check for success tag
+                try {
+                    int success = json.getInt(TAG_SUCCESS);
+
+                    if (success == 1) {
+                        Log.i("Successful", "User Created Successfully.");
+                        pDialog = new ProgressDialog(SignupActivity.this);
+                        pDialog.setMessage("User Created Successfully.");
+                    } else {
+                        // failed to create user
+                        Log.i("Successful", "Failed to create user.");
+                        pDialog = new ProgressDialog(SignupActivity.this);
+                        pDialog.setMessage("User Creation Unsuccessful !");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.print(e);
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once done
+            pDialog.dismiss();
+        }
     }
 }

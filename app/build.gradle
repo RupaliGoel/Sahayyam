@@ -51,6 +51,7 @@ dependencies {
     }
 
     implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.googlecode.json-simple:json-simple:1.1'
 
 
     implementation 'org.apache.httpcomponents:httpcore:4.4.1'
