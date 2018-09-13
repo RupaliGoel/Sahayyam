@@ -209,8 +209,17 @@ public class LoginActivity extends AppCompatActivity {
             // dismiss the dialog once done
 
             progressBar.setVisibility(View.GONE);
-            if(success==1)
-                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
+            if(success==1) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                prefs.edit().putBoolean("Islogin",true).apply();
+                prefs.edit().putString("user_email",email).commit();
+                Intent intent=new Intent(LoginActivity.this, MainActivity.class);
+                Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+                setResult(Activity.RESULT_OK, intent);
+                startActivity((intent).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                progressBar.setVisibility(View.GONE);
+                LoginActivity.this.finish();
+            }
             else
                 Toast.makeText(getApplicationContext(),"Login Failed",Toast.LENGTH_LONG).show();
         }

@@ -196,7 +196,7 @@ public class SignupActivity extends AppCompatActivity {
                 editor.putString("user_email",inputEmail.getText().toString().trim()).commit();
                 editor.putString("user_name",inputName.getText().toString().trim()).commit();
                 setResult(Activity.RESULT_OK, intent);
-                //startActivity(intent);
+                startActivity((intent).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                 progressBar.setVisibility(View.GONE);
                 SignupActivity.this.finish();
             }
