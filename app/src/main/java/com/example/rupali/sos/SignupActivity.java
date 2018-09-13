@@ -33,13 +33,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword,inputName,inputRole,inputContact;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
-//    FirebaseAuth auth;
-//    DatabaseReference databaseReference;
-//    FirebaseDatabase database;
-//    FirebaseUser user;
-    private String userId;
-    DatabaseHelper databaseHelper;
-    User user;
     String email,password,name,role,contact;
     int success;
 
@@ -58,22 +51,6 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         initViews();
-        //initObjects();
-
-//        //Get Firebase auth instance
-//        auth = FirebaseAuth.getInstance();
-//
-//
-//      // user=auth.getCurrentUser();
-//       database = FirebaseDatabase.getInstance();
-//       databaseReference = database.getReference();
-
-
-
-//
-//       Toast.makeText(SignupActivity.this, "" + "DONE\n" + databaseReference + "\n " + user.getUid(), Toast.LENGTH_LONG).show();
-//
-
 
         //btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
 
@@ -153,60 +130,6 @@ public class SignupActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
-
-//    private void initObjects() {
-//        databaseHelper = new DatabaseHelper(SignupActivity.this);
-//        user = new User();
-//    }
-
-    /**
-     * This method is to validate the input text fields and post data to SQLite
-     */
-//    private void postDataToSQLite() {
-//
-//
-//        if (!databaseHelper.checkUser(inputEmail.getText().toString().trim())) {
-//
-//            user.setName(inputName.getText().toString().trim());
-//            user.setEmail(inputEmail.getText().toString().trim());
-//            user.setPassword(inputPassword.getText().toString().trim());
-//            user.setContact(inputContact.getText().toString().trim());
-//            user.setRole(inputRole.getText().toString().trim());
-//
-//            databaseHelper.addUser(user);
-//
-//            // Snack Bar to show success message that record saved successfully
-//            Snackbar.make(findViewById(android.R.id.content), getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
-//            Intent intent=new Intent(SignupActivity.this, MainActivity.class);
-//            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//            SharedPreferences.Editor editor = prefs.edit();
-//            editor.putBoolean("Islogin", true).apply();
-//            editor.putString("user_email",inputEmail.getText().toString().trim()).commit();
-//            editor.putString("user_name",inputName.getText().toString().trim()).commit();
-//            setResult(Activity.RESULT_OK, intent);
-//            //startActivity(intent);
-//            finish();
-//
-//        } else {
-//            // Snack Bar to show error message that record already exists
-//            Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
-//        }
-//    }
-
-
-//    /**
-//     * Creating new user node under 'users'
-//     */
-//    private void createUser(String name, String email) {
-//
-//        User user1 = new User(name, email);
-//
-//        databaseReference.child("Users").child(user.getUid()).child("UserDetails").setValue(user1);
-//        finish();
-//
-//        //addUserChangeListener();
-//    }
-
 
     /**
      * Background Async Task to Create new user

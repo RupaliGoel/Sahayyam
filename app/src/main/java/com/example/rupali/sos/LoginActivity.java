@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
-    DatabaseHelper databaseHelper;
 
     JSONParser jsonParser = new JSONParser();
     // url to create new product
@@ -52,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initViews();
-        initObjects();
-
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,8 +68,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = inputEmail.getText().toString();
-                String password = inputPassword.getText().toString();
+                email = inputEmail.getText().toString();
+                password = inputPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -109,14 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         btnReset = (Button) findViewById(R.id.btn_reset_password);
     }
 
-    /**
-     * This method is to initialize objects to be used
-     */
-    private void initObjects() {
-        databaseHelper = new DatabaseHelper(LoginActivity.this);
-    }
-
-    /*@Override
+    @Override
     public void onBackPressed() {
        int count=getFragmentManager().getBackStackEntryCount();
 
@@ -124,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
            super.onBackPressed();
        else
         getFragmentManager().popBackStack();
-    }*/
+    }
 
     /**
      * This method is to validate the input text fields and verify login credentials from SQLite
@@ -200,7 +190,6 @@ public class LoginActivity extends AppCompatActivity {
                 // check for success tag
                 try {
                     success = json.getInt(TAG_SUCCESS);
-                    System.out.println("Value of Success:"+success);
                 } catch (JSONException e) {
                     e.printStackTrace();
 
