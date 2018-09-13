@@ -106,21 +106,20 @@ public class InputEmergency extends Fragment {
 
         EditText text = view.findViewById(R.id.text);
 
-        text.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                switch (event.getAction() & MotionEvent.ACTION_MASK){
-                    case MotionEvent.ACTION_UP:
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-                return false;
-            }
-        });
+        //text.setOnTouchListener(new View.OnTouchListener() {
+          //  @Override
+            //public boolean onTouch(View v, MotionEvent event) {
+              //  v.getParent().requestDisallowInterceptTouchEvent(true);
+                //switch (event.getAction() & MotionEvent.ACTION_MASK){
+                  //  case MotionEvent.ACTION_UP:
+                    //    v.getParent().requestDisallowInterceptTouchEvent(false);
+                      //  break;
+                //}
+                //return false;
+            //}
+        //});
         submit = view.findViewById(R.id.submit);
     }
-
     public void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -146,7 +145,6 @@ public class InputEmergency extends Fragment {
     }
 
     static final int REQUEST_CAMERA = 1;
-
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);

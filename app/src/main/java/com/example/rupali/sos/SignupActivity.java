@@ -1,8 +1,10 @@
 package com.example.rupali.sos;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,8 +41,7 @@ public class SignupActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     User user;
     String email,password,name,role,contact;
-    // Progress Dialog
-    private ProgressDialog pDialog;
+    int success;
 
     JSONParser jsonParser = new JSONParser();
     // url to create new product
@@ -128,7 +131,7 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+
                 //postDataToSQLite();
                 // creating new product in background thread
                 new CreateNewUser().execute();
@@ -204,12 +207,6 @@ public class SignupActivity extends AppCompatActivity {
 //        //addUserChangeListener();
 //    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        progressBar.setVisibility(View.GONE);
-    }
-
 
     /**
      * Background Async Task to Create new user
@@ -222,11 +219,7 @@ public class SignupActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(SignupActivity.this);
-            pDialog.setMessage("Creating User..");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         /**
@@ -236,7 +229,6 @@ public class SignupActivity extends AppCompatActivity {
 
 
             try {
-                System.out.println("It's Working");
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("name", name));
@@ -248,24 +240,12 @@ public class SignupActivity extends AppCompatActivity {
                 // getting JSON Object
                 // Note that create user url accepts POST method
                 JSONObject json = jsonParser.makeHttpRequest(url_create_user, "POST", params);
-                System.out.print("JSON OBJECT'S VALUE : " + json);
                 // check log cat fro response
                 Log.d("Create Response", json.toString());
 
                 // check for success tag
                 try {
-                    int success = json.getInt(TAG_SUCCESS);
-
-                    if (success == 1) {
-                        Log.i("Successful", "User Created Successfully.");
-                        pDialog = new ProgressDialog(SignupActivity.this);
-                        pDialog.setMessage("User Created Successfully.");
-                    } else {
-                        // failed to create user
-                        Log.i("Successful", "Failed to create user.");
-                        pDialog = new ProgressDialog(SignupActivity.this);
-                        pDialog.setMessage("User Creation Unsuccessful !");
-                    }
+                        success = json.getInt(TAG_SUCCESS);
                 } catch (JSONException e) {
                     e.printStackTrace();
 
@@ -282,8 +262,23 @@ public class SignupActivity extends AppCompatActivity {
          * After completing background task Dismiss the progress dialog
          **/
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog once done
-            pDialog.dismiss();
+            // dismiss the progressbar once done
+
+            if(success==1) {
+                Toast.makeText(getApplicationContext(),"Registration Successful",Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(SignupActivity.this, MainActivity.class);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("Islogin", true).apply();
+                editor.putString("user_email",inputEmail.getText().toString().trim()).commit();
+                editor.putString("user_name",inputName.getText().toString().trim()).commit();
+                setResult(Activity.RESULT_OK, intent);
+                //startActivity(intent);
+                progressBar.setVisibility(View.GONE);
+                SignupActivity.this.finish();
+            }
+            else
+                Toast.makeText(getApplicationContext(),"Registration Failed",Toast.LENGTH_LONG).show();
         }
     }
 }

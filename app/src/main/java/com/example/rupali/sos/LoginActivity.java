@@ -36,12 +36,11 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSignup, btnLogin, btnReset;
     DatabaseHelper databaseHelper;
 
-    private ProgressDialog pDialog;
-
     JSONParser jsonParser = new JSONParser();
     // url to create new product
-    private static String url_create_user = "https://sahayyam.000webhostapp.com/get_user_details.php";
+    private static String url_login_user = "https://sahayyam.000webhostapp.com/login.php";
     String email,password;
+    int success = 0;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -73,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
-                final String password = inputPassword.getText().toString();
+                String password = inputPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -93,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
                             InputMethodManager.HIDE_NOT_ALWAYS);
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
                 new CheckUser().execute();
             }
         });
@@ -118,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(LoginActivity.this);
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
        int count=getFragmentManager().getBackStackEntryCount();
 
@@ -126,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
            super.onBackPressed();
        else
         getFragmentManager().popBackStack();
-    }
+    }*/
 
     /**
      * This method is to validate the input text fields and verify login credentials from SQLite
@@ -175,21 +173,19 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(LoginActivity.this);
-            pDialog.setMessage("Checking User..");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+
+            progressBar.setVisibility(View.VISIBLE);
+
         }
 
         /**
-         * Creating user
+         * Login user
          */
         protected String doInBackground(String... args) {
 
 
-            try {
-                System.out.println("It's Working");
+            try
+            {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("email", email));
@@ -197,25 +193,17 @@ public class LoginActivity extends AppCompatActivity {
 
                 // getting JSON Object
                 // Note that create user url accepts POST method
-                JSONObject json = jsonParser.makeHttpRequest(url_create_user, "GET", params);
-                System.out.print("JSON OBJECT'S VALUE : " + json);
+                JSONObject json = jsonParser.makeHttpRequest(url_login_user, "POST", params);
                 // check log cat fro response
                 Log.d("Create Response", json.toString());
+
                 // check for success tag
                 try {
-                    int success = json.getInt(TAG_SUCCESS);
-                    if (success == 1) {
-                        Log.i("Successful", "Logged in Successfully.");
-                        pDialog = new ProgressDialog(LoginActivity.this);
-                        pDialog.setMessage("Logged in Successfully.");
-                    } else {
-                        // failed to create user
-                        Log.i("Successful", "Failed to find user.");
-                        pDialog = new ProgressDialog(LoginActivity.this);
-                        pDialog.setMessage("User Search Unsuccessful !");
-                    }
+                    success = json.getInt(TAG_SUCCESS);
+                    System.out.println("Value of Success:"+success);
                 } catch (JSONException e) {
                     e.printStackTrace();
+
                 }
             }
             catch(Exception e)
@@ -230,7 +218,12 @@ public class LoginActivity extends AppCompatActivity {
          **/
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once done
-            pDialog.dismiss();
+
+            progressBar.setVisibility(View.GONE);
+            if(success==1)
+                Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(getApplicationContext(),"Login Failed",Toast.LENGTH_LONG).show();
         }
     }
 }

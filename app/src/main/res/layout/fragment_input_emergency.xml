@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:text="Emergency Description"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"/>
+                android:textSize="15sp"/>
 
             <!--EditText
                 android:id="@+id/description"
@@ -116,19 +116,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:inputType="textMultiLine" /-->
+
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:gravity="top|left"
                 android:inputType="textMultiLine"
                 android:overScrollMode="always"
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
-                android:lines="2"
+                android:lines="5"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:scrollHorizontally="false" />
+                android:scrollHorizontally="false"
+                android:padding="5dip"
+                android:background="@drawable/edit_text_style"/>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -142,8 +145,8 @@
 
                 <ImageView
                     android:id="@+id/uploadedphoto"
-                    android:layout_width="100dp"
-                    android:layout_height="75dp"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
                     android:layout_gravity="center" />
             </LinearLayout>
             <!--View android:layout_width="1px"
