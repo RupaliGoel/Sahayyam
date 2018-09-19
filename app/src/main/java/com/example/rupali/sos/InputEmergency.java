@@ -121,9 +121,12 @@ public class InputEmergency extends Fragment {
         EditText text = view.findViewById(R.id.text);
 
         address.setText(addressOfUser);
+        address.setEnabled(false);
         role.setText(roleOfUser);
+        role.setEnabled(false);
         contact.setText(contactOfUser);
         name.setText(nameOfUser);
+        name.setEnabled(false);
 
         //text.setOnTouchListener(new View.OnTouchListener() {
           //  @Override

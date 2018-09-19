@@ -33,109 +33,129 @@
         tools:context="com.example.rupali.sos.InputEmergency" >
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.example.rupali.sos.InputEmergency">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/person_details"
-                android:layout_width="match_parent"
-                android:textAlignment="center"
-                android:text="Person's Details"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"/>
-            <TextView
-                android:id="@+id/label_role"
-                android:layout_width="wrap_content"
-                android:text="Role"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"/>
-            <EditText
-                android:id="@+id/role"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Name"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"/>
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Address"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"/>
-            <EditText
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Contact"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"/>
-            <EditText
-                android:id="@+id/contact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Place"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"/>
-            <EditText
-                android:id="@+id/place"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"/>
+                android:background="#FFE9A0"
+                tools:context="com.example.rupali.sos.InputEmergency">
+
+                <TextView
+                    android:id="@+id/person_details"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:text="Person's Details"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/label_role"
+                    android:layout_width="wrap_content"
+                    android:text="Role"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"/>
+                <EditText
+                    android:id="@+id/role"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Name"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"/>
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Address"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"/>
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Contact"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"/>
+                <EditText
+                    android:id="@+id/contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"/>
+                </LinearLayout>
 
             <View android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:background="#909090"
+                android:background="@android:color/darker_gray"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:id="@+id/separator1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Emergency Description"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"/>
-
-            <!--EditText
-                android:id="@+id/description"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:inputType="textMultiLine" /-->
+                android:layout_height="match_parent"
+                android:background="#CCFFFF"
+                tools:context="com.example.rupali.sos.InputEmergency">
 
-            <EditText
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|left"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:lines="5"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:scrollHorizontally="false"
-                android:padding="5dip"
-                android:background="@drawable/edit_text_style"/>
+                <TextView
+                    android:id="@+id/emergency_details"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:text="Emergency Details"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Place"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"/>
+                <EditText
+                    android:id="@+id/place"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Emergency Description"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"/>
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
+                    android:lines="5"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:scrollHorizontally="false"
+                    android:padding="5dip"
+                    android:background="@drawable/edit_text_style"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:background="#CCFFFF">
 
                 <TextView
                     android:layout_width="100dp"
@@ -149,16 +169,12 @@
                     android:layout_height="200dp"
                     android:layout_gravity="center" />
             </LinearLayout>
-            <!--View android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:background="#909090"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/separator2" /-->
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:background="#CCFFFF">
 
                 <Button
                     android:id="@+id/choose"
@@ -174,8 +190,8 @@
                     android:layout_gravity="center"
                     android:text="Submit" />
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>
