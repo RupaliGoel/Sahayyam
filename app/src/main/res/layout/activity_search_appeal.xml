@@ -30,7 +30,7 @@ android:layout_height="40dp"
 android:layout_alignParentStart="true"
 android:layout_below="@+id/search_appeal"
 android:background="@drawable/edit_text_style"
-android:drawableLeft="@drawable/location_drop_symbol_small"
+android:drawableLeft="@drawable/ic_location"
 android:ems="5"
 android:focusable="false"
 android:hint="Current Location"
@@ -75,5 +75,5 @@ android:layout_width="40dp"
 android:layout_height="40dp"
 android:layout_alignParentEnd="true"
 android:layout_alignTop="@+id/currentLocation"
-android:src="@drawable/red_microphone_small" />
+android:src="@drawable/ic_microphone" />
 </RelativeLayout>

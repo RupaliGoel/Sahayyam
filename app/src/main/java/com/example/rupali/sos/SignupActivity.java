@@ -195,6 +195,8 @@ public class SignupActivity extends AppCompatActivity {
                 editor.putBoolean("Islogin", true).apply();
                 editor.putString("user_email",inputEmail.getText().toString().trim()).commit();
                 editor.putString("user_name",inputName.getText().toString().trim()).commit();
+                editor.putString("user_role",inputRole.getText().toString().trim()).commit();
+                editor.putString("user_contact",inputContact.getText().toString().trim()).commit();
                 setResult(Activity.RESULT_OK, intent);
                 startActivity((intent).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                 progressBar.setVisibility(View.GONE);

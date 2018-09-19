@@ -50,6 +50,9 @@ public class InputEmergency extends Fragment {
     ImageView ivImage;
     String userChoosenTask;
     private android.support.v7.widget.Toolbar page_name;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+    String lattitude,longitude,addressOfUser,nameOfUser,roleOfUser,contactOfUser;
 
     public InputEmergency() {
         // Required empty public constructor
@@ -81,6 +84,17 @@ public class InputEmergency extends Fragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        editor = prefs.edit();
+
+        lattitude = prefs.getString("lat","None");
+        longitude = prefs.getString("long","None");
+        addressOfUser = prefs.getString("user_address","Not Found");
+        nameOfUser = prefs.getString("user_name", "Guest");
+        roleOfUser = prefs.getString("user_role","Not Found");
+        contactOfUser = prefs.getString("user_contact","Not Found");
+        System.out.print("lat:"+lattitude+",long:"+longitude);
+
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         page_name = (Toolbar) getActivity().findViewById(R.id.page_name);
@@ -105,6 +119,11 @@ public class InputEmergency extends Fragment {
         //text = view.findViewById(R.id.text);
 
         EditText text = view.findViewById(R.id.text);
+
+        address.setText(addressOfUser);
+        role.setText(roleOfUser);
+        contact.setText(contactOfUser);
+        name.setText(nameOfUser);
 
         //text.setOnTouchListener(new View.OnTouchListener() {
           //  @Override
