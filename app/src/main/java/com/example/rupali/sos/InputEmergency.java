@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -18,6 +21,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,25 +39,50 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mikepenz.iconics.utils.Utils;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 public class InputEmergency extends Fragment {
-    EditText role, name, address, contact, place;
+    EditText role, name, address, contact, place, title, desc;
     Button submit, choose;
     ImageView ivImage;
     String userChoosenTask;
     private android.support.v7.widget.Toolbar page_name;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    String lattitude,longitude,addressOfUser,nameOfUser,roleOfUser,contactOfUser;
+    String currentlattitude,currentlongitude,addressOfUser,nameOfUser,roleOfUser,contactOfUser,emailOfUser;
+    String placelattitude,placelongitude;
+
+    int success;
+
+    JSONParser jsonParser = new JSONParser();
+    // url to create new product
+    private static String url_write_emergency = "https://sahayyam.000webhostapp.com/write_emergency.php";
+
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
+
 
     public InputEmergency() {
         // Required empty public constructor
@@ -87,13 +117,14 @@ public class InputEmergency extends Fragment {
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = prefs.edit();
 
-        lattitude = prefs.getString("lat","None");
-        longitude = prefs.getString("long","None");
+        currentlattitude = prefs.getString("lat","None");
+        currentlongitude = prefs.getString("long","None");
+        emailOfUser = prefs.getString("user_email","Not Found");
         addressOfUser = prefs.getString("user_address","Not Found");
         nameOfUser = prefs.getString("user_name", "Guest");
         roleOfUser = prefs.getString("user_role","Not Found");
         contactOfUser = prefs.getString("user_contact","Not Found");
-        System.out.print("lat:"+lattitude+",long:"+longitude);
+
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -114,33 +145,47 @@ public class InputEmergency extends Fragment {
         role = view.findViewById(R.id.role);
         name = view.findViewById(R.id.name);
         address = view.findViewById(R.id.address);
+        title = view.findViewById(R.id.title);
         contact = view.findViewById(R.id.contact);
         place = view.findViewById(R.id.place);
-        //text = view.findViewById(R.id.text);
-
-        EditText text = view.findViewById(R.id.text);
+        desc = view.findViewById(R.id.description);
 
         address.setText(addressOfUser);
         address.setEnabled(false);
         role.setText(roleOfUser);
         role.setEnabled(false);
         contact.setText(contactOfUser);
+        contact.setEnabled(false);
         name.setText(nameOfUser);
         name.setEnabled(false);
 
-        //text.setOnTouchListener(new View.OnTouchListener() {
-          //  @Override
-            //public boolean onTouch(View v, MotionEvent event) {
-              //  v.getParent().requestDisallowInterceptTouchEvent(true);
-                //switch (event.getAction() & MotionEvent.ACTION_MASK){
-                  //  case MotionEvent.ACTION_UP:
-                    //    v.getParent().requestDisallowInterceptTouchEvent(false);
-                      //  break;
-                //}
-                //return false;
-            //}
-        //});
         submit = view.findViewById(R.id.submit);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCoordinatesFromAddress(place.getText().toString().trim());
+                System.out.print("\nLAT:"+placelattitude+"\nLONG:"+placelongitude);
+
+                if ((place.getText().toString()).equals("")) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Enter Place of Emergency !", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+               else if ((title.getText().toString()).equals("")) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Enter Emergency Title!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+               else if ((desc.getText().toString()).equals("")) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Enter Emergency Description!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else
+                    new writeEmergency().execute();
+            }
+        });
     }
     public void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
@@ -241,4 +286,85 @@ public class InputEmergency extends Fragment {
         }
         ivImage.setImageBitmap(thumbnail);
     }
+
+    public void getCoordinatesFromAddress(String locationAddress) {
+        Geocoder coder = new Geocoder(getActivity());
+        try {
+            ArrayList<Address> adresses = (ArrayList<Address>) coder.getFromLocationName(locationAddress, 50);
+            for(Address add : adresses){
+                //if (statement) {//Controls to ensure it is right address such as country etc.
+                    double longitude = add.getLongitude();
+                    placelongitude = String.valueOf(longitude);
+                    double latitude = add.getLatitude();
+                    placelattitude = String.valueOf(latitude);
+                //}
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Background Async Task to Create new user
+     * */
+    class writeEmergency extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        /**
+         * Creating user
+         */
+        protected String doInBackground(String... args) {
+
+
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("email", emailOfUser));
+                params.add(new BasicNameValuePair("title", title.getText().toString().trim()));
+                params.add(new BasicNameValuePair("desc", desc.getText().toString().trim()));
+                params.add(new BasicNameValuePair("addlat", currentlattitude));
+                params.add(new BasicNameValuePair("addlong", currentlongitude));
+                params.add(new BasicNameValuePair("placelat", placelattitude));
+                params.add(new BasicNameValuePair("placelong", placelongitude));
+
+                // getting JSON Object
+                // Note that create user url accepts POST method
+                JSONObject json = jsonParser.makeHttpRequest(url_write_emergency, "POST", params);
+                // check log cat fro response
+                Log.d("Create Response", json.toString());
+
+                // check for success tag
+                try {
+                    success = json.getInt(TAG_SUCCESS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.print(e);
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        protected void onPostExecute(String file_url) {
+            if(success==1) {
+                Toast.makeText(getActivity().getApplicationContext(),"Saved Successfully.",Toast.LENGTH_LONG).show();
+            }
+            else
+                Toast.makeText(getActivity().getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

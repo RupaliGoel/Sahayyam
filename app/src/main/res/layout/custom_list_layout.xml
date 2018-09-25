@@ -27,4 +27,18 @@
         android:text="Incident"
         android:textStyle="bold"
         android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/EmergencyDistanceTextView"
+        android:layout_width="354dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/EmergencyTextView"
+        android:layout_toEndOf="@+id/EmergencyTextView"
+        android:layout_alignTop="@+id/EmergencyImageView"
+        android:layout_marginStart="22dp"
+        android:text="0 KM"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
+
 </RelativeLayout>

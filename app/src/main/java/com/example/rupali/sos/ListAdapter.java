@@ -54,6 +54,7 @@ public class ListAdapter extends BaseAdapter
 
             viewItem.EmerImageView = (ImageView)convertView.findViewById(R.id.EmergencyImageView);
             viewItem.EmerNameTextView = convertView.findViewById(R.id.EmergencyTextView);
+            viewItem.EmerDistanceView = convertView.findViewById(R.id.EmergencyDistanceTextView);
             convertView.setTag(viewItem);
         }
         else
@@ -65,6 +66,8 @@ public class ListAdapter extends BaseAdapter
 
         viewItem.EmerImageView.setImageResource(emergency_list.get(position).Emergency_Image);
 
+        viewItem.EmerDistanceView.setText(String.valueOf((int)Math.round(emergency_list.get(position).Emergency_Distance))+" KM");
+
         return convertView;
     }
 }
@@ -73,5 +76,6 @@ class ViewItem
 {
     TextView EmerNameTextView;
     ImageView EmerImageView;
+    TextView EmerDistanceView;
 }
 

@@ -50,6 +50,8 @@ import java.io.ByteArrayOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -77,7 +79,9 @@ public class SearchEmergency extends Fragment {
     String addressOfUser;
 
     String HttpURL = "https://sahayyam.000webhostapp.com/get_emergencies.php";
-    String name,desc;
+    String name,desc,emailpost;
+    double lat,lon;
+    double distance;
 
     //-------------------------------listview---------------------------------------------------
 
@@ -332,13 +336,17 @@ public class SearchEmergency extends Fragment {
 
                                 emergency.Emergency_Name = jsonObject.getString("emer_title");
                                 emergency.Emergency_Desc = jsonObject.getString("emer_desc");
-
+                                emergency.Emergency_Lat = Double.parseDouble(jsonObject.getString("emer_place_lat"));
+                                emergency.Emergency_Long = Double.parseDouble(jsonObject.getString("emer_place_long"));
+                                distance = getDistance(Double.parseDouble(lattitude),Double.parseDouble(longitude),emergency.Emergency_Lat,emergency.Emergency_Long);
+                                emergency.Emergency_Distance = distance;
                                /* image = jsonObject.getInt("emer_image");
                                 emergency.Emergency_Image = image;*/
 
                                 EmergencyList.add(emergency);
 
                             }
+
                             EmergencyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -347,6 +355,11 @@ public class SearchEmergency extends Fragment {
                                         jsonObject = jsonArray.getJSONObject(position);
                                         name = jsonObject.getString("emer_title");
                                         desc = jsonObject.getString("emer_desc");
+                                        emailpost = jsonObject.getString("user_email");
+                                        lat = Double.parseDouble(jsonObject.getString("emer_place_lat"));
+                                        lon = Double.parseDouble(jsonObject.getString("emer_place_long"));
+                                        //System.out.println("LATLONG:"+lat+" "+lon);
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -356,6 +369,8 @@ public class SearchEmergency extends Fragment {
                                         byte[] byteArray = stream.toByteArray();*/
                                     myIntent.putExtra("Headline", name);
                                     myIntent.putExtra("Content", desc);
+                                    myIntent.putExtra("Distance",distance);
+                                    myIntent.putExtra("Email",emailpost);
 //                                        myIntent.putExtra("Picture", byteArray);
                                     startActivity(myIntent);
                                 }
@@ -385,12 +400,33 @@ public class SearchEmergency extends Fragment {
 
             if (EmergencyList != null) {
 
+                Collections.sort(EmergencyList, new Comparator<Emergency>() {
+                    @Override public int compare(Emergency p1, Emergency p2) {
+                        return ((int)Math.round(p1.getEmergency_Distance()))- ((int)Math.round(p2.getEmergency_Distance())); // Ascending
+                    }
+                });
+
                 ListAdapter adapter = new ListAdapter(EmergencyList, context);
 
                 EmergencyListView.setAdapter(adapter);
             }
 
         }
+    }
+
+    private double getDistance(double fromLat, double fromLon, double toLat, double toLon){
+        double radius = 6371;   // Earth radius in km
+        double deltaLat = Math.toRadians(toLat - fromLat);
+        double deltaLon = Math.toRadians(toLon - fromLon);
+        double lat1 = Math.toRadians(fromLat);
+        double lat2 = Math.toRadians(toLat);
+        double aVal = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
+                Math.sin(deltaLon/2) * Math.sin(deltaLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        double cVal = 2*Math.atan2(Math.sqrt(aVal), Math.sqrt(1-aVal));
+
+        double distance = radius*cVal;
+        Log.d("distance","radius * angle = " +distance);
+        return distance;
     }
 
 }

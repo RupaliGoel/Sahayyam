@@ -129,6 +129,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Emergency Title"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"/>
+                <EditText
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"/>
+
 
                 <TextView
                     android:layout_width="wrap_content"
