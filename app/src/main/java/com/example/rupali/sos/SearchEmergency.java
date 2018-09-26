@@ -83,6 +83,7 @@ public class SearchEmergency extends Fragment {
     double lat,lon;
     double distance;
 
+    View progressOverlay;
     //-------------------------------listview---------------------------------------------------
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
@@ -132,6 +133,9 @@ public class SearchEmergency extends Fragment {
                 locationedit.setFocusableInTouchMode(true);
             }
         });
+
+        progressOverlay = view.findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
         //-------------------------------toolbar, location textbox & button-----------------------------------
 
         //-----------------------------get location-------------------------------------------------
@@ -303,6 +307,9 @@ public class SearchEmergency extends Fragment {
         protected void onPreExecute() {
 
             super.onPreExecute();
+            // Show progress overlay (with animation):
+            AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+
         }
 
         @Override
@@ -410,6 +417,9 @@ public class SearchEmergency extends Fragment {
 
                 EmergencyListView.setAdapter(adapter);
             }
+
+            // Hide it (with animation):
+            AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
 
         }
     }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -74,6 +75,12 @@
             android:layout_marginLeft="10dp" />
 
     </RelativeLayout>
+
+    <!-- Progress bar overlay; shown while page is in progress -->
+    <include layout="@layout/progress_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/emergency_details_post"/>
 
     <RelativeLayout
         android:orientation="vertical"
@@ -155,11 +162,12 @@
             android:layout_below="@+id/label_name"
             android:textSize="18sp"
             android:layout_marginBottom="2dp"/>
-        <ImageView
+        <ImageButton
             android:id="@+id/callButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_call"
+            android:background="#000000"
             android:layout_below="@+id/label_name"
             android:layout_toRightOf="@+id/contact"/>
         <TextView
@@ -179,6 +187,15 @@
             android:layout_below="@+id/label_contact"
             android:textSize="18sp"
             android:layout_marginBottom="2dp"/>
+        <ImageButton
+            android:id="@+id/mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/label_email"
+            android:layout_toEndOf="@+id/email"
+            android:background="#000000"
+            android:onClick="sendEmail"
+            app:srcCompat="@android:drawable/sym_action_email" />
     </RelativeLayout>
 
 </RelativeLayout>

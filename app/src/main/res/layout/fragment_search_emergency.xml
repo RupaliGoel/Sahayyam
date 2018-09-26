@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.rupali.sos.SearchEmergency">
 
+    <!-- Progress bar overlay; shown while login is in progress -->
+    <include layout="@layout/progress_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/page_name"
         android:minHeight="?android:attr/actionBarSize"
