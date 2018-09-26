@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/home/rupaligoel/android-studio-ide-173.4720617-linux/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_accessibility_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/home/rupaligoel/android-studio-ide-173.4720617-linux/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_content_paste_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -34,6 +34,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="outputName" value="ic_post" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="000000" />
                                     </map>
                                   </option>
                                 </PersistentState>

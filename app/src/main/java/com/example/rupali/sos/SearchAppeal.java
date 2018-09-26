@@ -1,9 +1,11 @@
 package com.example.rupali.sos;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +13,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +23,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,47 +35,50 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 
 public class SearchAppeal extends AppCompatActivity {
-    public SearchAppeal() {
-        // Required empty public constructor
-    }
 
-    //--------------------------------get location-----------------------------------------
-    private static final int REQUEST_LOCATION = 1;
-    LocationManager locationManager;
-    String lattitude, longitude;
-    //---------------------------------get location-----------------------------------------
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+    String currentlattitude, currentlongitude, addressOfUser, nameOfUser, roleOfUser, contactOfUser, emailOfUser;
 
-    //-------------------------------listview---------------------------------------------------
-    int[] images = {R.drawable.ananta,
-            R.drawable.anchal,
-            R.drawable.nikita,
-            R.drawable.rupali,
-            R.drawable.salwi,
-            R.drawable.vibhuti};
+    ListView AppealListView;
+    JSONArray jsonArray = null;
+    JSONObject jsonObject;
+    Appeal appeal;
 
-    String[] incidents = {"Sleeping",
-            "Jumping",
-            "Chatting",
-            "Studying",
-            "Travelling",
-            "Eating"};
+    private static String url_appeal_details = "https://sahayyam.000webhostapp.com/get_appeals.php";
+    String email,desc,type,address;
+    Double lat,lon;
+    int success = 0;
 
-    //-------------------------------listview---------------------------------------------------
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
-    EditText locationedit;
-    EditText roleedit;
+    AutoCompleteTextView locationedit;
+    EditText appealtype;
     ImageButton audio_mode;
-    Button change;
+    Button change, go;
     private android.support.v7.widget.Toolbar search_app;
     //-------------------------------toolbar, location textbox & button-----------------------------------
 
+    public SearchAppeal() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,14 +86,27 @@ public class SearchAppeal extends AppCompatActivity {
         setContentView(R.layout.activity_search_appeal);
 
         //-------------------------------toolbar, location textbox & button-----------------------------------
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        editor = prefs.edit();
+        currentlattitude = prefs.getString("lat", "None");
+        currentlongitude = prefs.getString("long", "None");
+        emailOfUser = prefs.getString("user_email", "Not Found");
+        addressOfUser = prefs.getString("user_address", "Not Found");
+        nameOfUser = prefs.getString("user_name", "Guest");
+        roleOfUser = prefs.getString("user_role", "Not Found");
+        contactOfUser = prefs.getString("user_contact", "Not Found");
+
         setTitle(null);
         search_app = (Toolbar) findViewById(R.id.search_dir);
         setSupportActionBar(search_app);
 
         locationedit = findViewById(R.id.currentLocation);
-        roleedit = findViewById(R.id.role);
+        locationedit.setText(addressOfUser);
+        appealtype = findViewById(R.id.apptype);
         change = findViewById(R.id.changeButton);
         audio_mode = findViewById(R.id.audioModeButton);
+        go = findViewById(R.id.GoButton);
 
         change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,115 +116,141 @@ public class SearchAppeal extends AppCompatActivity {
             }
         });
         //-------------------------------toolbar, location textbox & button-----------------------------------
+        AppealListView = findViewById(R.id.AppealListView);
 
-        //-----------------------------get location-------------------------------------------------
-        ActivityCompat.requestPermissions(SearchAppeal.this,
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_LOCATION);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            getLocation();
-        }
-        //--------------------------------get location----------------------------------------------
-
-        //-------------------------------listview---------------------------------------------------
-        ListView listView;
-        listView = (ListView) findViewById(R.id.EmergencyListView);
-        final SearchAppeal.CustomAdapter customAdapter = new SearchAppeal.CustomAdapter();
-        final int count = customAdapter.getCount();
-        listView.setAdapter(customAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        go.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (int i = 0; i < count; i++) {
-                    if (position == i) {
-                        Intent myIntent = new Intent(view.getContext(), EmergencyPost.class);
-                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_post);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
-                        String headline = "This is title of the post.";
-                        String content = "Post Description.";
-                        myIntent.putExtra("Headline", headline);
-                        myIntent.putExtra("Content", content);
-                        myIntent.putExtra("Picture", byteArray);
-                        startActivityForResult(myIntent, i);
-                    }
-                }
+            public void onClick(View v) {
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+                new GetAppeals(SearchAppeal.this).execute();
             }
         });
-        //----------------------------------listview------------------------------------------------
+
+
     }
 
+    /**
+     * Background Async Task to get username
+     * */
+    private class GetAppeals extends AsyncTask<Void, Void, Void> {
+        public Context context;
+        String FinalJSonResult;
+        List<Appeal> AppealList;
 
-    //----------------------------------------get location----------------------------------------------
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        public GetAppeals(Context context) {
 
-            ActivityCompat.requestPermissions(SearchAppeal.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            this.context = context;
+        }
 
-        } else {
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        @Override
+        protected void onPreExecute() {
 
-            Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            super.onPreExecute();
+        }
 
-            Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        @Override
+        protected Void doInBackground(Void... arg0) {
 
-            if (location != null) {
-                double latti = location.getLatitude();
-                double longi = location.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti, longi);
-                locationedit.setText(address);
+            HttpServiceClass httpServiceClass = new HttpServiceClass(url_appeal_details);
+            httpServiceClass.AddParam("appeal_type", appealtype.getText().toString());
 
-            } else if (location1 != null) {
-                double latti = location1.getLatitude();
-                double longi = location1.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti, longi);
-                locationedit.setText(address);
+            try {
+                httpServiceClass.ExecutePostRequest();
 
+                if (httpServiceClass.getResponseCode() == 200) {
 
-            } else if (location2 != null) {
-                double latti = location2.getLatitude();
-                double longi = location2.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti, longi);
-                locationedit.setText(address);
+                    FinalJSonResult = httpServiceClass.getResponse();
 
-            } else {
+                    if (FinalJSonResult != null) {
+                        try {
 
-                Toast.makeText(getApplicationContext(), "Unable to Trace your location", Toast.LENGTH_SHORT).show();
+                            jsonArray = new JSONArray(FinalJSonResult);
 
+                            int image;
+
+                            AppealList = new ArrayList<Appeal>();
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                appeal = new Appeal();
+
+                                jsonObject = jsonArray.getJSONObject(i);
+
+                                appeal.Appeal_Type = jsonObject.getString("appeal_type");
+                                appeal.Appeal_Desc = jsonObject.getString("appeal_desc");
+                                appeal.User_email = jsonObject.getString("user_email");
+                                email = appeal.User_email;
+                                lat = Double.parseDouble(jsonObject.getString("user_address_lat"));
+                                lon = Double.parseDouble(jsonObject.getString("user_address_long"));
+                                address = getCompleteAddressString(lat,lon);
+
+                           /* image = jsonObject.getInt("emer_image");
+                            emergency.Emergency_Image = image;*/
+                                System.out.println("All details saved in object."+appeal.Appeal_Desc+appeal.Appeal_Type+appeal.User_email);
+                                AppealList.add(appeal);
+                            }
+
+                            AppealListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    try{
+                                        Intent myIntent = new Intent(view.getContext(), AppealPost.class);
+                                        /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
+                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                        byte[] byteArray = stream.toByteArray();*/
+                                        Appeal app = AppealList.get(position);
+                                        type = app.Appeal_Type;
+                                        desc = app.Appeal_Desc;
+                                        email = app.User_email;
+                                        myIntent.putExtra("Type",type);
+                                        myIntent.putExtra("Content", desc);
+                                        myIntent.putExtra("Email",email);
+//                                      myIntent.putExtra("Picture", byteArray);
+                                        startActivity(myIntent);
+                                    }
+                                    catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+
+                    Toast.makeText(context, httpServiceClass.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result)
+
+        {
+
+            AppealListView.setVisibility(View.VISIBLE);
+
+            if (AppealList != null) {
+
+                AppealListAdapter adapter = new AppealListAdapter(AppealList, context);
+
+                AppealListView.setAdapter(adapter);
+            }
+
         }
     }
 
-    protected void buildAlertMessageNoGps() {
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setMessage("Please Turn ON your GPS Connection")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
@@ -227,44 +275,4 @@ public class SearchAppeal extends AppCompatActivity {
         }
         return strAdd;
     }
-    //---------------------------------------get location--------------------------------------
-
-//    public void addFragment(Fragment SearchEmergency){
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.replace(R.id.container,SearchEmergency);
-//        ft.addToBackStack(null);
-//        Toast.makeText(getActivity().getApplicationContext(),"thailand",Toast.LENGTH_LONG).show();
-//        ft.commit();
-//    }
-
-
-    //-------------------------------listview---------------------------------------------------
-    class CustomAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return incidents.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = getLayoutInflater().inflate(R.layout.custom_list_layout, null);
-            ImageView imageView = (ImageView) view.findViewById(R.id.EmergencyImageView);
-            TextView textView = view.findViewById(R.id.EmergencyTextView);
-            imageView.setImageResource(images[position]);
-            textView.setText(incidents[position]);
-            return view;
-        }
-    }
-    //-------------------------------listview---------------------------------------------------
 }

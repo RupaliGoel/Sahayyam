@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SearchDirectory">
 
     <android.support.v7.widget.Toolbar
@@ -18,39 +18,79 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/search_directory"
+            android:text="Search Directory"
             android:textColor="@android:color/white"
             android:textSize="22dp"
             android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/audioModeButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_microphone" />
+
     </android.support.v7.widget.Toolbar>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/currentLocation"
-        android:layout_width="138dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/search_dir"
-        android:background="@drawable/edit_text_style"
-        android:drawableLeft="@drawable/ic_location"
-        android:ems="5"
-        android:focusable="false"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:ems="10"
         android:hint="Current Location"
+        android:focusable="false"
         android:inputType="textPostalAddress"
+        android:textSize="15sp"
+        android:drawableLeft="@drawable/ic_location"
+        android:layout_toLeftOf="@+id/role"
         android:padding="5dip"
-        android:textSize="15sp" />
-
+        android:background="@drawable/edit_text_style" />
 
     <EditText
         android:id="@+id/role"
-        android:layout_width="97dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_below="@+id/search_dir"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:focusable="false"
+        android:layout_toLeftOf="@+id/GoButton"
+        android:layout_below="@+id/search_appeal"
+        android:background="@drawable/edit_text_style"
+        android:layout_alignTop="@+id/currentLocation"
+        android:ems="5"
+        android:focusable="true"
         android:hint="Role"
         android:inputType="text"
-        android:textSize="15sp" />
+        android:padding="5dip"
+        android:textSize="15sp"  />
+
+    <Button
+        android:id="@+id/GoButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:layout_toLeftOf="@id/changeButton"
+        android:layout_alignTop="@+id/currentLocation"
+        android:layout_above="@+id/EmergencyListView"
+        android:text="Go"
+        android:textColor="@color/white"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/changeButton"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/EmergencyListView"
+        android:layout_alignTop="@+id/currentLocation"
+        android:background="@color/colorPrimary"
+        android:text="Change"
+        android:textColor="@color/white"
+        android:textAllCaps="false" />
 
     <ListView
         android:id="@+id/DirectoryListView"
@@ -58,23 +98,4 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/currentLocation" />
 
-
-    <Button
-        android:id="@+id/changeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignTop="@+id/currentLocation"
-        android:layout_toStartOf="@+id/audioModeButton"
-        android:background="@color/colorPrimary"
-        android:text="Search"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-
-    <ImageButton
-        android:id="@+id/audioModeButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/currentLocation"
-        android:src="@drawable/ic_microphone" />
 </RelativeLayout>

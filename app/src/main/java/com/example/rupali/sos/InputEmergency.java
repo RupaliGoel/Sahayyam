@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -186,6 +187,7 @@ public class InputEmergency extends Fragment {
                     new writeEmergency().execute();
             }
         });
+
     }
     public void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};

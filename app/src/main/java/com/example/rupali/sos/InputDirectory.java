@@ -256,8 +256,8 @@ public class InputDirectory extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = getLayoutInflater().inflate(R.layout.custom_list_layout, null);
-            ImageView imageView = (ImageView) view.findViewById(R.id.EmergencyImageView);
-            TextView textView = view.findViewById(R.id.EmergencyTextView);
+            ImageView imageView = (ImageView) view.findViewById(R.id.ImageView);
+            TextView textView = view.findViewById(R.id.TextView);
             imageView.setImageResource(images[position]);
             textView.setText(incidents[position]);
             return view;

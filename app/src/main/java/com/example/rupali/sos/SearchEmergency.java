@@ -406,7 +406,7 @@ public class SearchEmergency extends Fragment {
                     }
                 });
 
-                ListAdapter adapter = new ListAdapter(EmergencyList, context);
+                EmergencyListAdapter adapter = new EmergencyListAdapter(EmergencyList, context);
 
                 EmergencyListView.setAdapter(adapter);
             }

@@ -10,13 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ListAdapter extends BaseAdapter
+public class EmergencyListAdapter extends BaseAdapter
 {
     Context context;
 
     List<Emergency> emergency_list;
 
-    public ListAdapter(List<Emergency> listValue, Context context)
+    public EmergencyListAdapter(List<Emergency> listValue, Context context)
     {
         this.context = context;
         this.emergency_list = listValue;
@@ -52,9 +52,9 @@ public class ListAdapter extends BaseAdapter
 
             convertView = layoutInfiater.inflate(R.layout.custom_list_layout, null);
 
-            viewItem.EmerImageView = (ImageView)convertView.findViewById(R.id.EmergencyImageView);
-            viewItem.EmerNameTextView = convertView.findViewById(R.id.EmergencyTextView);
-            viewItem.EmerDistanceView = convertView.findViewById(R.id.EmergencyDistanceTextView);
+            viewItem.EmerImageView = (ImageView)convertView.findViewById(R.id.ImageView);
+            viewItem.EmerNameTextView = convertView.findViewById(R.id.TextView);
+            viewItem.EmerDistanceView = convertView.findViewById(R.id.DistanceTextView);
             convertView.setTag(viewItem);
         }
         else

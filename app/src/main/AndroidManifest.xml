@@ -8,12 +8,16 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -60,7 +64,9 @@
         <activity android:name=".InputDirectory" />
         <activity android:name=".SearchAppeal" />
         <activity android:name=".RaiseOnAppeal" />
-        <activity android:name=".MyProfile"></activity>
+        <activity android:name=".MyProfile" />
+        <activity android:name=".AppealPost"></activity>
+        <activity android:name=".DirectoryUserInfo"></activity>
     </application>
 
 </manifest>
