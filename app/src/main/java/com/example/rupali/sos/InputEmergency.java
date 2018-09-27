@@ -93,9 +93,9 @@ public class InputEmergency extends Fragment {
 
         if (!Islogin) {   // condition true means user is not logged in
             Intent i = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivityForResult(i, 1);
         }
-
         ivImage = view.findViewById(R.id.uploadedphoto);
         role = view.findViewById(R.id.role);
         name = view.findViewById(R.id.name);
@@ -144,7 +144,7 @@ public class InputEmergency extends Fragment {
         builder.show();
     }
 
-    static final int REQUEST_CAMERA = 1;
+    static final int REQUEST_CAMERA = 2;
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);

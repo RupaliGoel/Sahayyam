@@ -60,6 +60,7 @@
         <activity android:name=".InputDirectory" />
         <activity android:name=".SearchAppeal" />
         <activity android:name=".RaiseOnAppeal" />
+        <activity android:name=".CustomPhotoGalleryActivity"/>
         <activity android:name=".MyProfile"></activity>
     </application>
 

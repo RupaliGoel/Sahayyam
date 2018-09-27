@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -70,23 +72,11 @@ public class SearchEmergency extends Fragment {
     JSONArray jsonArray = null;
     JSONObject jsonObject;
     Emergency emergency;
+    double latti,longi;
 
     String HttpURL = "https://sahayyam.000webhostapp.com/get_emergencies.php";
     String name,desc;
 
-    int[] images = {R.drawable.ananta,
-            R.drawable.anchal,
-            R.drawable.nikita,
-            R.drawable.rupali,
-            R.drawable.salwi,
-            R.drawable.vibhuti};
-
-    String[] incidents = {"Sleeping",
-            "Jumping",
-            "Chatting",
-            "Studying",
-            "Travelling",
-            "Eating"};
     //-------------------------------listview---------------------------------------------------
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
@@ -101,36 +91,6 @@ public class SearchEmergency extends Fragment {
         super.onCreate(savedInstanceState);
         //addFragment(this);
     }
-
-    //-------------------------------listview---------------------------------------------------
-    /*class CustomAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return incidents.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = getLayoutInflater().inflate(R.layout.custom_list_layout, null);
-            ImageView imageView = (ImageView) view.findViewById(R.id.EmergencyImageView);
-            TextView textView = view.findViewById(R.id.EmergencyTextView);
-            imageView.setImageResource(images[position]);
-            textView.setText(incidents[position]);
-            return view;
-        }
-    }*/
-    //-------------------------------listview---------------------------------------------------
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -173,9 +133,17 @@ public class SearchEmergency extends Fragment {
                 new String[]{ android.Manifest.permission.ACCESS_FINE_LOCATION },
                 REQUEST_LOCATION);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        try {
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                Toast.makeText(getActivity().getApplicationContext(),"GOT HERE",Toast.LENGTH_SHORT).show();
+                buildAlertMessageNoGps();
+            }
+        }
+        catch(Exception e) {
+
+            System.out.print(e);
+        }
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             getLocation();
         }
         //--------------------------------get location----------------------------------------------
@@ -215,7 +183,7 @@ public class SearchEmergency extends Fragment {
 
 
 
-//----------------------------------------get location----------------------------------------------
+    //----------------------------------------get location----------------------------------------------
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
@@ -231,27 +199,27 @@ public class SearchEmergency extends Fragment {
             Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
 
             if (location != null) {
-                double latti = location.getLatitude();
-                double longi = location.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
+                latti = location.getLatitude();
+                longi = location.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
                 String address = getCompleteAddressString(latti,longi);
                 locationedit.setText(address);
 
             } else  if (location1 != null) {
-                double latti = location1.getLatitude();
-                double longi = location1.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
+                latti = location1.getLatitude();
+                longi = location1.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
                 String address = getCompleteAddressString(latti,longi);
                 locationedit.setText(address);
 
 
             } else  if (location2 != null) {
-                double latti = location2.getLatitude();
-                double longi = location2.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
+                latti = location2.getLatitude();
+                longi = location2.getLongitude();
+                lattitude = String.valueOf(latti);
+                longitude = String.valueOf(longi);
                 String address = getCompleteAddressString(latti,longi);
                 locationedit.setText(address);
 
@@ -261,9 +229,13 @@ public class SearchEmergency extends Fragment {
 
             }
         }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("lat",lattitude).commit();
+        editor.putString("long",longitude).commit();
     }
 
-    protected void buildAlertMessageNoGps() {
+    private void buildAlertMessageNoGps() {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
         builder.setMessage("Please Turn ON your GPS Connection")
@@ -361,15 +333,12 @@ public class SearchEmergency extends Fragment {
                                 jsonObject = jsonArray.getJSONObject(i);
 
                                 emergency.Emergency_Name = jsonObject.getString("emer_title");
-
-
                                 emergency.Emergency_Desc = jsonObject.getString("emer_desc");
 
                                /* image = jsonObject.getInt("emer_image");
                                 emergency.Emergency_Image = image;*/
 
                                 EmergencyList.add(emergency);
-
 
                             }
                             EmergencyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -422,6 +391,7 @@ public class SearchEmergency extends Fragment {
 
                 EmergencyListView.setAdapter(adapter);
             }
+
         }
     }
 

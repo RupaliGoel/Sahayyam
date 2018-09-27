@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(getBaseContext(), "Successfully Signed Out", Toast.LENGTH_SHORT).show();
                                     Islogin = false;
                                     buildNavigationDrawer();
+
                                 }
                                 if (intent != null) {
                                     MainActivity.this.startActivity(intent);
