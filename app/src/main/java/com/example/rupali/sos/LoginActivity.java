@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     // url to create new product
     private static String url_login_user = "https://sahayyam.000webhostapp.com/login.php";
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
-    String email,password,name,role,contact;
+    String email,password,name,role,contact,address;
     int success = 0;
 
     // JSON Node names
@@ -171,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(String file_url) {
             // dismiss the progressbar once done
             if(success==1) {
-                new GetName().execute();
+                new GetDetails().execute();
             }
             else
                 Toast.makeText(getApplicationContext(),"Login Failed",Toast.LENGTH_LONG).show();
@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Background Async Task to get username
      * */
-    class GetName extends AsyncTask<String, String, String> {
+    class GetDetails extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
@@ -214,6 +214,7 @@ public class LoginActivity extends AppCompatActivity {
                 name = details.getString("name");
                 role = details.getString("role");
                 contact = details.getString("contact");
+                address = details.getString("address");
                 // check log cat fro response
                 Log.d("Create Response", json.toString());
 
@@ -234,6 +235,7 @@ public class LoginActivity extends AppCompatActivity {
             prefs.edit().putString("user_name", name).commit();
             prefs.edit().putString("user_role",role).commit();
             prefs.edit().putString("user_contact",contact).commit();
+            prefs.edit().putString("user_address",address).commit();
             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
             Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
             setResult(Activity.RESULT_OK, intent);

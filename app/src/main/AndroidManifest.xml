@@ -40,7 +40,6 @@
         <activity android:name=".Settings" />
         <activity android:name=".RateUs" />
         <activity android:name=".ContactUs" />
-        <activity android:name=".Profile" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

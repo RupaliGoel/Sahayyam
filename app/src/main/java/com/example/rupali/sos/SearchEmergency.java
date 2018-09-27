@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
@@ -67,6 +68,7 @@ public class SearchEmergency extends Fragment {
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     String lattitude, longitude;
+    double searchlat,searchlong;
     //---------------------------------get location-----------------------------------------
 
     //-------------------------------listview---------------------------------------------------
@@ -80,6 +82,7 @@ public class SearchEmergency extends Fragment {
 
     String HttpURL = "https://sahayyam.000webhostapp.com/get_emergencies.php";
     String name,desc,emailpost;
+    String changeaddress;
     double lat,lon;
     double distance;
 
@@ -89,7 +92,7 @@ public class SearchEmergency extends Fragment {
     //-------------------------------toolbar, location textbox & button-----------------------------------
     AutoCompleteTextView locationedit;
     ImageButton audio_mode;
-    Button change;
+    Button change,go;
     private android.support.v7.widget.Toolbar page_name;
     //-------------------------------toolbar, location textbox & button-----------------------------------
 
@@ -124,6 +127,7 @@ public class SearchEmergency extends Fragment {
 
         locationedit = view.findViewById(R.id.currentLocation);
         change = view.findViewById(R.id.changeButton);
+        go = view.findViewById(R.id.GoButton);
         audio_mode = view.findViewById(R.id.audioModeButton);
 
         change.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +135,17 @@ public class SearchEmergency extends Fragment {
             public void onClick(View v) {
                 locationedit.setText("");
                 locationedit.setFocusableInTouchMode(true);
+            }
+        });
+
+        go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeaddress = locationedit.getText().toString();
+                convertAddress();
+                new ParseJSonDataClass(getActivity()).execute();
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
 
@@ -234,11 +249,14 @@ public class SearchEmergency extends Fragment {
 
             }
         }
+
+        searchlat = Double.parseDouble(lattitude);
+        searchlong = Double.parseDouble(longitude);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("lat",lattitude).commit();
         editor.putString("long",longitude).commit();
-        editor.putString("user_address",addressOfUser).commit();
+        editor.putString("user_current_address",addressOfUser).commit();
     }
 
     protected void buildAlertMessageNoGps() {
@@ -343,45 +361,18 @@ public class SearchEmergency extends Fragment {
 
                                 emergency.Emergency_Name = jsonObject.getString("emer_title");
                                 emergency.Emergency_Desc = jsonObject.getString("emer_desc");
+                                emergency.User_Email = jsonObject.getString("user_email");
                                 emergency.Emergency_Lat = Double.parseDouble(jsonObject.getString("emer_place_lat"));
                                 emergency.Emergency_Long = Double.parseDouble(jsonObject.getString("emer_place_long"));
-                                distance = getDistance(Double.parseDouble(lattitude),Double.parseDouble(longitude),emergency.Emergency_Lat,emergency.Emergency_Long);
+                                distance = getDistance(searchlat,searchlong,emergency.Emergency_Lat,emergency.Emergency_Long);
                                 emergency.Emergency_Distance = distance;
                                /* image = jsonObject.getInt("emer_image");
                                 emergency.Emergency_Image = image;*/
 
                                 EmergencyList.add(emergency);
-
                             }
 
-                            EmergencyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Intent myIntent = new Intent(view.getContext(), EmergencyPost.class);
-                                    try {
-                                        jsonObject = jsonArray.getJSONObject(position);
-                                        name = jsonObject.getString("emer_title");
-                                        desc = jsonObject.getString("emer_desc");
-                                        emailpost = jsonObject.getString("user_email");
-                                        lat = Double.parseDouble(jsonObject.getString("emer_place_lat"));
-                                        lon = Double.parseDouble(jsonObject.getString("emer_place_long"));
-                                        //System.out.println("LATLONG:"+lat+" "+lon);
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                        /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();*/
-                                    myIntent.putExtra("Headline", name);
-                                    myIntent.putExtra("Content", desc);
-                                    myIntent.putExtra("Distance",distance);
-                                    myIntent.putExtra("Email",emailpost);
-//                                        myIntent.putExtra("Picture", byteArray);
-                                    startActivity(myIntent);
-                                }
-                            });
+                            ///////////////////////////////////////////////////////////
                         } catch (JSONException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -416,6 +407,28 @@ public class SearchEmergency extends Fragment {
                 EmergencyListAdapter adapter = new EmergencyListAdapter(EmergencyList, context);
 
                 EmergencyListView.setAdapter(adapter);
+
+                EmergencyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent myIntent = new Intent(view.getContext(), EmergencyPost.class);
+                        Emergency sendEmergency = EmergencyList.get(position);
+                        name = sendEmergency.Emergency_Name;
+                        desc = sendEmergency.Emergency_Desc;
+                        emailpost = sendEmergency.User_Email;
+                        distance =sendEmergency.Emergency_Distance;
+                        /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byte[] byteArray = stream.toByteArray();*/
+                        myIntent.putExtra("Headline", name);
+                        myIntent.putExtra("Content", desc);
+                        myIntent.putExtra("Distance",distance);
+                        myIntent.putExtra("Email",emailpost);
+//                        myIntent.putExtra("Picture", byteArray);
+                        startActivity(myIntent);
+                    }
+                });
             }
 
             // Hide it (with animation):
@@ -438,5 +451,20 @@ public class SearchEmergency extends Fragment {
         Log.d("distance","radius * angle = " +distance);
         return distance;
     }
+
+    public void convertAddress() {
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+        if (changeaddress != null && !changeaddress.isEmpty()) {
+            try {
+                List<Address> addressList = geocoder.getFromLocationName(changeaddress, 1);
+                if (addressList != null && addressList.size() > 0) {
+                    searchlat = addressList.get(0).getLatitude();
+                    searchlong = addressList.get(0).getLongitude();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } // end catch
+        } // end if
+    } // end convertAddress
 
 }

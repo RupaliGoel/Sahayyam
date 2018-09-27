@@ -68,7 +68,7 @@ public class InputEmergency extends Fragment {
     EditText role, name, address, contact, place, title, desc;
     Button submit, choose;
     ImageView ivImage;
-    String userChoosenTask;
+    String userChoosenTask, currentAddressOfUser;
     private android.support.v7.widget.Toolbar page_name;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
@@ -125,6 +125,7 @@ public class InputEmergency extends Fragment {
         nameOfUser = prefs.getString("user_name", "Guest");
         roleOfUser = prefs.getString("user_role","Not Found");
         contactOfUser = prefs.getString("user_contact","Not Found");
+        currentAddressOfUser = prefs.getString("user_current_address", "Not Found");
 
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -159,6 +160,7 @@ public class InputEmergency extends Fragment {
         contact.setEnabled(false);
         name.setText(nameOfUser);
         name.setEnabled(false);
+        place.setText(currentAddressOfUser);
 
         submit = view.findViewById(R.id.submit);
 
@@ -189,6 +191,7 @@ public class InputEmergency extends Fragment {
         });
 
     }
+
     public void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -213,7 +216,7 @@ public class InputEmergency extends Fragment {
         builder.show();
     }
 
-    static final int REQUEST_CAMERA = 1;
+    static final int REQUEST_CAMERA = 2;
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
@@ -363,6 +366,14 @@ public class InputEmergency extends Fragment {
         protected void onPostExecute(String file_url) {
             if(success==1) {
                 Toast.makeText(getActivity().getApplicationContext(),"Saved Successfully.",Toast.LENGTH_LONG).show();
+                title = getView().findViewById(R.id.title);
+                title.setText("");
+                place = getView().findViewById(R.id.place);
+                place.setText(currentAddressOfUser);
+                desc = getView().findViewById(R.id.description);
+                desc.setText("");
+                ivImage = getView().findViewById(R.id.uploadedphoto);
+                ivImage.setImageDrawable(null);
             }
             else
                 Toast.makeText(getActivity().getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();

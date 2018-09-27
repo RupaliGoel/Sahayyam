@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,11 +70,12 @@ public class SearchAppeal extends AppCompatActivity {
     private static final String TAG_SUCCESS = "success";
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
-    AutoCompleteTextView locationedit;
-    EditText appealtype;
+    EditText textbox;
+    Spinner appealtype;
     ImageButton audio_mode;
     Button change, go;
     private android.support.v7.widget.Toolbar search_app;
+    View progressOverlay;
     //-------------------------------toolbar, location textbox & button-----------------------------------
 
     public SearchAppeal() {
@@ -101,18 +103,20 @@ public class SearchAppeal extends AppCompatActivity {
         search_app = (Toolbar) findViewById(R.id.search_dir);
         setSupportActionBar(search_app);
 
-        locationedit = findViewById(R.id.currentLocation);
-        locationedit.setText(addressOfUser);
+        textbox = findViewById(R.id.textSearch);
         appealtype = findViewById(R.id.apptype);
         change = findViewById(R.id.changeButton);
         audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);
 
+        progressOverlay = findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
+
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                locationedit.setText("");
-                locationedit.setFocusableInTouchMode(true);
+                textbox.setText("");
+                textbox.setFocusableInTouchMode(true);
             }
         });
         //-------------------------------toolbar, location textbox & button-----------------------------------
@@ -150,13 +154,16 @@ public class SearchAppeal extends AppCompatActivity {
         protected void onPreExecute() {
 
             super.onPreExecute();
+            // Show progress overlay (with animation):
+            AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
 
             HttpServiceClass httpServiceClass = new HttpServiceClass(url_appeal_details);
-            httpServiceClass.AddParam("appeal_type", appealtype.getText().toString());
+            String appeal_type = appealtype.getSelectedItem().toString();
+            httpServiceClass.AddParam("appeal_type", appeal_type);
 
             try {
                 httpServiceClass.ExecutePostRequest();
@@ -247,6 +254,9 @@ public class SearchAppeal extends AppCompatActivity {
 
                 AppealListView.setAdapter(adapter);
             }
+
+            // Hide it (with animation):
+            AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
 
         }
     }

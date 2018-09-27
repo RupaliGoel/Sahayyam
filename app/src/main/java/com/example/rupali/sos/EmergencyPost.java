@@ -47,11 +47,11 @@ public class EmergencyPost extends AppCompatActivity {
     Toolbar page_name;
     ImageButton emailbtn,call;
     View progressOverlay;
-    TextView tvName,tvContact,tvEmail,tvRole;
+    TextView tvName,tvContact,tvEmail,tvRole,tvAddress;
 
     JSONParser jsonParser = new JSONParser();
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
-    String email,name,role,contact;
+    String email,name,role,contact,address;
     int success = 0;
 
     // JSON Node names
@@ -127,6 +127,7 @@ public class EmergencyPost extends AppCompatActivity {
                 name = details.getString("name");
                 role = details.getString("role");
                 contact = details.getString("contact");
+                address = details.getString("address");
                 // check log cat fro response
                 Log.d("Create Response", json.toString());
 
@@ -147,6 +148,8 @@ public class EmergencyPost extends AppCompatActivity {
             tvContact.setText(contact);
             tvEmail = findViewById(R.id.email);
             tvEmail.setText(email);
+            tvAddress = findViewById(R.id.address);
+            tvAddress.setText(address);
             emailbtn = findViewById(R.id.mail);
             emailbtn.setOnClickListener(new View.OnClickListener() {
                 @Override

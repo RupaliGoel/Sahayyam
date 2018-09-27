@@ -6,6 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SearchAppeal">
 
+    <!-- Progress bar overlay; shown while login is in progress -->
+    <include layout="@layout/progress_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/search_appeal"
         android:layout_width="match_parent"
@@ -34,37 +39,43 @@
             app:srcCompat="@drawable/ic_microphone" />
     </android.support.v7.widget.Toolbar>
 
-    <AutoCompleteTextView
-        android:id="@+id/currentLocation"
+    <EditText
+        android:id="@+id/textSearch"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_below="@+id/search_appeal"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="5dp"
         android:ems="10"
-        android:hint="Current Location"
-        android:focusable="false"
-        android:inputType="textPostalAddress"
+        android:hint="Text"
         android:textSize="15sp"
-        android:drawableLeft="@drawable/ic_location"
         android:layout_toLeftOf="@+id/apptype"
         android:padding="5dip"
         android:background="@drawable/edit_text_style" />
 
-    <EditText
+    <!--<EditText
         android:id="@+id/apptype"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_toLeftOf="@+id/GoButton"
         android:layout_below="@+id/search_appeal"
         android:background="@drawable/edit_text_style"
-        android:layout_alignTop="@+id/currentLocation"
+        android:layout_alignTop="@+id/textSearch"
         android:ems="5"
         android:focusable="true"
         android:hint="AppealType"
         android:inputType="text"
         android:padding="5dip"
-        android:textSize="15sp" />
+        android:textSize="15sp" />-->
+
+    <Spinner
+        android:id="@+id/apptype"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@+id/GoButton"
+        android:layout_below="@+id/search_appeal"
+        android:layout_alignTop="@+id/textSearch"
+        android:entries="@array/appeal_type" />
 
     <Button
         android:id="@+id/GoButton"
@@ -72,7 +83,8 @@
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
         android:layout_toLeftOf="@id/changeButton"
-        android:layout_alignTop="@+id/currentLocation"
+        android:layout_alignTop="@+id/textSearch"
+        android:layout_marginLeft="5dp"
         android:layout_above="@+id/EmergencyListView"
         android:text="Go"
         android:textColor="@color/white"
@@ -85,7 +97,7 @@
         android:layout_marginLeft="5dp"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/EmergencyListView"
-        android:layout_alignTop="@+id/currentLocation"
+        android:layout_alignTop="@+id/textSearch"
         android:background="@color/colorPrimary"
         android:text="Change"
         android:textColor="@color/white"
@@ -95,6 +107,6 @@
         android:id="@+id/AppealListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentLocation" />
+        android:layout_below="@+id/textSearch" />
 
 </RelativeLayout>

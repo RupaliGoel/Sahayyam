@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,8 +65,9 @@ import java.util.List;
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 public class RaiseOnAppeal extends AppCompatActivity {
-    EditText role, name, address, contact, type, desc;
+    EditText role, name, address, contact, desc;
     Button submit, choose;
+    Spinner type;
     ImageView ivImage;
     String userChoosenTask;
     private android.support.v7.widget.Toolbar page_name;
@@ -133,7 +135,7 @@ public class RaiseOnAppeal extends AppCompatActivity {
         role = findViewById(R.id.role);
         name = findViewById(R.id.name);
         address = findViewById(R.id.address);
-        type = findViewById(R.id.type);
+        type = findViewById(R.id.apptype);
         contact = findViewById(R.id.contact);
         desc = findViewById(R.id.description);
 
@@ -152,7 +154,7 @@ public class RaiseOnAppeal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if ((type.getText().toString()).equals("")) {
+                if ((type.getSelectedItem().toString()).equals("")) {
                     Toast.makeText(getApplicationContext(), "Enter Appeal Type!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -291,7 +293,7 @@ public class RaiseOnAppeal extends AppCompatActivity {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("email", emailOfUser));
-                params.add(new BasicNameValuePair("type", type.getText().toString().trim()));
+                params.add(new BasicNameValuePair("type", type.getSelectedItem().toString().trim()));
                 params.add(new BasicNameValuePair("desc", desc.getText().toString().trim()));
                 params.add(new BasicNameValuePair("addlat", currentlattitude));
                 params.add(new BasicNameValuePair("addlong", currentlongitude));

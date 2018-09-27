@@ -65,4 +65,9 @@
         <item>Hospital</item>
         <item>Ambulance</item>
     </string-array>
+    <string-array name="appeal_type">
+        <item>All</item>
+        <item>Donation</item>
+        <item>Adoption</item>
+    </string-array>
 </resources>
