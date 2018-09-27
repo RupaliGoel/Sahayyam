@@ -1,6 +1,5 @@
 package com.example.rupali.sos;
 
-import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,28 +9,30 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ListAdapter extends BaseAdapter
+import java.util.List;
+
+public class DirectoryListAdapter extends BaseAdapter
 {
     Context context;
 
-    List<Emergency> emergency_list;
+    List<User> user_list;
 
-    public ListAdapter(List<Emergency> listValue, Context context)
+    public DirectoryListAdapter(List<User> listValue, Context context)
     {
         this.context = context;
-        this.emergency_list = listValue;
+        this.user_list = listValue;
     }
 
     @Override
     public int getCount()
     {
-        return this.emergency_list.size();
+        return this.user_list.size();
     }
 
     @Override
     public Object getItem(int position)
     {
-        return this.emergency_list.get(position);
+        return this.user_list.get(position);
     }
 
     @Override
@@ -43,35 +44,36 @@ public class ListAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        ViewItem viewItem = null;
+        DirectoryViewItem viewItem = null;
         if(convertView == null)
         {
-            viewItem = new ViewItem();
+            viewItem = new DirectoryViewItem();
 
             LayoutInflater layoutInfiater = (LayoutInflater)this.context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
             convertView = layoutInfiater.inflate(R.layout.custom_list_layout, null);
 
-            viewItem.EmerImageView = (ImageView)convertView.findViewById(R.id.EmergencyImageView);
-            viewItem.EmerNameTextView = convertView.findViewById(R.id.EmergencyTextView);
+            viewItem.DirectorylImageView = convertView.findViewById(R.id.ImageView);
+            viewItem.DirectoryTextView = convertView.findViewById(R.id.TextView);
             convertView.setTag(viewItem);
         }
         else
         {
-            viewItem = (ViewItem) convertView.getTag();
+            viewItem = (DirectoryViewItem) convertView.getTag();
         }
 
-        viewItem.EmerNameTextView.setText(emergency_list.get(position).Emergency_Name);
+        viewItem.DirectoryTextView.setText(user_list.get(position).User_Name);
 
-        viewItem.EmerImageView.setImageResource(emergency_list.get(position).Emergency_Image);
+        viewItem.DirectorylImageView.setImageResource(user_list.get(position).User_Image);
 
         return convertView;
     }
 }
 
-class ViewItem
+class DirectoryViewItem
 {
-    TextView EmerNameTextView;
-    ImageView EmerImageView;
+    TextView DirectoryTextView;
+    ImageView DirectorylImageView;
 }
+
 

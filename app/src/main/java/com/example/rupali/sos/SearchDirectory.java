@@ -1,8 +1,11 @@
 package com.example.rupali.sos;
+
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,20 +13,19 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,46 +35,50 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+
 public class SearchDirectory extends AppCompatActivity {
-    public SearchDirectory() {
-        // Required empty public constructor
-    }
 
-    //--------------------------------get location-----------------------------------------
-    private static final int REQUEST_LOCATION = 1;
-    LocationManager locationManager;
-    String lattitude, longitude;
-    //---------------------------------get location-----------------------------------------
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+    String currentlattitude, currentlongitude, addressOfUser, nameOfUser, roleOfUser, contactOfUser, emailOfUser;
 
-    //-------------------------------listview---------------------------------------------------
-    int[] images = {R.drawable.ananta,
-            R.drawable.anchal,
-            R.drawable.nikita,
-            R.drawable.rupali,
-            R.drawable.salwi,
-            R.drawable.vibhuti};
+    ListView DirectoryListView;
+    JSONArray jsonArray = null;
+    JSONObject jsonObject;
+    User user;
 
-    String[] incidents = {"Sleeping",
-            "Jumping",
-            "Chatting",
-            "Studying",
-            "Travelling",
-            "Eating"};
+    private static String url_details = "https://sahayyam.000webhostapp.com/get_users_by_role.php";
+    String email,role,contact,address,name;
+    Double lat,lon;
+    int success = 0;
 
-    //-------------------------------listview---------------------------------------------------
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
-    EditText locationedit;
-    EditText roleedit;
+    AutoCompleteTextView locationedit;
+    EditText role_edit;
     ImageButton audio_mode;
-    Button change;
+    Button change, go;
     private android.support.v7.widget.Toolbar search_dir;
     //-------------------------------toolbar, location textbox & button-----------------------------------
 
+    public SearchDirectory() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,14 +86,27 @@ public class SearchDirectory extends AppCompatActivity {
         setContentView(R.layout.activity_search_directory);
 
         //-------------------------------toolbar, location textbox & button-----------------------------------
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        editor = prefs.edit();
+        currentlattitude = prefs.getString("lat", "None");
+        currentlongitude = prefs.getString("long", "None");
+        emailOfUser = prefs.getString("user_email", "Not Found");
+        addressOfUser = prefs.getString("user_address", "Not Found");
+        nameOfUser = prefs.getString("user_name", "Guest");
+        roleOfUser = prefs.getString("user_role", "Not Found");
+        contactOfUser = prefs.getString("user_contact", "Not Found");
+
         setTitle(null);
         search_dir = (Toolbar) findViewById(R.id.search_dir);
         setSupportActionBar(search_dir);
 
         locationedit = findViewById(R.id.currentLocation);
-        roleedit = findViewById(R.id.role);
+        locationedit.setText(addressOfUser);
+        role_edit = findViewById(R.id.role);
         change = findViewById(R.id.changeButton);
         audio_mode = findViewById(R.id.audioModeButton);
+        go = findViewById(R.id.GoButton);
 
         change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,115 +116,148 @@ public class SearchDirectory extends AppCompatActivity {
             }
         });
         //-------------------------------toolbar, location textbox & button-----------------------------------
+        DirectoryListView = findViewById(R.id.DirectoryListView);
 
-        //-----------------------------get location-------------------------------------------------
-        ActivityCompat.requestPermissions(SearchDirectory.this,
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_LOCATION);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            getLocation();
-        }
-        //--------------------------------get location----------------------------------------------
-
-        //-------------------------------listview---------------------------------------------------
-        ListView listView;
-        listView = (ListView) findViewById(R.id.EmergencyListView);
-        final SearchDirectory.CustomAdapter customAdapter = new SearchDirectory.CustomAdapter();
-        final int count = customAdapter.getCount();
-        listView.setAdapter(customAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        go.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (int i = 0; i < count; i++) {
-                    if (position == i) {
-                        Intent myIntent = new Intent(view.getContext(), EmergencyPost.class);
-                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_post);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
-                        String headline = "This is title of the post.";
-                        String content = "Post Description.";
-                        myIntent.putExtra("Headline", headline);
-                        myIntent.putExtra("Content", content);
-                        myIntent.putExtra("Picture", byteArray);
-                        startActivityForResult(myIntent, i);
-                    }
-                }
+            public void onClick(View v) {
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+                new GetDirectory(SearchDirectory.this).execute();
             }
         });
-        //----------------------------------listview------------------------------------------------
+
+
     }
 
+    /**
+     * Background Async Task to get username
+     * */
+    private class GetDirectory extends AsyncTask<Void, Void, Void> {
+        public Context context;
+        String FinalJSonResult;
+        List<User> DirectoryList;
 
-    //----------------------------------------get location----------------------------------------------
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        public GetDirectory(Context context) {
 
-            ActivityCompat.requestPermissions(SearchDirectory.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            this.context = context;
+        }
 
-        } else {
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        @Override
+        protected void onPreExecute() {
 
-            Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            super.onPreExecute();
+        }
 
-            Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        @Override
+        protected Void doInBackground(Void... arg0) {
 
-            if (location != null) {
-                double latti = location.getLatitude();
-                double longi = location.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti, longi);
-                locationedit.setText(address);
+            HttpServiceClass httpServiceClass = new HttpServiceClass(url_details);
+            httpServiceClass.AddParam("role", role_edit.getText().toString());
 
-            } else if (location1 != null) {
-                double latti = location1.getLatitude();
-                double longi = location1.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti, longi);
-                locationedit.setText(address);
+            try {
+                httpServiceClass.ExecutePostRequest();
 
+                if (httpServiceClass.getResponseCode() == 200) {
 
-            } else if (location2 != null) {
-                double latti = location2.getLatitude();
-                double longi = location2.getLongitude();
-                //lattitude = String.valueOf(latti);
-                //longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti, longi);
-                locationedit.setText(address);
+                    FinalJSonResult = httpServiceClass.getResponse();
 
-            } else {
+                    if (FinalJSonResult != null) {
+                        try {
 
-                Toast.makeText(getApplicationContext(), "Unable to Trace your location", Toast.LENGTH_SHORT).show();
+                            jsonArray = new JSONArray(FinalJSonResult);
 
+                            int image;
+
+                            DirectoryList = new ArrayList<User>();
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                user = new User();
+
+                                jsonObject = jsonArray.getJSONObject(i);
+
+                                user.User_Email = jsonObject.getString("user_email");
+
+                                user.User_Name = jsonObject.getString("user_name");
+
+                                user.User_Role = jsonObject.getString("user_role");
+
+                                user.User_Contact = jsonObject.getString("user_contact");
+
+                                //lat = Double.parseDouble(jsonObject.getString("user_address_lat"));
+                                //lon = Double.parseDouble(jsonObject.getString("user_address_long"));
+                                //address = getCompleteAddressString(lat,lon);
+
+                           /* image = jsonObject.getInt("emer_image");
+                            emergency.Emergency_Image = image;*/
+                                System.out.println("All details saved in object."+user.User_Email+user.User_Name+user.User_Role+user.User_Contact);
+                                DirectoryList.add(user);
+                            }
+
+                            DirectoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    try{
+                                        Intent myIntent = new Intent(view.getContext(), DirectoryUserInfo.class);
+                                        /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
+                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                        byte[] byteArray = stream.toByteArray();*/
+                                        User clickedUser = DirectoryList.get(position);
+                                        email = clickedUser.User_Email;
+                                        name = clickedUser.User_Name;
+                                        role = clickedUser.User_Role;
+                                        contact = clickedUser.User_Contact;
+
+                                        myIntent.putExtra("Role",role);
+                                        myIntent.putExtra("Name", name);
+                                        myIntent.putExtra("Email",email);
+                                        myIntent.putExtra("Contact",contact);
+//                                      myIntent.putExtra("Picture", byteArray);
+                                        startActivity(myIntent);
+                                    }
+                                    catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+
+                    Toast.makeText(context, httpServiceClass.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result)
+
+        {
+
+            DirectoryListView.setVisibility(View.VISIBLE);
+
+            if (DirectoryList != null) {
+
+                DirectoryListAdapter adapter = new DirectoryListAdapter(DirectoryList, context);
+
+                DirectoryListView.setAdapter(adapter);
+            }
+
         }
     }
 
-    protected void buildAlertMessageNoGps() {
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setMessage("Please Turn ON your GPS Connection")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
@@ -230,44 +282,4 @@ public class SearchDirectory extends AppCompatActivity {
         }
         return strAdd;
     }
-    //---------------------------------------get location--------------------------------------
-
-//    public void addFragment(Fragment SearchEmergency){
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.replace(R.id.container,SearchEmergency);
-//        ft.addToBackStack(null);
-//        Toast.makeText(getActivity().getApplicationContext(),"thailand",Toast.LENGTH_LONG).show();
-//        ft.commit();
-//    }
-
-
-    //-------------------------------listview---------------------------------------------------
-    class CustomAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return incidents.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = getLayoutInflater().inflate(R.layout.custom_list_layout, null);
-            ImageView imageView = (ImageView) view.findViewById(R.id.EmergencyImageView);
-            TextView textView = view.findViewById(R.id.EmergencyTextView);
-            imageView.setImageResource(images[position]);
-            textView.setText(incidents[position]);
-            return view;
-        }
-    }
-    //-------------------------------listview---------------------------------------------------
 }

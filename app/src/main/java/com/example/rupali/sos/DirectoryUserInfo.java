@@ -1,5 +1,8 @@
 package com.example.rupali.sos;
 
+//Post to show onclick list items
+
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,60 +10,136 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactUs extends AppCompatActivity {
+public class DirectoryUserInfo extends AppCompatActivity {
 
+    TextView tvName,tvContact,tvEmail,tvRole;
+    String email,name,role,contact;
     Toolbar page_name;
-    TextView name1,name2,name3,name4;
-    TextView mail1,mail2,mail3,mail4;
-    ImageButton bt1,bt2,bt3,bt4;
+    ImageButton emailbtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_us);
+        setContentView(R.layout.activity_directory_user_info);
 
-        page_name = (Toolbar) findViewById(R.id.page_name);
+        page_name = findViewById(R.id.page_name);
         setSupportActionBar(page_name);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        name1 = findViewById(R.id.person_name1);
-        name2 = findViewById(R.id.person_name2);
-        name3 = findViewById(R.id.person_name3);
-        name4 = findViewById(R.id.person_name4);
+        Bundle bundle = getIntent().getExtras();
+        email = bundle.getString("Email");
+        role = bundle.getString("Role");
+        name = bundle.getString("Name");
+        contact = bundle.getString("Contact");
+//        double distance = bundle.getDouble("Distance");
+//        byte[] byteArray = bundle.getByteArray("Picture");
 
-        mail1 = findViewById(R.id.person1_email);
-        mail2 = findViewById(R.id.person2_email);
-        mail3 = findViewById(R.id.person3_email);
-        mail4 = findViewById(R.id.person4_email);
+        /*Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        imagePost = (ImageView) findViewById(R.id.imagePost);
+        imagePost.setImageBitmap(bmp);*/
 
-        bt1 = findViewById(R.id.mail1);
-        bt2 = findViewById(R.id.mail2);
-        bt3 = findViewById(R.id.mail3);
-        bt4 = findViewById(R.id.mail4);
+        tvName = findViewById(R.id.name);
+        tvName.setText(name);
+        tvRole = findViewById(R.id.role);
+        tvRole.setText(role);
+        tvContact = findViewById(R.id.contact);
+        tvContact.setText(contact);
+        tvEmail = findViewById(R.id.email);
+        tvEmail.setText(email);
+
+        ImageView call = (ImageView) findViewById(R.id.callButton);
+
+        call.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View arg0)
+            {
+                if(isPermissionGranted()){
+                    call_action();
+                }
+            }
+        });
+
+        emailbtn = findViewById(R.id.mail);
+        emailbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail(DirectoryUserInfo.this,email,"","",null);
+            }
+        });
     }
 
-    protected void sendEmail(View v) {
-        String tag = v.getTag().toString();
-        this.sendEmail(ContactUs.this,tag,"","",null);
+    public void call_action(){
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        String num= tvContact.getText().toString();
+        String uri= "tel:"+ num.trim();
+        callIntent.setData(Uri.parse(uri));
+        startActivity(callIntent);
+    }
+    public  boolean isPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
 
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+
+            case 1: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                    call_action();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     public void sendEmail(final Context p_context, final String mailto, final String p_subject, final String p_body, final ArrayList<String> p_attachments)
@@ -137,7 +216,7 @@ public class ContactUs extends AppCompatActivity {
         catch (Exception ex)
         {
             //Log.e(TAG, "Can't send email", ex);
-            Toast.makeText(ContactUs.this,"Can't Send Email "+ ex, Toast.LENGTH_LONG).show();
+            Toast.makeText(DirectoryUserInfo.this,"Can't Send Email "+ ex, Toast.LENGTH_LONG).show();
 
         }
     }
@@ -189,7 +268,4 @@ public class ContactUs extends AppCompatActivity {
             //Toast.makeText(ContactUs.this,"Error sending Email",Toast.LENGTH_LONG).show();
         }
     }
-
 }
-
-

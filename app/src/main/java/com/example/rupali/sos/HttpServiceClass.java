@@ -99,9 +99,9 @@ public class HttpServiceClass {
 
     private void executeRequest(HttpUriRequest request, String url) {
         HttpParams httpParameters = new BasicHttpParams();
-        int timeoutConnection = 10000;
+        int timeoutConnection = 200000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-        int timeoutSocket = 10000;
+        int timeoutSocket = 200000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
         HttpClient client = new DefaultHttpClient(httpParameters);

@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/EmergencyImageView"
+        android:id="@+id/ImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
@@ -17,7 +17,7 @@
         app:srcCompat="@android:color/white" />
 
     <TextView
-        android:id="@+id/EmergencyTextView"
+        android:id="@+id/TextView"
         android:layout_width="354dp"
         android:layout_height="100dp"
         android:layout_toStartOf="@+id/EmergencyImageView"
@@ -27,4 +27,18 @@
         android:text="Incident"
         android:textStyle="bold"
         android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/DistanceTextView"
+        android:layout_width="354dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/TextView"
+        android:layout_toEndOf="@+id/TextView"
+        android:layout_alignTop="@+id/ImageView"
+        android:layout_marginStart="22dp"
+        android:text="0 KM"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
+
 </RelativeLayout>

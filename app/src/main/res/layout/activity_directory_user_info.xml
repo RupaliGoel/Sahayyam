@@ -7,10 +7,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmergencyPost">
+    tools:context=".DirectoryUserInfo">
 
     <RelativeLayout
-        android:id="@+id/emergency_details_post"
+        android:id="@+id/user_details_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#CCFFFF"
@@ -32,65 +32,16 @@
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
         </android.support.v7.widget.Toolbar>
-
-        <TextView
-            android:id="@+id/emergency_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Emergency Details"
-            android:layout_below="@+id/page_name"
-            android:textColor="@color/colorPrimary"
-            android:textSize="21sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/emergency_details"
-            android:id="@+id/titlePost"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp" />
-
-        <TextView
-            android:id="@+id/descriptionPost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imagePost"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:textSize="18sp"
-            android:inputType="textMultiLine"
-            android:layout_marginLeft="10dp" />
-
-        <ImageView
-            android:id="@+id/imagePost"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@+id/emergency_details"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="120dp"
-            android:layout_marginLeft="10dp" />
-
     </RelativeLayout>
-
-    <!-- Progress bar overlay; shown while page is in progress -->
-    <include layout="@layout/progress_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/emergency_details_post"/>
 
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/emergency_details_post"
+        android:layout_below="@+id/user_details_post"
         android:background="#FFE9A0"
-        android:layout_marginTop="10dp"
-        tools:context="com.example.rupali.sos.InputEmergency">
+        tools:context="com.example.rupali.sos.DirectoryUserInfo">
 
         <ImageView
             android:id="@+id/image"
@@ -162,12 +113,11 @@
             android:layout_below="@+id/label_name"
             android:textSize="18sp"
             android:layout_marginBottom="2dp"/>
-        <ImageButton
+        <ImageView
             android:id="@+id/callButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_call"
-            android:background="#000000"
             android:layout_below="@+id/label_name"
             android:layout_toRightOf="@+id/contact"/>
         <TextView
@@ -196,23 +146,6 @@
             android:background="#000000"
             android:onClick="sendEmail"
             app:srcCompat="@android:drawable/sym_action_email" />
-        <TextView
-            android:id="@+id/label_address"
-            android:layout_width="wrap_content"
-            android:text="Address : "
-            android:layout_below="@+id/label_email"
-            android:textColor="@color/colorPrimary"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginLeft="10dp" />
-        <TextView
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/label_address"
-            android:layout_below="@+id/label_email"
-            android:textSize="18sp"
-            android:layout_marginBottom="2dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

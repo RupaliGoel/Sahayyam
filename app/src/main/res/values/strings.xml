@@ -60,4 +60,14 @@
     <string name="text_title">Android Tutorials Hub</string>
     <string name="post">Post</string>
     <string name="search_directory">Search Directory</string>
+    <string-array name="roles">
+        <item>Volunteer</item>
+        <item>Hospital</item>
+        <item>Ambulance</item>
+    </string-array>
+    <string-array name="appeal_type">
+        <item>All</item>
+        <item>Donation</item>
+        <item>Adoption</item>
+    </string-array>
 </resources>

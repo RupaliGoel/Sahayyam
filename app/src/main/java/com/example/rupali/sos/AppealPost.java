@@ -40,20 +40,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmergencyPost extends AppCompatActivity {
+public class AppealPost extends AppCompatActivity {
 
-    TextView titlePost, descriptionPost;
+    TextView typePost, descriptionPost;
     ImageView imagePost;
     Toolbar page_name;
     ImageButton emailbtn,call;
     View progressOverlay;
-    TextView tvName,tvContact,tvEmail,tvRole,tvAddress;
 
+    TextView tvName,tvContact,tvEmail,tvRole;
+
+    String email,name,role,contact;
     JSONParser jsonParser = new JSONParser();
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
-    String email,name,role,contact,address;
-    int success = 0;
-
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
 
@@ -61,7 +60,7 @@ public class EmergencyPost extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_emergency_post);
+        setContentView(R.layout.activity_appeal_post);
 
         page_name = findViewById(R.id.page_name);
         setSupportActionBar(page_name);
@@ -69,111 +68,29 @@ public class EmergencyPost extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         Bundle bundle = getIntent().getExtras();
-        String headline = bundle.getString("Headline");
+        String type = bundle.getString("Type");
         String content = bundle.getString("Content");
-        double distance = bundle.getDouble("Distance");
         email = bundle.getString("Email");
+
+        progressOverlay = findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
+
+        new GetDetails().execute();
+
+
 //        byte[] byteArray = bundle.getByteArray("Picture");
 
         /*Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         imagePost = (ImageView) findViewById(R.id.imagePost);
         imagePost.setImageBitmap(bmp);*/
 
-        titlePost = findViewById(R.id.titlePost);
-        titlePost.setText(headline);
-
+        typePost = findViewById(R.id.titlePost);
+        typePost.setText(type);
         descriptionPost = findViewById(R.id.descriptionPost);
         descriptionPost.setText(content);
 
-        progressOverlay = findViewById(R.id.progress_overlay);
-        progressOverlay.bringToFront();
-
-        new GetDetails().execute();
-    }
-
-    /**
-     * Background Async Task to get username
-     * */
-    class GetDetails extends AsyncTask<String, String, String> {
-
-        /**
-         * Before starting background thread Show Progress Dialog
-         */
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Show progress overlay (with animation):
-            AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
-
-        }
-
-        /**
-         * user details
-         */
-        protected String doInBackground(String... args) {
 
 
-            try {
-                // Building Parameters
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("email", email));
-                // getting JSON Object
-                // Note that create user url accepts POST method
-                JSONObject json = jsonParser.makeHttpRequest(url_user_details, "POST", params);
-
-                JSONArray values = json.getJSONArray("user");
-
-                JSONObject details = values.getJSONObject(0);
-                name = details.getString("name");
-                role = details.getString("role");
-                contact = details.getString("contact");
-                address = details.getString("address");
-                // check log cat fro response
-                Log.d("Create Response", json.toString());
-
-            } catch (Exception e) {
-                System.out.print(e);
-            }
-            return null;
-        }
-
-
-        protected void onPostExecute(String file_url) {
-            // dismiss the progressbar once done
-            tvName = findViewById(R.id.name);
-            tvName.setText(name);
-            tvRole = findViewById(R.id.role);
-            tvRole.setText(role);
-            tvContact = findViewById(R.id.contact);
-            tvContact.setText(contact);
-            tvEmail = findViewById(R.id.email);
-            tvEmail.setText(email);
-            tvAddress = findViewById(R.id.address);
-            tvAddress.setText(address);
-            emailbtn = findViewById(R.id.mail);
-            emailbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sendEmail(EmergencyPost.this, email,"","",null);
-                }
-            });
-
-            // Hide it (with animation):
-            AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
-
-            call = findViewById(R.id.callButton);
-
-            call.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View arg0)
-                {
-                    if(isPermissionGranted()){
-                        call_action();
-                    }
-                }
-            });
-
-        }
     }
 
     public void call_action(){
@@ -181,8 +98,14 @@ public class EmergencyPost extends AppCompatActivity {
         String num= tvContact.getText().toString();
         String uri= "tel:"+ num.trim();
         callIntent.setData(Uri.parse(uri));
-        startActivity(callIntent);
+        try {
+            startActivity(callIntent);
+        }
+        catch (SecurityException e) {
+            Toast.makeText(getApplicationContext(),"Calling Permission Required.",Toast.LENGTH_LONG).show();
+        }
     }
+
     public  boolean isPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
@@ -222,6 +145,92 @@ public class EmergencyPost extends AppCompatActivity {
 
             // other 'case' lines to check for other
             // permissions this app might request
+        }
+    }
+
+    /**
+     * Background Async Task to get username
+     * */
+    class GetDetails extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Show progress overlay (with animation):
+            AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+        }
+
+        /**
+         * Login user
+         */
+        protected String doInBackground(String... args) {
+
+
+            try
+            {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("email", email));
+
+                // getting JSON Object
+                // Note that create user url accepts POST method
+                JSONObject json = jsonParser.makeHttpRequest(url_user_details, "POST", params);
+
+                JSONArray values = json.getJSONArray("user");
+
+                JSONObject details = values.getJSONObject(0);
+                name = details.getString("name");
+                role = details.getString("role");
+                contact = details.getString("contact");
+                // check log cat fro response
+                Log.d("Create Response", json.toString());
+
+            }
+            catch(Exception e)
+            {
+                System.out.print(e);
+            }
+            return null;
+        }
+
+
+        protected void onPostExecute(String file_url) {
+            // dismiss the progressbar once done
+            System.out.println("Fetched Details = "+name+" "+role+" "+contact);
+            tvName = findViewById(R.id.name);
+            tvName.setText(name);
+            tvRole = findViewById(R.id.role);
+            tvRole.setText(role);
+            tvContact = findViewById(R.id.contact);
+            tvContact.setText(contact);
+            tvEmail = findViewById(R.id.email);
+            tvEmail.setText(email);
+
+            // Hide it (with animation):
+            AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
+
+            emailbtn = findViewById(R.id.mail);
+            emailbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendEmail(AppealPost.this,email,"","",null);
+                }
+            });
+
+            call = findViewById(R.id.callButton);
+
+            call.setOnClickListener(new View.OnClickListener()
+            {
+                public void onClick(View arg0)
+                {
+                    if(isPermissionGranted()){
+                        call_action();
+                    }
+                }
+            });
         }
     }
 
@@ -299,7 +308,7 @@ public class EmergencyPost extends AppCompatActivity {
         catch (Exception ex)
         {
             //Log.e(TAG, "Can't send email", ex);
-            Toast.makeText(EmergencyPost.this,"Can't Send Email "+ ex, Toast.LENGTH_LONG).show();
+            Toast.makeText(AppealPost.this,"Can't Send Email "+ ex, Toast.LENGTH_LONG).show();
 
         }
     }
@@ -351,4 +360,5 @@ public class EmergencyPost extends AppCompatActivity {
             //Toast.makeText(ContactUs.this,"Error sending Email",Toast.LENGTH_LONG).show();
         }
     }
+
 }

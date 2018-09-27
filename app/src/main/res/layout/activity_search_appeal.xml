@@ -1,79 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SearchAppeal">
 
-<android.support.v7.widget.Toolbar
-    android:id="@+id/search_appeal"
-    android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:background="?attr/colorPrimary"
-    android:fitsSystemWindows="true"
-    android:minHeight="?android:attr/actionBarSize">
+    <!-- Progress bar overlay; shown while login is in progress -->
+    <include layout="@layout/progress_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-    <TextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/search_appeal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:minHeight="?android:attr/actionBarSize">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Search Appeal"
+            android:textColor="@android:color/white"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/audioModeButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_microphone" />
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/textSearch"
         android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/search_appeal"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Text"
+        android:textSize="15sp"
+        android:layout_toLeftOf="@+id/apptype"
+        android:padding="5dip"
+        android:background="@drawable/edit_text_style" />
+
+    <!--<EditText
+        android:id="@+id/apptype"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@+id/GoButton"
+        android:layout_below="@+id/search_appeal"
+        android:background="@drawable/edit_text_style"
+        android:layout_alignTop="@+id/textSearch"
+        android:ems="5"
+        android:focusable="true"
+        android:hint="AppealType"
+        android:inputType="text"
+        android:padding="5dip"
+        android:textSize="15sp" />-->
+
+    <Spinner
+        android:id="@+id/apptype"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@+id/GoButton"
+        android:layout_below="@+id/search_appeal"
+        android:layout_alignTop="@+id/textSearch"
+        android:entries="@array/appeal_type" />
+
+    <Button
+        android:id="@+id/GoButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:layout_toLeftOf="@id/changeButton"
+        android:layout_alignTop="@+id/textSearch"
+        android:layout_marginLeft="5dp"
+        android:layout_above="@+id/EmergencyListView"
+        android:text="Go"
+        android:textColor="@color/white"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/changeButton"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/EmergencyListView"
+        android:layout_alignTop="@+id/textSearch"
+        android:background="@color/colorPrimary"
+        android:text="Change"
+        android:textColor="@color/white"
+        android:textAllCaps="false" />
+
+    <ListView
+        android:id="@+id/AppealListView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Search Appeal"
-        android:textColor="@android:color/white"
-        android:textSize="22dp"
-        android:textStyle="bold" />
-</android.support.v7.widget.Toolbar>
+        android:layout_below="@+id/textSearch" />
 
-<EditText
-android:id="@+id/currentLocation"
-android:layout_width="138dp"
-android:layout_height="40dp"
-android:layout_alignParentStart="true"
-android:layout_below="@+id/search_appeal"
-android:background="@drawable/edit_text_style"
-android:drawableLeft="@drawable/location_drop_symbol_small"
-android:ems="5"
-android:focusable="false"
-android:hint="Current Location"
-android:inputType="textPostalAddress"
-android:padding="5dip"
-android:textSize="15sp" />
-
-
-<EditText
-android:id="@+id/apptype"
-android:layout_width="97dp"
-android:layout_height="40dp"
-android:layout_below="@+id/search_appeal"
-android:layout_centerHorizontal="true"
-android:ems="10"
-android:focusable="false"
-android:hint="Appeal Type"
-android:inputType="text"
-android:textSize="15sp" />
-
-<ListView
-android:id="@+id/DirectoryListView"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_below="@+id/currentLocation" />
-
-
-<Button
-android:id="@+id/changeButton"
-android:layout_width="wrap_content"
-android:layout_height="40dp"
-android:layout_alignTop="@+id/currentLocation"
-android:layout_toStartOf="@+id/audioModeButton"
-android:background="@color/colorPrimary"
-android:text="Search"
-android:textAllCaps="false"
-android:textColor="@color/white" />
-
-<ImageButton
-android:id="@+id/audioModeButton"
-android:layout_width="40dp"
-android:layout_height="40dp"
-android:layout_alignParentEnd="true"
-android:layout_alignTop="@+id/currentLocation"
-android:src="@drawable/red_microphone_small" />
 </RelativeLayout>

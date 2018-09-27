@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AppealPost">
+
+        <RelativeLayout
+            android:id="@+id/appeal_details_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#CCFFFF"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/page_name"
+                android:minHeight="?android:attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
+            </android.support.v7.widget.Toolbar>
+
+            <TextView
+                android:id="@+id/appeal_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Appeal Details"
+                android:layout_below="@+id/page_name"
+                android:textColor="@color/colorPrimary"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appeal_details"
+                android:id="@+id/titlePost"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:id="@+id/descriptionPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imagePost"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:textSize="18sp"
+                android:inputType="textMultiLine"
+                android:layout_marginLeft="10dp" />
+
+            <ImageView
+                android:id="@+id/imagePost"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@+id/titlePost"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="120dp"
+                android:layout_marginLeft="10dp" />
+
+        </RelativeLayout>
+
+        <!-- Progress bar overlay; shown while login is in progress -->
+        <include layout="@layout/progress_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appeal_details_post"/>
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/appeal_details_post"
+            android:background="#FFE9A0"
+            android:layout_marginTop="10dp"
+            tools:context="com.example.rupali.sos.AppealPost">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_below="@id/person_details"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/rupali"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/person_details"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:text="Appellent's Details"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:textSize="21sp" />
+            <TextView
+                android:id="@+id/label_role"
+                android:layout_width="wrap_content"
+                android:text="Role : "
+                android:layout_below="@+id/image"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp" />
+            <TextView
+                android:id="@+id/role"
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@id/label_role"
+                android:layout_below="@+id/image"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginBottom="2dp"/>
+            <TextView
+                android:id="@+id/label_name"
+                android:layout_width="wrap_content"
+                android:text="Name : "
+                android:layout_below="@+id/label_role"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/label_name"
+                android:layout_below="@+id/label_role"
+                android:textSize="18sp"
+                android:layout_marginBottom="2dp"/>
+            <TextView
+                android:id="@+id/label_contact"
+                android:layout_width="wrap_content"
+                android:text="Contact : "
+                android:layout_below="@+id/label_name"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp" />
+            <TextView
+                android:id="@+id/contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/label_contact"
+                android:layout_below="@+id/label_name"
+                android:textSize="18sp"
+                android:layout_marginBottom="2dp"/>
+            <ImageButton
+                android:id="@+id/callButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_call"
+                android:background="#000000"
+                android:layout_below="@+id/label_name"
+                android:layout_toRightOf="@+id/contact"/>
+            <TextView
+                android:id="@+id/label_email"
+                android:layout_width="wrap_content"
+                android:text="Email-ID : "
+                android:layout_below="@+id/label_contact"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp" />
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/label_email"
+                android:layout_below="@+id/label_contact"
+                android:textSize="18sp"
+                android:layout_marginBottom="2dp"/>
+            <ImageButton
+                android:id="@+id/mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/label_email"
+                android:layout_toEndOf="@+id/email"
+                android:background="#000000"
+                android:onClick="sendEmail"
+                app:srcCompat="@android:drawable/sym_action_email" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</ScrollView>
