@@ -160,7 +160,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Upload :"
+                    android:text="Image :"
                     android:textSize="15sp" />
 
                 <ImageView
@@ -181,14 +181,20 @@
                     android:layout_width="186dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Choose" />
+                    android:text="Upload Photo"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="#ffffff"/>
 
                 <Button
                     android:id="@+id/submit"
                     android:layout_width="194dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Submit" />
+                    android:text="Submit"
+                    android:layout_marginLeft="2dp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="#ffffff"/>
             </LinearLayout>
 
         </LinearLayout>

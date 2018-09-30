@@ -16,5 +16,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"/>
+<!--
+    <TextView
+        android:id="@+id/id_title"
+        android:layout_below="@+id/id_pbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please Wait ..."
+        android:layout_centerHorizontal="true" />-->
 
 </FrameLayout>
