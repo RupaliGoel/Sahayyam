@@ -64,9 +64,10 @@
         <activity android:name=".SearchAppeal" />
         <activity android:name=".RaiseOnAppeal" />
         <activity android:name=".MyProfile" />
-        <activity android:name=".AppealPost"></activity>
-        <activity android:name=".CustomPhotoGalleryActivity"></activity>
-        <activity android:name=".DirectoryUserInfo"></activity>
+        <activity android:name=".AppealPost" />
+        <activity android:name=".CustomPhotoGalleryActivity" />
+        <activity android:name=".DirectoryUserInfo" />
+
     </application>
 
 </manifest>

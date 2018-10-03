@@ -74,6 +74,16 @@
             android:layout_marginEnd="120dp"
             android:layout_marginLeft="10dp" />
 
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/descriptionPost"
+            android:layout_alignStart="@+id/titlePost"
+            android:layout_marginBottom="29dp"
+            android:layout_marginStart="16dp"
+            app:srcCompat="@drawable/direction" />
+
     </RelativeLayout>
 
     <!-- Progress bar overlay; shown while page is in progress -->

@@ -417,6 +417,9 @@ public class SearchEmergency extends Fragment {
                         desc = sendEmergency.Emergency_Desc;
                         emailpost = sendEmergency.User_Email;
                         distance =sendEmergency.Emergency_Distance;
+                        double emergency_lat = sendEmergency.Emergency_Lat;
+                        double emergency_long = sendEmergency.Emergency_Long;
+                        String emergency_address = getCompleteAddressString(emergency_lat,emergency_long);
                         /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -425,6 +428,9 @@ public class SearchEmergency extends Fragment {
                         myIntent.putExtra("Content", desc);
                         myIntent.putExtra("Distance",distance);
                         myIntent.putExtra("Email",emailpost);
+                        myIntent.putExtra("Emer_lat",emergency_lat);
+                        myIntent.putExtra("Emer_long",emergency_long);
+                        myIntent.putExtra("Emer_address",emergency_address);
 //                        myIntent.putExtra("Picture", byteArray);
                         startActivity(myIntent);
                     }

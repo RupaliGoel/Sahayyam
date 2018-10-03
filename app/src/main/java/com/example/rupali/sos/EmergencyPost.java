@@ -45,13 +45,14 @@ public class EmergencyPost extends AppCompatActivity {
     TextView titlePost, descriptionPost;
     ImageView imagePost;
     Toolbar page_name;
-    ImageButton emailbtn,call;
+    ImageButton emailbtn,call,direction;
     View progressOverlay;
     TextView tvName,tvContact,tvEmail,tvRole,tvAddress;
 
     JSONParser jsonParser = new JSONParser();
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
-    String email,name,role,contact,address;
+    String email,name,role,contact,address,emer_address;
+    double emer_lat,emer_long;
     int success = 0;
 
     // JSON Node names
@@ -72,6 +73,35 @@ public class EmergencyPost extends AppCompatActivity {
         String headline = bundle.getString("Headline");
         String content = bundle.getString("Content");
         double distance = bundle.getDouble("Distance");
+        emer_lat = bundle.getDouble("Emer_lat");
+        emer_long = bundle.getDouble("Emer_long");
+        emer_address = bundle.getString("Emer_address");
+
+//        String lat=Double.toString(emer_lat);
+//        String lon=Double.toString(emer_long);
+
+//
+//        Toast.makeText(getApplicationContext(),"lat "+emer_lat,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),"long "+emer_long,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),"address "+emer_address,Toast.LENGTH_SHORT).show();
+
+       direction = findViewById(R.id.imageButton);
+        direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String lat=Double.toString(emer_lat);
+                String lon=Double.toString(emer_long);
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+             Uri.parse("http://maps.google.com/maps?daddr="+lat+","+lon));startActivity(intent);
+            }
+        });
+
+
+//        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+//                Uri.parse("http://maps.google.com/maps?daddr="+lat+","+lon));
+//        startActivity(intent);
+
+
         email = bundle.getString("Email");
 //        byte[] byteArray = bundle.getByteArray("Picture");
 
