@@ -89,7 +89,6 @@ public class EmergencyPost extends AppCompatActivity {
         direction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
                 String lat=Double.toString(emer_lat);
                 String lon=Double.toString(emer_long);
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
