@@ -79,7 +79,6 @@ public class SearchEmergency extends Fragment {
     Emergency emergency;
     double latti,longi;
     String addressOfUser;
-
     String HttpURL = "https://sahayyam.000webhostapp.com/get_emergencies.php";
     String name,desc,emailpost;
     String changeaddress;
