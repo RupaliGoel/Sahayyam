@@ -68,7 +68,6 @@ public class SearchEmergency extends Fragment {
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     String lattitude, longitude;
-
     double searchlat,searchlong;
     //---------------------------------get location-----------------------------------------
 
