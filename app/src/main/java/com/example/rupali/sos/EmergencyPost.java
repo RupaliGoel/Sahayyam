@@ -118,7 +118,6 @@ public class EmergencyPost extends AppCompatActivity {
 
         progressOverlay = findViewById(R.id.progress_overlay);
         progressOverlay.bringToFront();
-
         new GetDetails().execute();
     }
 
