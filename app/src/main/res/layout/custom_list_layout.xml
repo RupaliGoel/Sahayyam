@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/TextView"
         android:layout_width="354dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_toStartOf="@+id/ImageView"
         android:layout_alignParentStart="true"
         android:layout_marginStart="22dp"
@@ -31,10 +31,10 @@
     <TextView
         android:id="@+id/DistanceTextView"
         android:layout_width="354dp"
-        android:layout_height="100dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/TextView"
         android:layout_toEndOf="@+id/TextView"
-        android:layout_alignTop="@+id/ImageView"
+        android:layout_alignParentLeft="true"
         android:layout_marginStart="22dp"
         android:text="0 KM"
         android:textColor="#FF0000"
