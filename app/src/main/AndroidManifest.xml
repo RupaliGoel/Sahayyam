@@ -67,7 +67,7 @@
         <activity android:name=".AppealPost" />
         <activity android:name=".CustomPhotoGalleryActivity" />
         <activity android:name=".DirectoryUserInfo" />
-
+        <activity android:name=".ResetPasswordActivity"></activity>
     </application>
 
 </manifest>

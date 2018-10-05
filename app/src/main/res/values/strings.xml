@@ -60,10 +60,37 @@
     <string name="text_title">Android Tutorials Hub</string>
     <string name="post">Post</string>
     <string name="search_directory">Search Directory</string>
+
+    <!--Strings related to Forget Password-->
+    <string name="lbl_forgot_password">Forgot Password?</string>
+    <string name="forgot_password_msg">We just need your registered Email Id to send you password reset instructions</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="btn_back">Back</string>
+
+
+
+
+
     <string-array name="roles">
-        <item>Volunteer</item>
-        <item>Hospital</item>
+        <item>General Manager</item>
+        <item>Sr. DME</item>
+        <item>DME</item>
+        <item>Loco Inspector</item>
+        <item>Private Hospital</item>
+        <item>Govt. Hospital</item>
+        <item>Police</item>
+        <item>NGO,Club</item>
+        <item>Doctors</item>
         <item>Ambulance</item>
+        <item>Local Administration</item>
+        <item>Station Master</item>
+        <item>Dy. Station Superintendent</item>
+        <item>Station Manager</item>
+        <item>Junior Engineer(Telecommunication)</item>
+        <item>Electrical official in-charge</item>
+        <item>Gas Cutters</item>
+        <item>Power Cutters</item>
+
     </string-array>
     <string-array name="appeal_type">
         <item>All</item>
