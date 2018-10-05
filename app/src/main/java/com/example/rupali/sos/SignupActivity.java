@@ -42,8 +42,8 @@ import android.widget.Toast;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword,inputName,inputRole,inputContact;
-    private Button btnSignIn, btnSignUp, btnResetPassword;
+    private EditText inputEmail, inputPassword,inputName,inputContact;
+    private Button btnSignIn, btnSignUp, btnResetPassword,inputRole;
     private ProgressBar progressBar;
     String email,password,name,role,contact;
     int success;
@@ -76,6 +76,15 @@ public class SignupActivity extends AppCompatActivity {
 //                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
 //            }
 //        });
+
+        inputRole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignupActivity.this, AddRole.class);
+                startActivity(intent);
+
+            }
+        });
 
         choose = findViewById(R.id.choose);
         choose.setOnClickListener(new View.OnClickListener()
@@ -255,7 +264,7 @@ public class SignupActivity extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
         inputName = (EditText) findViewById(R.id.etName);
-        inputRole = (EditText) findViewById(R.id.etRole);
+        inputRole = (Button) findViewById(R.id.etRole);
         inputContact = (EditText) findViewById(R.id.etContact);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
