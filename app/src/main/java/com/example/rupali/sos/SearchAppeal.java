@@ -2,6 +2,7 @@ package com.example.rupali.sos;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -36,6 +38,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -46,8 +57,10 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class SearchAppeal extends AppCompatActivity {
@@ -60,8 +73,12 @@ public class SearchAppeal extends AppCompatActivity {
     JSONArray jsonArray = null;
     JSONObject jsonObject;
     Appeal appeal;
+    Spinner spinner;
+    String chosenType ;
+    ArrayList<String> appealTypes;
 
     private static String url_appeal_details = "https://sahayyam.000webhostapp.com/get_appeals.php";
+    String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
     String email,desc,type,address;
     Double lat,lon;
     int success = 0;
@@ -71,7 +88,6 @@ public class SearchAppeal extends AppCompatActivity {
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
     EditText textbox;
-    Spinner appealtype;
     ImageButton audio_mode;
     Button change, go;
     private android.support.v7.widget.Toolbar search_app;
@@ -91,6 +107,9 @@ public class SearchAppeal extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
+
+        appealTypes=new ArrayList<>();
+
         currentlattitude = prefs.getString("lat", "None");
         currentlongitude = prefs.getString("long", "None");
         emailOfUser = prefs.getString("user_email", "Not Found");
@@ -104,10 +123,12 @@ public class SearchAppeal extends AppCompatActivity {
         setSupportActionBar(search_app);
 
         textbox = findViewById(R.id.textSearch);
-        appealtype = findViewById(R.id.apptype);
         change = findViewById(R.id.changeButton);
         audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);
+
+        spinner = findViewById(R.id.apptype);
+        loadSpinnerData(URL);
 
         progressOverlay = findViewById(R.id.progress_overlay);
         progressOverlay.bringToFront();
@@ -135,6 +156,28 @@ public class SearchAppeal extends AppCompatActivity {
         });
 
 
+
+        /*spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                chosenType =   spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
+
+                Toast.makeText(getApplicationContext(),chosenType,Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                // DO Nothing here
+
+            }
+
+        });*/
     }
 
     /**
@@ -162,8 +205,8 @@ public class SearchAppeal extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
 
             HttpServiceClass httpServiceClass = new HttpServiceClass(url_appeal_details);
-            String appeal_type = appealtype.getSelectedItem().toString();
-            httpServiceClass.AddParam("appeal_type", appeal_type);
+            chosenType = spinner.getSelectedItem().toString();
+            httpServiceClass.AddParam("appeal_type", chosenType);
 
             try {
                 httpServiceClass.ExecutePostRequest();
@@ -173,6 +216,7 @@ public class SearchAppeal extends AppCompatActivity {
                     FinalJSonResult = httpServiceClass.getResponse();
 
                     if (FinalJSonResult != null) {
+
                         try {
 
                             jsonArray = new JSONArray(FinalJSonResult);
@@ -284,5 +328,71 @@ public class SearchAppeal extends AppCompatActivity {
             Log.w("Current loction address", "Cannot get Address!");
         }
         return strAdd;
+    }
+
+    private void loadSpinnerData(String url) {
+
+        RequestQueue requestQueue=Volley.newRequestQueue(getApplicationContext());
+
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+
+            public void onResponse(String response) {
+
+                try{
+
+                    JSONObject jsonObject=new JSONObject(response);
+
+                    if(jsonObject.getInt("success")==1){
+
+                        JSONArray jsonArray=jsonObject.getJSONArray("types");
+
+                        for(int i=0;i<jsonArray.length();i++){
+
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+
+                            String type=jsonObject1.getString("desc");
+
+                            appealTypes.add(type);
+
+                        }
+
+                    }
+
+                    spinner.setAdapter(new ArrayAdapter<String>(SearchAppeal.this, android.R.layout.simple_spinner_dropdown_item, appealTypes));
+
+                }catch (JSONException e){e.printStackTrace();}
+
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+
+            }
+
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("type", "Appeal");
+                return params;
+            }
+        };
+
+        int socketTimeout = 30000;
+
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+        stringRequest.setRetryPolicy(policy);
+
+        requestQueue.add(stringRequest);
+
     }
 }

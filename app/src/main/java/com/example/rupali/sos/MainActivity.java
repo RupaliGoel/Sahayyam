@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -88,7 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
         //BottomBar menu
         mBottomBar = BottomBar.attach(this, savedInstanceState);
+        mBottomBar.setMaxFixedTabs(2);
         mBottomBar.setItems(R.menu.bottombar_menu);
+        //mBottomBar.getBar().setBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.red));
+
         mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
@@ -113,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mBottomBar.mapColorForTab(0, "#7B1FA2");
+        mBottomBar.mapColorForTab(1, "#FF5252");
+        mBottomBar.mapColorForTab(2, "#113B08");
+
         //------------------------------code for bottom navigation tabs-----------------------------------
 
         //-----------------------------Code for Navigation Drawer--------------------------------------

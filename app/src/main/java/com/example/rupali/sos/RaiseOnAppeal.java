@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +38,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -60,12 +70,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 public class RaiseOnAppeal extends AppCompatActivity {
-    EditText role, name, address, contact, desc;
+    EditText role, name, address, contact, desc, hiddenType;
     Button submit, choose;
     Spinner type;
     ImageView ivImage;
@@ -75,12 +87,17 @@ public class RaiseOnAppeal extends AppCompatActivity {
     SharedPreferences.Editor editor;
     String currentlattitude,currentlongitude,addressOfUser,nameOfUser,roleOfUser,contactOfUser,emailOfUser;
     String placelattitude,placelongitude;
+    String title_appeal ;
 
     int success;
 
     JSONParser jsonParser = new JSONParser();
     // url to create new product
     private static String url_write_appeal = "https://sahayyam.000webhostapp.com/write_appeal.php";
+    private static String url_write_gen_master = "https://sahayyam.000webhostapp.com/write_gen_master.php";
+
+    String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
+    ArrayList<String> appealTypes;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -106,6 +123,8 @@ public class RaiseOnAppeal extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
+
+        appealTypes=new ArrayList<>();
 
         currentlattitude = prefs.getString("lat","None");
         currentlongitude = prefs.getString("long","None");
@@ -138,6 +157,7 @@ public class RaiseOnAppeal extends AppCompatActivity {
         type = findViewById(R.id.apptype);
         contact = findViewById(R.id.contact);
         desc = findViewById(R.id.description);
+        hiddenType = findViewById(R.id.title);
 
         address.setText(addressOfUser);
         address.setEnabled(false);
@@ -168,6 +188,44 @@ public class RaiseOnAppeal extends AppCompatActivity {
                     new writeAppeal().execute();
             }
         });
+
+        loadSpinnerData(URL);
+
+        type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                // TODO Auto-generated method stub
+                String selected_option = type.getItemAtPosition(type.getSelectedItemPosition()).toString();
+
+
+                if(selected_option.matches("Other"))
+                {
+                    hiddenType.setVisibility(View.VISIBLE);
+                }
+                else {
+                    hiddenType.setVisibility(View.INVISIBLE);
+                }
+
+                title_appeal = selected_option;
+
+                Toast.makeText(getApplicationContext(),selected_option,Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                // DO Nothing here
+
+            }
+
+        });
+
     }
 
     public void selectImage() {
@@ -291,9 +349,15 @@ public class RaiseOnAppeal extends AppCompatActivity {
 
             try {
                 // Building Parameters
+                if(title_appeal.equals("Other"))
+                {
+                    title_appeal = hiddenType.getText().toString();
+                    new writeGen_Master().execute();
+                }
+
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("email", emailOfUser));
-                params.add(new BasicNameValuePair("type", type.getSelectedItem().toString().trim()));
+                params.add(new BasicNameValuePair("type",title_appeal ));
                 params.add(new BasicNameValuePair("desc", desc.getText().toString().trim()));
                 params.add(new BasicNameValuePair("addlat", currentlattitude));
                 params.add(new BasicNameValuePair("addlong", currentlongitude));
@@ -328,6 +392,128 @@ public class RaiseOnAppeal extends AppCompatActivity {
             else
                 Toast.makeText(getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();
             RaiseOnAppeal.this.finish();
+        }
+    }
+
+
+    private void loadSpinnerData(String url) {
+
+        RequestQueue requestQueue=Volley.newRequestQueue(getApplicationContext());
+
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+
+            public void onResponse(String response) {
+
+                try{
+
+                    JSONObject jsonObject=new JSONObject(response);
+
+                    if(jsonObject.getInt("success")==1){
+
+                        JSONArray jsonArray=jsonObject.getJSONArray("types");
+
+                        for(int i=0;i<jsonArray.length();i++){
+
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+
+                            String type=jsonObject1.getString("desc");
+
+                            appealTypes.add(type);
+
+                        }
+
+                    }
+
+                    type.setAdapter(new ArrayAdapter<String>(RaiseOnAppeal.this, android.R.layout.simple_spinner_dropdown_item, appealTypes));
+
+                }catch (JSONException e){e.printStackTrace();}
+
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+
+            }
+
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("type", "Appeal");
+                return params;
+            }
+        };
+
+        int socketTimeout = 30000;
+
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+        stringRequest.setRetryPolicy(policy);
+
+        requestQueue.add(stringRequest);
+
+    }
+
+    /**
+     * Background Async Task to Create new user
+     * */
+    class writeGen_Master extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        /**
+         * Creating gm_code
+         */
+        protected String doInBackground(String... args) {
+
+
+            try {
+                // Building Parameters
+
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("code", "Appeal"));
+                params.add(new BasicNameValuePair("desc", title_appeal));
+
+                // getting JSON Object
+                // Note that create user url accepts POST method
+                JSONObject json = jsonParser.makeHttpRequest(url_write_gen_master, "POST", params);
+                // check log cat fro response
+                Log.d("Create Response", json.toString());
+
+                // check for success tag
+                try {
+                    success = json.getInt(TAG_SUCCESS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.print(e);
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        protected void onPostExecute(String file_url) {
+
         }
     }
 

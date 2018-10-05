@@ -39,19 +39,7 @@
             app:srcCompat="@drawable/ic_microphone" />
     </android.support.v7.widget.Toolbar>
 
-    <EditText
-        android:id="@+id/textSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_below="@+id/search_appeal"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="5dp"
-        android:ems="10"
-        android:hint="Text"
-        android:textSize="15sp"
-        android:layout_toLeftOf="@+id/apptype"
-        android:padding="5dip"
-        android:background="@drawable/edit_text_style" />
+
 
     <!--<EditText
         android:id="@+id/apptype"
@@ -70,12 +58,23 @@
 
     <Spinner
         android:id="@+id/apptype"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_toLeftOf="@+id/GoButton"
         android:layout_below="@+id/search_appeal"
-        android:layout_alignTop="@+id/textSearch"
-        android:entries="@array/appeal_type" />
+        android:layout_marginTop="5dp"/>
+
+    <EditText
+        android:id="@+id/textSearch"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/apptype"
+        android:layout_alignParentLeft="true"
+        android:ems="10"
+        android:hint="Text"
+        android:textSize="15sp"
+        android:layout_toLeftOf="@+id/GoButton"
+        android:padding="5dip"
+        android:background="@drawable/edit_text_style" />
 
     <Button
         android:id="@+id/GoButton"

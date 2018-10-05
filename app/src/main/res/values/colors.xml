@@ -10,4 +10,6 @@
     <color name="colorBackground">#413e4f</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorTextHint">#51d8c7</color>
+    <color name="red">#ff0000</color>
+    <color name="black">#000000</color>
 </resources>

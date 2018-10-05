@@ -30,12 +30,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -60,12 +71,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 public class InputEmergency extends Fragment {
-    EditText role, name, address, contact, place, title, desc;
+    EditText role, name, address, contact, place, desc, hiddenType;
+    Spinner spinner;
     Button submit, choose;
     ImageView ivImage;
     String userChoosenTask, currentAddressOfUser;
@@ -74,15 +88,20 @@ public class InputEmergency extends Fragment {
     SharedPreferences.Editor editor;
     String currentlattitude,currentlongitude,addressOfUser,nameOfUser,roleOfUser,contactOfUser,emailOfUser;
     String placelattitude,placelongitude;
+    String title_emergency ;
 
     int success;
 
     JSONParser jsonParser = new JSONParser();
     // url to create new product
     private static String url_write_emergency = "https://sahayyam.000webhostapp.com/write_emergency.php";
+    private static String url_write_gen_master = "https://sahayyam.000webhostapp.com/write_gen_master.php";
+
+    String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
+    ArrayList<String> emergencyTypes;
 
 
     public InputEmergency() {
@@ -118,6 +137,8 @@ public class InputEmergency extends Fragment {
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = prefs.edit();
 
+        emergencyTypes=new ArrayList<>();
+
         currentlattitude = prefs.getString("lat","None");
         currentlongitude = prefs.getString("long","None");
         emailOfUser = prefs.getString("user_email","Not Found");
@@ -147,10 +168,11 @@ public class InputEmergency extends Fragment {
         role = view.findViewById(R.id.role);
         name = view.findViewById(R.id.name);
         address = view.findViewById(R.id.address);
-        title = view.findViewById(R.id.title);
+        spinner = view.findViewById(R.id.emergency_Type);
         contact = view.findViewById(R.id.contact);
         place = view.findViewById(R.id.place);
         desc = view.findViewById(R.id.description);
+        hiddenType = view.findViewById(R.id.title);
 
         address.setText(addressOfUser);
         address.setEnabled(false);
@@ -164,6 +186,45 @@ public class InputEmergency extends Fragment {
 
         submit = view.findViewById(R.id.submit);
 
+        //spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+
+        loadSpinnerData(URL);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                // TODO Auto-generated method stub
+                String selected_option = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
+
+
+                if(selected_option.matches("Other"))
+                {
+                    hiddenType.setVisibility(View.VISIBLE);
+                }
+                else {
+                    hiddenType.setVisibility(View.INVISIBLE);
+                }
+
+                title_emergency = selected_option;
+
+                Toast.makeText(getActivity().getApplicationContext(),selected_option,Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                // DO Nothing here
+
+            }
+
+        });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,11 +236,6 @@ public class InputEmergency extends Fragment {
                     return;
                 }
 
-               else if ((title.getText().toString()).equals("")) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Enter Emergency Title!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
                else if ((desc.getText().toString()).equals("")) {
                     Toast.makeText(getActivity().getApplicationContext(), "Enter Emergency Description!", Toast.LENGTH_SHORT).show();
                     return;
@@ -187,6 +243,7 @@ public class InputEmergency extends Fragment {
 
                 else
                     new writeEmergency().execute();
+
             }
         });
 
@@ -330,9 +387,16 @@ public class InputEmergency extends Fragment {
 
             try {
                 // Building Parameters
+
+                if(title_emergency.equals("Other"))
+                {
+                    title_emergency = hiddenType.getText().toString();
+                    new writeGen_Master().execute();
+                }
+
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("email", emailOfUser));
-                params.add(new BasicNameValuePair("title", title.getText().toString().trim()));
+                params.add(new BasicNameValuePair("title", title_emergency));
                 params.add(new BasicNameValuePair("desc", desc.getText().toString().trim()));
                 params.add(new BasicNameValuePair("addlat", currentlattitude));
                 params.add(new BasicNameValuePair("addlong", currentlongitude));
@@ -366,8 +430,7 @@ public class InputEmergency extends Fragment {
         protected void onPostExecute(String file_url) {
             if(success==1) {
                 Toast.makeText(getActivity().getApplicationContext(),"Saved Successfully.",Toast.LENGTH_LONG).show();
-                title = getView().findViewById(R.id.title);
-                title.setText("");
+                hiddenType.setVisibility(View.INVISIBLE);
                 place = getView().findViewById(R.id.place);
                 place.setText(currentAddressOfUser);
                 desc = getView().findViewById(R.id.description);
@@ -380,4 +443,124 @@ public class InputEmergency extends Fragment {
         }
     }
 
+    private void loadSpinnerData(String url) {
+
+        RequestQueue requestQueue=Volley.newRequestQueue(getActivity().getApplicationContext());
+
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+
+            public void onResponse(String response) {
+
+                try{
+
+                    JSONObject jsonObject=new JSONObject(response);
+
+                    if(jsonObject.getInt("success")==1){
+
+                        JSONArray jsonArray=jsonObject.getJSONArray("types");
+
+                        for(int i=0;i<jsonArray.length();i++){
+
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+
+                            String type=jsonObject1.getString("desc");
+
+                            emergencyTypes.add(type);
+
+                        }
+
+                    }
+
+                    spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, emergencyTypes));
+
+                }catch (JSONException e){e.printStackTrace();}
+
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+
+            }
+
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("type", "Emergency");
+                return params;
+            }
+        };
+
+        int socketTimeout = 30000;
+
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+        stringRequest.setRetryPolicy(policy);
+
+        requestQueue.add(stringRequest);
+
+    }
+
+    /**
+     * Background Async Task to Create new user
+     * */
+    class writeGen_Master extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        /**
+         * Creating gm_code
+         */
+        protected String doInBackground(String... args) {
+
+
+            try {
+                // Building Parameters
+
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("code", "Emergency"));
+                params.add(new BasicNameValuePair("desc", title_emergency));
+
+                // getting JSON Object
+                // Note that create user url accepts POST method
+                JSONObject json = jsonParser.makeHttpRequest(url_write_gen_master, "POST", params);
+                // check log cat fro response
+                Log.d("Create Response", json.toString());
+
+                // check for success tag
+                try {
+                    success = json.getInt(TAG_SUCCESS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.print(e);
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        protected void onPostExecute(String file_url) {
+
+        }
+    }
 }
