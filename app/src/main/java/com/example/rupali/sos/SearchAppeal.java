@@ -87,9 +87,9 @@ public class SearchAppeal extends AppCompatActivity {
     private static final String TAG_SUCCESS = "success";
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
-    EditText textbox;
+    ClearableEditText textbox;
     ImageButton audio_mode;
-    Button change, go;
+    Button go;
     private android.support.v7.widget.Toolbar search_app;
     View progressOverlay;
     //-------------------------------toolbar, location textbox & button-----------------------------------
@@ -123,7 +123,6 @@ public class SearchAppeal extends AppCompatActivity {
         setSupportActionBar(search_app);
 
         textbox = findViewById(R.id.textSearch);
-        change = findViewById(R.id.changeButton);
         audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);
 
@@ -133,13 +132,6 @@ public class SearchAppeal extends AppCompatActivity {
         progressOverlay = findViewById(R.id.progress_overlay);
         progressOverlay.bringToFront();
 
-        change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textbox.setText("");
-                textbox.setFocusableInTouchMode(true);
-            }
-        });
         //-------------------------------toolbar, location textbox & button-----------------------------------
         AppealListView = findViewById(R.id.AppealListView);
 
@@ -207,6 +199,10 @@ public class SearchAppeal extends AppCompatActivity {
             HttpServiceClass httpServiceClass = new HttpServiceClass(url_appeal_details);
             chosenType = spinner.getSelectedItem().toString();
             httpServiceClass.AddParam("appeal_type", chosenType);
+            if(!(textbox.getText().toString().trim()).equals(""))
+            {
+                httpServiceClass.AddParam("text", textbox.getText().toString().trim());
+            }
 
             try {
                 httpServiceClass.ExecutePostRequest();

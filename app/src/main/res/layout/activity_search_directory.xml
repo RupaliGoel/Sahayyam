@@ -10,7 +10,7 @@
         android:id="@+id/search_dir"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="?attr/colorPrimary"
+        android:background="@color/tab1"
         android:fitsSystemWindows="true"
         android:minHeight="?android:attr/actionBarSize">
 
@@ -48,32 +48,27 @@
         android:inputType="textPostalAddress"
         android:textSize="15sp"
         android:drawableLeft="@drawable/ic_location"
-        android:layout_toLeftOf="@+id/role"
+        android:layout_toLeftOf="@+id/changeButton"
         android:padding="5dip"
         android:background="@drawable/edit_text_style" />
 
-    <EditText
+    <Spinner
         android:id="@+id/role"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginTop="2dp"
         android:layout_toLeftOf="@+id/GoButton"
-        android:layout_below="@+id/search_appeal"
-        android:background="@drawable/edit_text_style"
-        android:layout_alignTop="@+id/currentLocation"
-        android:ems="5"
-        android:focusable="true"
-        android:hint="Role"
-        android:inputType="text"
-        android:padding="5dip"
+        android:layout_below="@+id/currentLocation"
         android:textSize="15sp"  />
 
     <Button
         android:id="@+id/GoButton"
-        android:layout_width="40dp"
+        android:layout_width="60dp"
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
-        android:layout_toLeftOf="@id/changeButton"
-        android:layout_alignTop="@+id/currentLocation"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/role"
         android:layout_above="@+id/EmergencyListView"
         android:text="Go"
         android:textColor="@color/white"
@@ -96,6 +91,6 @@
         android:id="@+id/DirectoryListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentLocation" />
+        android:layout_below="@+id/role" />
 
 </RelativeLayout>

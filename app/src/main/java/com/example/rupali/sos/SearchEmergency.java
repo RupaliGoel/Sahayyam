@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -42,6 +43,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,8 +65,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.security.auth.Subject;
 
@@ -69,23 +83,26 @@ public class SearchEmergency extends Fragment {
     LocationManager locationManager;
     String lattitude, longitude;
     double searchlat,searchlong;
+    JSONParser jsonParser = new JSONParser();
     //---------------------------------get location-----------------------------------------
 
     //-------------------------------listview---------------------------------------------------
 
     ListView EmergencyListView;
+    ClearableEditText searchByText;
     JSONArray jsonArray = null;
     JSONObject jsonObject;
-    Emergency emergency;
+
     double latti,longi;
     String addressOfUser;
-    String HttpURL = "https://sahayyam.000webhostapp.com/get_emergencies.php";
+    public static String HttpURL = "https://sahayyam.000webhostapp.com/get_emergencies.php";
     String name,desc,emailpost;
     String changeaddress;
     double lat,lon;
     double distance;
 
     View progressOverlay;
+    ArrayList<Emergency> EmergencyList ;
     //-------------------------------listview---------------------------------------------------
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
@@ -128,6 +145,7 @@ public class SearchEmergency extends Fragment {
         change = view.findViewById(R.id.changeButton);
         go = view.findViewById(R.id.GoButton);
         audio_mode = view.findViewById(R.id.audioModeButton);
+        searchByText = view.findViewById(R.id.textSearch);
 
         change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +160,7 @@ public class SearchEmergency extends Fragment {
             public void onClick(View v) {
                 changeaddress = locationedit.getText().toString();
                 convertAddress();
-                new ParseJSonDataClass(getActivity()).execute();
+                new getEmergency().execute();
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
@@ -165,36 +183,8 @@ public class SearchEmergency extends Fragment {
         }
         //--------------------------------get location----------------------------------------------
 
-        //-------------------------------listview---------------------------------------------------
-        /*ListView listView;
-        listView = (ListView) view.findViewById(R.id.EmergencyListView);
-        final SearchEmergency.CustomAdapter customAdapter = new SearchEmergency.CustomAdapter();
-        final int count = customAdapter.getCount();
-        listView.setAdapter(customAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (int i = 0; i < count; i++) {
-                    if (position == i) {
-                        Intent myIntent = new Intent(view.getContext(), EmergencyPost.class);
-                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_post);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
-                        String headline = "This is title of the post.";
-                        String content = "Post Description.";
-                        myIntent.putExtra("Headline", headline);
-                        myIntent.putExtra("Content", content);
-                        myIntent.putExtra("Picture", byteArray);
-                        startActivityForResult(myIntent, i);
-                    }
-                }
-            }
-        });*/
-
         EmergencyListView = (ListView) view.findViewById(R.id.EmergencyListView);
-
-        new ParseJSonDataClass(getActivity()).execute();
+        new getEmergency().execute();
         //----------------------------------listview------------------------------------------------
     }
 
@@ -303,23 +293,10 @@ public class SearchEmergency extends Fragment {
     }
     //---------------------------------------get location--------------------------------------
 
-//    public void addFragment(Fragment SearchEmergency){
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.replace(R.id.container,SearchEmergency);
-//        ft.addToBackStack(null);
-//        Toast.makeText(getActivity().getApplicationContext(),"thailand",Toast.LENGTH_LONG).show();
-//        ft.commit();
-//    }
-
-    private class ParseJSonDataClass extends AsyncTask<Void, Void, Void> {
-        public Context context;
-        String FinalJSonResult;
-        List<Emergency> EmergencyList;
-
-        public ParseJSonDataClass(Context context) {
-
-            this.context = context;
-        }
+    class getEmergency extends AsyncTask<String, String, String> {
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
 
         @Override
         protected void onPreExecute() {
@@ -330,81 +307,126 @@ public class SearchEmergency extends Fragment {
 
         }
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            HttpServiceClass httpServiceClass = new HttpServiceClass(HttpURL);
+        protected String doInBackground(String... args) {
 
             try {
-                httpServiceClass.ExecutePostRequest();
 
-                if (httpServiceClass.getResponseCode() == 200) {
+                if ((searchByText.getText().toString()).equals("")) {
 
-                    FinalJSonResult = httpServiceClass.getResponse();
+                    EmergencyList = new ArrayList<Emergency>();
 
-                    if (FinalJSonResult != null) {
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
 
+                    try {
 
-                        try {
+                        JSONObject jsonObject = jsonParser.makeHttpRequest(HttpURL, "POST", params);
 
-                            jsonArray = new JSONArray(FinalJSonResult);
+                        if (jsonObject.getInt("success") == 1) {
 
-                            int image;
-
-                            EmergencyList = new ArrayList<Emergency>();
+                            JSONArray jsonArray = jsonObject.getJSONArray("Emergencies");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
 
-                                emergency = new Emergency();
+                                JSONObject json = jsonArray.getJSONObject(i);
+                                Emergency emergency = new Emergency();
 
-                                jsonObject = jsonArray.getJSONObject(i);
+                                emergency.Emergency_Name = json.getString("emer_title");
+                                emergency.Emergency_Desc = json.getString("emer_desc");
+                                emergency.User_Email = json.getString("user_email");
+                                emergency.Emergency_Lat = Double.parseDouble(json.getString("emer_place_lat"));
+                                emergency.Emergency_Long = Double.parseDouble(json.getString("emer_place_long"));
 
-                                emergency.Emergency_Name = jsonObject.getString("emer_title");
-                                emergency.Emergency_Desc = jsonObject.getString("emer_desc");
-                                emergency.User_Email = jsonObject.getString("user_email");
-                                emergency.Emergency_Lat = Double.parseDouble(jsonObject.getString("emer_place_lat"));
-                                emergency.Emergency_Long = Double.parseDouble(jsonObject.getString("emer_place_long"));
-                                distance = getDistance(searchlat,searchlong,emergency.Emergency_Lat,emergency.Emergency_Long);
-                                emergency.Emergency_Distance = distance;
-                               /* image = jsonObject.getInt("emer_image");
-                                emergency.Emergency_Image = image;*/
+                                if(!((locationedit.getText().toString()).equals(""))){
+                                    distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
+                                    emergency.Emergency_Distance = distance;
+                                }
+                            /* image = jsonObject.getInt("emer_image");
+                            emergency.Emergency_Image = image;*/
 
                                 EmergencyList.add(emergency);
                             }
 
-                            ///////////////////////////////////////////////////////////
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
                         }
+                        else
+                        {
+                            System.out.println("No Record Found");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+
+
                 } else {
 
-                    Toast.makeText(context, httpServiceClass.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println("SEARCH BY TEXT IS USED");
+                    EmergencyList = new ArrayList<Emergency>();
+
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("text", searchByText.getText().toString().trim()));
+
+                    try {
+
+                        JSONObject jsonObject = jsonParser.makeHttpRequest(HttpURL, "POST", params);
+
+                        if (jsonObject.getInt("success") == 1) {
+
+                            JSONArray jsonArray = jsonObject.getJSONArray("Emergencies");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject json = jsonArray.getJSONObject(i);
+                                Emergency emergency = new Emergency();
+
+                                emergency.Emergency_Name = json.getString("emer_title");
+                                emergency.Emergency_Desc = json.getString("emer_desc");
+                                emergency.User_Email = json.getString("user_email");
+                                emergency.Emergency_Lat = Double.parseDouble(json.getString("emer_place_lat"));
+                                emergency.Emergency_Long = Double.parseDouble(json.getString("emer_place_long"));
+                                distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
+                                emergency.Emergency_Distance = distance;
+                            /* image = jsonObject.getInt("emer_image");
+                            emergency.Emergency_Image = image;*/
+
+                                EmergencyList.add(emergency);
+                            }
+
+                        }
+                        else
+                        {
+                            System.out.println("No Record Found");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
+
+            }
+            catch (Exception e){
                 e.printStackTrace();
             }
+
             return null;
         }
 
-        @Override
-        protected void onPostExecute(Void result)
-
+        protected void onPostExecute(String file_url)
         {
 
             EmergencyListView.setVisibility(View.VISIBLE);
 
             if (EmergencyList != null) {
 
-                Collections.sort(EmergencyList, new Comparator<Emergency>() {
-                    @Override public int compare(Emergency p1, Emergency p2) {
-                        return ((int)Math.round(p1.getEmergency_Distance()))- ((int)Math.round(p2.getEmergency_Distance())); // Ascending
-                    }
-                });
+                if(!((locationedit.getText().toString()).equals(""))) {
 
-                EmergencyListAdapter adapter = new EmergencyListAdapter(EmergencyList, context);
+                    Collections.sort(EmergencyList, new Comparator<Emergency>() {
+                        @Override
+                        public int compare(Emergency p1, Emergency p2) {
+                            return ((int) Math.round(p1.getEmergency_Distance())) - ((int) Math.round(p2.getEmergency_Distance())); // Ascending
+                        }
+                    });
+                }
+
+                EmergencyListAdapter adapter = new EmergencyListAdapter(EmergencyList, getActivity());
 
                 EmergencyListView.setAdapter(adapter);
 

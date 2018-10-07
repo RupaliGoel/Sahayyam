@@ -24,45 +24,4 @@
             android:textStyle="bold" />
     </android.support.v7.widget.Toolbar>
 
-    <EditText
-        android:id="@+id/currentLocation"
-        android:layout_width="240dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/input_dir"
-        android:background="@drawable/edit_text_style"
-        android:drawableLeft="@drawable/ic_location"
-        android:ems="5"
-        android:focusable="false"
-        android:hint="Current Location"
-        android:inputType="textPostalAddress"
-        android:padding="5dip"
-        android:textSize="15sp" />
-
-
-    <ListView
-        android:id="@+id/DirectoryListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/currentLocation" />
-
-
-    <Button
-        android:id="@+id/changeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignTop="@+id/currentLocation"
-        android:layout_toStartOf="@+id/audioModeButton"
-        android:background="@color/colorPrimary"
-        android:text="Search"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-
-    <ImageButton
-        android:id="@+id/audioModeButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/currentLocation"
-        android:src="@drawable/ic_microphone" />
 </RelativeLayout>

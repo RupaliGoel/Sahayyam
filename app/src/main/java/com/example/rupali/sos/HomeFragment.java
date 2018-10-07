@@ -34,14 +34,8 @@ public class HomeFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-
-        searchdir = view.findViewById(R.id.searchDirectorylabel);
-        inputdir = view.findViewById(R.id.inputDirectorylabel);
-        searchappeal = view.findViewById(R.id.searchAppeallabel);
-        inputappeal = view.findViewById(R.id.raiseOnAppeallabel);
-
         searchdirbtn = view.findViewById(R.id.searchDirectory);
-        inputdirbtn = view.findViewById(R.id.inputDirectory);
+        //inputdirbtn = view.findViewById(R.id.inputDirectory);
         searchappealbtn = view.findViewById(R.id.searchAppeal);
         inputappealbtn = view.findViewById(R.id.raiseOnAppeal);
 
@@ -53,13 +47,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        inputdirbtn.setOnClickListener(new View.OnClickListener() {
+        /*inputdirbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplicationContext(),InputDirectory.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         searchappealbtn.setOnClickListener(new View.OnClickListener() {
             @Override

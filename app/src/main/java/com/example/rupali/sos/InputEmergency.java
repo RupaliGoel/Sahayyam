@@ -472,7 +472,7 @@ public class InputEmergency extends Fragment {
                         }
 
                     }
-
+                    if(getActivity()!=null)
                     spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, emergencyTypes));
 
                 }catch (JSONException e){e.printStackTrace();}

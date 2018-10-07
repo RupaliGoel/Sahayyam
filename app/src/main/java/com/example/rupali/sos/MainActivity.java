@@ -118,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mBottomBar.mapColorForTab(0, "#7B1FA2");
-        mBottomBar.mapColorForTab(1, "#FF5252");
-        mBottomBar.mapColorForTab(2, "#113B08");
+        mBottomBar.mapColorForTab(0, getColor(R.color.tab1));
+        mBottomBar.mapColorForTab(1, getColor(R.color.tab2));
+        mBottomBar.mapColorForTab(2, getColor(R.color.tab3));
 
         //------------------------------code for bottom navigation tabs-----------------------------------
 

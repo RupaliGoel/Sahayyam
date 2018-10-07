@@ -14,7 +14,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/page_name"
         android:minHeight="?android:attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/tab1"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="30dp">
@@ -50,22 +50,35 @@
         android:inputType="textPostalAddress"
         android:textSize="15sp"
         android:drawableLeft="@drawable/ic_location"
-        android:layout_toLeftOf="@+id/GoButton"
+        android:layout_toLeftOf="@+id/changeButton"
         android:padding="5dip"
         android:background="@drawable/edit_text_style" />
+
+    <com.example.rupali.sos.ClearableEditText
+        android:id="@+id/textSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/currentLocation"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/GoButton"
+        android:hint="Search By Text"
+        android:textSize="15sp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="5dp"/>
 
     <ListView
         android:id="@+id/EmergencyListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentLocation" />
+        android:layout_below="@+id/textSearch" />
 
     <Button
         android:id="@+id/GoButton"
-        android:layout_width="40dp"
+        android:layout_width="60dp"
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
-        android:layout_toLeftOf="@id/changeButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/textSearch"
         android:layout_above="@+id/EmergencyListView"
         android:text="Go"
         android:textColor="@color/white"
@@ -78,6 +91,7 @@
         android:layout_marginLeft="5dp"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/EmergencyListView"
+        android:layout_alignBottom="@+id/currentLocation"
         android:background="@color/colorPrimary"
         android:text="Change"
         android:textColor="@color/white"

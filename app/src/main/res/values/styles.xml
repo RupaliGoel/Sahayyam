@@ -19,10 +19,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:textColorHint">@color/colorText</item>
-        <item name="colorControlNormal">@color/colorText</item>
-        <item name="colorControlActivated">@color/colorText</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
     </style>
 
 </resources>

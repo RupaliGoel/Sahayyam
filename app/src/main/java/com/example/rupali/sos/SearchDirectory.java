@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -32,8 +33,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -45,8 +56,10 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class SearchDirectory extends AppCompatActivity {
@@ -61,16 +74,19 @@ public class SearchDirectory extends AppCompatActivity {
     User user;
 
     private static String url_details = "https://sahayyam.000webhostapp.com/get_users_by_role.php";
+    String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
+
     String email,role,contact,address,name;
     Double lat,lon;
     int success = 0;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
+    ArrayList<String> roleTypes;
+    Spinner spinner;
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
     AutoCompleteTextView locationedit;
-    EditText role_edit;
     ImageButton audio_mode;
     Button change, go;
     private android.support.v7.widget.Toolbar search_dir;
@@ -89,6 +105,9 @@ public class SearchDirectory extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
+
+        roleTypes=new ArrayList<>();
+
         currentlattitude = prefs.getString("lat", "None");
         currentlongitude = prefs.getString("long", "None");
         emailOfUser = prefs.getString("user_email", "Not Found");
@@ -103,10 +122,10 @@ public class SearchDirectory extends AppCompatActivity {
 
         locationedit = findViewById(R.id.currentLocation);
         locationedit.setText(addressOfUser);
-        role_edit = findViewById(R.id.role);
         change = findViewById(R.id.changeButton);
         audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);
+        spinner = findViewById(R.id.role);
 
         change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,14 +137,35 @@ public class SearchDirectory extends AppCompatActivity {
         //-------------------------------toolbar, location textbox & button-----------------------------------
         DirectoryListView = findViewById(R.id.DirectoryListView);
 
+        loadSpinnerData(URL);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                // TODO Auto-generated method stub
+                String selected_option = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
+
+                Toast.makeText(SearchDirectory.this,selected_option,Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                // DO Nothing here
+
+            }
+
+        });
+
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
                 new GetDirectory(SearchDirectory.this).execute();
             }
         });
@@ -156,7 +196,7 @@ public class SearchDirectory extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
 
             HttpServiceClass httpServiceClass = new HttpServiceClass(url_details);
-            httpServiceClass.AddParam("role", role_edit.getText().toString());
+            httpServiceClass.AddParam("role", spinner.getSelectedItem().toString());
 
             try {
                 httpServiceClass.ExecutePostRequest();
@@ -282,4 +322,72 @@ public class SearchDirectory extends AppCompatActivity {
         }
         return strAdd;
     }
+
+    private void loadSpinnerData(String url) {
+
+        RequestQueue requestQueue=Volley.newRequestQueue(SearchDirectory.this);
+
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+
+            public void onResponse(String response) {
+
+                try{
+
+                    JSONObject jsonObject=new JSONObject(response);
+
+                    if(jsonObject.getInt("success")==1){
+
+                        JSONArray jsonArray=jsonObject.getJSONArray("types");
+
+                        for(int i=0;i<jsonArray.length();i++){
+
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+
+                            String type=jsonObject1.getString("desc");
+
+                            roleTypes.add(type);
+
+                        }
+
+                    }
+
+                    if(SearchDirectory.this !=null)
+                        spinner.setAdapter(new ArrayAdapter<String>(SearchDirectory.this, android.R.layout.simple_spinner_dropdown_item, roleTypes));
+
+                }catch (JSONException e){e.printStackTrace();}
+
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+
+            }
+
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("type", "Role");
+                return params;
+            }
+        };
+
+        int socketTimeout = 30000;
+
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+        stringRequest.setRetryPolicy(policy);
+
+        requestQueue.add(stringRequest);
+
+    }
+
 }
