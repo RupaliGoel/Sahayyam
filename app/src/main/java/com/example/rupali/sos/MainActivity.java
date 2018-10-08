@@ -260,7 +260,13 @@ public class MainActivity extends AppCompatActivity {
                                     prefs.edit().putString("user_name","Guest");
                                     Toast.makeText(getBaseContext(), "Successfully Signed Out", Toast.LENGTH_SHORT).show();
                                     Islogin = false;
-                                    buildNavigationDrawer();
+                                    /////////////////////
+                                    Intent i = new Intent(MainActivity.this, MainActivity.class);
+                                    // set the new task and clear flags
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(i);
+                                    ////////////////////
+                                    //buildNavigationDrawer();
 
                                 }
                                 if (intent != null) {
