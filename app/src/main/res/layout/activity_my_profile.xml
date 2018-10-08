@@ -130,7 +130,7 @@
                 android:text="Role :"
                 android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:layout_below="@+id/labelEducation"
+                android:layout_below="@+id/education"
                 android:layout_marginTop="8dp" />
 
             <TextView
@@ -141,7 +141,7 @@
                 android:clickable="true"
                 android:text="DOB: "
                 android:textStyle="bold"
-                android:layout_below="@+id/labelRole"
+                android:layout_below="@+id/role"
                 android:layout_marginLeft="5dp" />
 
             <TextView
@@ -152,7 +152,7 @@
                 android:clickable="true"
                 android:text="Marriage:"
                 android:textStyle="bold"
-                android:layout_below="@+id/labelDOB"
+                android:layout_below="@+id/dob"
                 android:layout_marginLeft="5dp" />
 
             <TextView
@@ -163,7 +163,7 @@
                 android:text="Gender: "
                 android:textStyle="bold"
                 android:layout_marginTop="8dp"
-                android:layout_below="@+id/labelMarriage"
+                android:layout_below="@+id/marriage"
                 android:layout_marginLeft="5dp" />
 
             <TextView
@@ -174,7 +174,7 @@
                 android:text="Blood Group: "
                 android:textStyle="bold"
                 android:layout_marginTop="8dp"
-                android:layout_below="@+id/labelGender"
+                android:layout_below="@+id/gender"
                 android:layout_marginLeft="5dp" />
 
             <TextView
@@ -185,7 +185,7 @@
                 android:text="Email: "
                 android:textStyle="bold"
                 android:layout_marginTop="8dp"
-                android:layout_below="@+id/labelBloodGroup"
+                android:layout_below="@+id/blood_group"
                 android:layout_marginLeft="5dp" />
 
             <TextView
@@ -195,7 +195,7 @@
                 android:clickable="true"
                 android:text="Mobile: "
                 android:textStyle="bold"
-                android:layout_below="@+id/labelEmail"
+                android:layout_below="@+id/email"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
 
@@ -205,9 +205,9 @@
                 android:layout_height="wrap_content"
                 android:text="A+"
                 android:layout_toRightOf="@+id/labelBloodGroup"
+                android:layout_alignTop="@+id/labelBloodGroup"
                 android:layout_below="@+id/labelGender"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginLeft="5dp"/>
 
             <TextView
                 android:id="@+id/dob"
@@ -215,8 +215,8 @@
                 android:layout_height="wrap_content"
                 android:text="30/12/1997"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/labelDOB"
+                android:layout_alignTop="@+id/labelDOB"
                 android:layout_below="@+id/labelRole" />
 
             <TextView
@@ -224,9 +224,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
                 android:text="Single"
                 android:layout_toRightOf="@+id/labelMarriage"
+                android:layout_alignTop="@+id/labelMarriage"
                 android:layout_below="@+id/labelDOB" />
 
             <TextView
@@ -235,8 +235,8 @@
                 android:layout_height="wrap_content"
                 android:text="Female"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/labelGender"
+                android:layout_alignTop="@+id/labelGender"
                 android:layout_below="@+id/labelMarriage" />
 
             <TextView
@@ -244,8 +244,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/labelRole"
+                android:layout_alignTop="@+id/labelRole"
                 android:layout_below="@+id/labelEducation" />
 
             <TextView
@@ -253,8 +253,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/labelMobile"
+                android:layout_alignTop="@+id/labelMobile"
                 android:layout_below="@+id/labelEmail" />
 
             <TextView
@@ -262,18 +262,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/labelEmail"
+                android:layout_alignTop="@+id/labelEmail"
                 android:layout_below="@+id/labelBloodGroup"/>
 
             <TextView
                 android:id="@+id/education"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:text="B.Tech"
-                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/labelEducation"
+                android:layout_alignTop="@+id/labelEducation"
                 android:layout_marginLeft="5dp" />
 
         </RelativeLayout>

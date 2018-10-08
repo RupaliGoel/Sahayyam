@@ -126,13 +126,13 @@ public class RaiseOnAppeal extends AppCompatActivity {
 
         appealTypes=new ArrayList<>();
 
-        currentlattitude = prefs.getString("lat","None");
-        currentlongitude = prefs.getString("long","None");
-        emailOfUser = prefs.getString("user_email","Not Found");
-        addressOfUser = prefs.getString("user_address","Not Found");
+        currentlattitude = prefs.getString("lat","");
+        currentlongitude = prefs.getString("long","");
+        emailOfUser = prefs.getString("user_email","");
+        addressOfUser = prefs.getString("user_address","");
         nameOfUser = prefs.getString("user_name", "Guest");
-        roleOfUser = prefs.getString("user_role","Not Found");
-        contactOfUser = prefs.getString("user_contact","Not Found");
+        roleOfUser = prefs.getString("roles","");
+        contactOfUser = prefs.getString("user_contact","");
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

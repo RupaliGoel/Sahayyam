@@ -224,7 +224,15 @@ public class SearchDirectory extends AppCompatActivity {
 
                                 user.User_Name = jsonObject.getString("user_name");
 
-                                user.User_Role = jsonObject.getString("user_role");
+                                if(!((jsonObject.getString("user_role1")).equals("")) && !((jsonObject.getString("user_role2")).equals("")) && !((jsonObject.getString("user_role3")).equals(""))){
+                                    user.User_Role = jsonObject.getString("user_role1") + ", " + jsonObject.getString("user_role2") + ", " + jsonObject.getString("user_role3");
+                                }
+                                else if(!((jsonObject.getString("user_role2")).equals("")) && ((jsonObject.getString("user_role3")).equals(""))){
+                                    user.User_Role = jsonObject.getString("user_role1") + ", " + jsonObject.getString("user_role2");
+                                }
+                                else if(((jsonObject.getString("user_role2")).equals("")) && ((jsonObject.getString("user_role3")).equals(""))){
+                                    user.User_Role = jsonObject.getString("user_role1");
+                                }
 
                                 user.User_Contact = jsonObject.getString("user_contact");
 

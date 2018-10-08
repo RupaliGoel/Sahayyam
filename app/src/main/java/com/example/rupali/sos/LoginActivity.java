@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     // url to create new product
     private static String url_login_user = "https://sahayyam.000webhostapp.com/login.php";
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
-    String email,password,name,role,contact,address;
+    String email,password,name,role1,role2,role3,contact,address;
     int success = 0;
 
     // JSON Node names
@@ -212,7 +212,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 JSONObject details = values.getJSONObject(0);
                 name = details.getString("name");
-                role = details.getString("role");
+                role1 = details.getString("role1");
+                role2 = details.getString("role2");
+                role3 = details.getString("role3");
                 contact = details.getString("contact");
                 address = details.getString("address");
                 // check log cat fro response
@@ -231,9 +233,23 @@ public class LoginActivity extends AppCompatActivity {
             // dismiss the progressbar once done
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             prefs.edit().putBoolean("Islogin",true).apply();
+            System.out.println("Variables : " + email+ name+ role1+ role2+ role3+ contact+ address);
             prefs.edit().putString("user_email", email).commit();
             prefs.edit().putString("user_name", name).commit();
-            prefs.edit().putString("user_role",role).commit();
+            prefs.edit().putString("user_role1",role1).commit();
+            prefs.edit().putString("user_role2",role2).commit();
+            prefs.edit().putString("user_role3",role3).commit();
+            String roles = null;
+            if(!role1.equals("") && !role2.equals("") && !role3.equals("")){
+                roles = role1+", "+role2+", "+role3;
+            }
+            else if(!role2.equals("") && role3.equals("")){
+                roles = role1+", "+role2;
+            }
+            else if(role2.equals("") && role3.equals("")){
+                roles = role1;
+            }
+            prefs.edit().putString("roles",roles).commit();
             prefs.edit().putString("user_contact",contact).commit();
             prefs.edit().putString("user_address",address).commit();
             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
