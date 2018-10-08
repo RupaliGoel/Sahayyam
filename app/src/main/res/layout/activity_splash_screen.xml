@@ -2,102 +2,108 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splashScreenLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     tools:context=".SplashScreen">
 
+    <!-- Progress bar overlay; shown while login is in progress -->
+    <include layout="@layout/progress_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <TextView
-        android:id="@+id/welcome"
+        android:id="@+id/tv_welcome_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Welcome"
         android:textAlignment="center"
         android:textSize="40dp"
         android:textColor="#FFFFFF"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
+        <!--android:text="Welcome" />-->
 
-    <TextView
-        android:id="@+id/to"
+    <!--<TextView
+        android:id="@+id/welcome_message_part2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="to"
         android:textAlignment="center"
         android:textSize="40dp"
         android:textColor="#FFFFFF"
-        android:layout_below="@+id/welcome" />
+        android:layout_below="@+id/welcome_message_part1" />-->
 
     <TextView
-        android:id="@+id/indian_railways"
+        android:id="@+id/tv_owner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Indian Railways"
         android:textAlignment="center"
         android:textSize="40dp"
         android:textColor="#FFFFFF"
-        android:layout_below="@+id/to" />
+        android:layout_below="@+id/tv_welcome_message" />
+        <!--android:text="Indian Railways" />-->
 
     <TextView
-        android:id="@+id/sahayyam"
+        android:id="@+id/tv_appName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="'Sahayyam'"
         android:textAlignment="center"
         android:textSize="50dp"
         android:textColor="#FFFF00"
-        android:layout_below="@+id/indian_railways" />
+        android:layout_below="@+id/tv_owner" />
+        <!--android:text="'Sahayyam'" />-->
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="201dp"
-        android:layout_height="195dp"
-        android:layout_below="@+id/sahayyam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_appName"
+        android:layout_above="@id/name"
         android:layout_centerHorizontal="true"
         android:paddingTop="20dp"
         app:srcCompat="@drawable/final_logo" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
-        android:text="Neeraj Gupta"
         android:textAlignment="center"
         android:textColor="#FFFF00"
         android:textSize="20dp"
-        android:layout_above="@+id/organisation"/>
+        android:layout_above="@+id/tv_organisation" />
+        <!--android:text="Neeraj Gupta" />-->
 
     <TextView
-        android:id="@+id/organisation"
+        android:id="@+id/tv_organisation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Centre for Railway Information Systems"
         android:textColor="#FFFFFF"
         android:textAlignment="center"
         android:textSize="20dp"
-        android:layout_above="@+id/address" />
+        android:layout_above="@+id/tv_address" />
+        <!--android:text="Centre for Railway Information Systems" />-->
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/tv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chanakyapuri, New  Delhi - 110021"
         android:textColor="#FFFFFF"
         android:textAlignment="center"
         android:textSize="20dp"
-        android:layout_above="@+id/contact" />
+        android:layout_above="@+id/tv_contact" />
+        <!--android:text="Chanakyapuri, New  Delhi - 110021" />-->
 
     <TextView
-        android:id="@+id/contact"
+        android:id="@+id/tv_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="9968150228"
         android:textColor="#FFFFFF"
         android:textAlignment="center"
         android:textSize="20dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp" />
+        <!--android:text="9968150228" />-->
 
 </RelativeLayout>
