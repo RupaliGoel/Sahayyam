@@ -101,6 +101,8 @@ public class RaiseOnAppeal extends AppCompatActivity {
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
+    View progressOverlay;
+
 
 
     public RaiseOnAppeal() {
@@ -111,6 +113,14 @@ public class RaiseOnAppeal extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_raise_on_appeal);
+
+        progressOverlay = findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+
+        appealTypes=new ArrayList<>();
+
         choose = findViewById(R.id.choose);
         choose.setOnClickListener(new View.OnClickListener()
         {
@@ -123,9 +133,6 @@ public class RaiseOnAppeal extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
-
-        appealTypes=new ArrayList<>();
-
         currentlattitude = prefs.getString("lat","");
         currentlongitude = prefs.getString("long","");
         emailOfUser = prefs.getString("user_email","");
@@ -429,6 +436,9 @@ public class RaiseOnAppeal extends AppCompatActivity {
                     type.setAdapter(new ArrayAdapter<String>(RaiseOnAppeal.this, android.R.layout.simple_spinner_dropdown_item, appealTypes));
 
                 }catch (JSONException e){e.printStackTrace();}
+
+                // Hide it (with animation):
+                AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
 
             }
 

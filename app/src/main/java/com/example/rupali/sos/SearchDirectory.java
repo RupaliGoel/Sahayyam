@@ -84,6 +84,8 @@ public class SearchDirectory extends AppCompatActivity {
     private static final String TAG_SUCCESS = "success";
     ArrayList<String> roleTypes;
     Spinner spinner;
+    View progressOverlay;
+
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
     AutoCompleteTextView locationedit;
@@ -101,13 +103,18 @@ public class SearchDirectory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_directory);
 
+        progressOverlay = findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+
+        roleTypes=new ArrayList<>();
+
+
         //-------------------------------toolbar, location textbox & button-----------------------------------
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
-
-        roleTypes=new ArrayList<>();
-
         currentlattitude = prefs.getString("lat", "None");
         currentlongitude = prefs.getString("long", "None");
         emailOfUser = prefs.getString("user_email", "Not Found");
@@ -365,6 +372,9 @@ public class SearchDirectory extends AppCompatActivity {
                         spinner.setAdapter(new ArrayAdapter<String>(SearchDirectory.this, android.R.layout.simple_spinner_dropdown_item, roleTypes));
 
                 }catch (JSONException e){e.printStackTrace();}
+
+                // Hide it (with animation):
+                AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
 
             }
 

@@ -6,6 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SearchDirectory">
 
+    <!-- Progress bar overlay; shown while login is in progress -->
+    <include layout="@layout/progress_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/search_dir"
         android:layout_width="match_parent"

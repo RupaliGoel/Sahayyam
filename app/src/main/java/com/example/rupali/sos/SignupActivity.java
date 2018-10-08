@@ -295,7 +295,7 @@ public class SignupActivity extends AppCompatActivity {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("name", name));
-                params.add(new BasicNameValuePair("role", role));
+                params.add(new BasicNameValuePair("role1", role));
                 params.add(new BasicNameValuePair("contact", contact));
                 params.add(new BasicNameValuePair("email", email));
                 params.add(new BasicNameValuePair("password", password));

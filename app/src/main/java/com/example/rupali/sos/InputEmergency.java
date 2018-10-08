@@ -103,6 +103,7 @@ public class InputEmergency extends Fragment {
     private static final String TAG_SUCCESS = "success";
     ArrayList<String> emergencyTypes;
 
+    View progressOverlay;
 
     public InputEmergency() {
         // Required empty public constructor
@@ -119,6 +120,8 @@ public class InputEmergency extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_input_emergency, container, false);
         choose = view.findViewById(R.id.choose);
+        progressOverlay = view.findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
         choose.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -133,6 +136,9 @@ public class InputEmergency extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = prefs.edit();
@@ -477,6 +483,8 @@ public class InputEmergency extends Fragment {
 
                 }catch (JSONException e){e.printStackTrace();}
 
+                // Hide it (with animation):
+                AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
             }
 
         }, new Response.ErrorListener() {
