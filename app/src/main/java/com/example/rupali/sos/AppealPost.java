@@ -50,7 +50,7 @@ public class AppealPost extends AppCompatActivity {
 
     TextView tvName,tvContact,tvEmail,tvRole;
 
-    String email,name,role,contact;
+    String email,name,role1,role2,role3,contact;
     JSONParser jsonParser = new JSONParser();
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
     // JSON Node names
@@ -183,7 +183,9 @@ public class AppealPost extends AppCompatActivity {
 
                 JSONObject details = values.getJSONObject(0);
                 name = details.getString("name");
-                role = details.getString("role");
+                role1 = details.getString("role1");
+                role2 = details.getString("role2");
+                role3 = details.getString("role3");
                 contact = details.getString("contact");
                 // check log cat fro response
                 Log.d("Create Response", json.toString());
@@ -199,11 +201,18 @@ public class AppealPost extends AppCompatActivity {
 
         protected void onPostExecute(String file_url) {
             // dismiss the progressbar once done
-            System.out.println("Fetched Details = "+name+" "+role+" "+contact);
             tvName = findViewById(R.id.name);
             tvName.setText(name);
             tvRole = findViewById(R.id.role);
-            tvRole.setText(role);
+            if(!role1.equals("") && !role2.equals("") && !role3.equals("")){
+                tvRole.setText(role1+", "+role2+", "+role3);
+            }
+            else if(!role2.equals("") && role3.equals("")){
+                tvRole.setText(role1+", "+role2);
+            }
+            else if(role2.equals("") && role3.equals("")){
+                tvRole.setText(role1);
+            }
             tvContact = findViewById(R.id.contact);
             tvContact.setText(contact);
             tvEmail = findViewById(R.id.email);

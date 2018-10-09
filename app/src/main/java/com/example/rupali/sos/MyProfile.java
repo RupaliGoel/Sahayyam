@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 public class MyProfile extends AppCompatActivity {
 
-    String email,name,role,contact,address;
+    String email,name,role1,role2,role3,contact,address,roles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,11 +17,15 @@ public class MyProfile extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        name = prefs.getString("user_name","Not Found");
-        role = prefs.getString("user_role","Not Found");
-        contact = prefs.getString("user_contact","Not Found");
-        email = prefs.getString("user_email", "Not Found");
-        address = prefs.getString("user_address", "Not Found");
+        name = prefs.getString("user_name","");
+        roles = prefs.getString("roles", "");
+        /*role1 = prefs.getString("user_role1","");
+        role2 = prefs.getString("user_role2","");
+        role3 = prefs.getString("user_role3","");*/
+
+        contact = prefs.getString("user_contact","");
+        email = prefs.getString("user_email", "");
+        address = prefs.getString("user_address", "");
 
         TextView textName = findViewById(R.id.name);
         TextView textRole = findViewById(R.id.role);
@@ -32,9 +36,20 @@ public class MyProfile extends AppCompatActivity {
         textName.setText(name);
         textContact.setText(contact);
         textEmail.setText(email);
-        textRole.setText(role);
-        textAddress.setText(address);
 
+        /*if(!role1.equals("") && !role2.equals("") && !role3.equals("")){
+            textRole.setText(role1+", "+role2+", "+role3);
+        }
+        else if(!role2.equals("") && role3.equals("")){
+            textRole.setText(role1+", "+role2);
+        }
+        else if(role2.equals("") && role3.equals("")){
+            textRole.setText(role1);
+        }*/
+
+        textRole.setText(roles);
+
+        textAddress.setText(address);
     }
 }
 

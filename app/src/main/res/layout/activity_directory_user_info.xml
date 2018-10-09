@@ -83,7 +83,7 @@
             android:id="@+id/label_name"
             android:layout_width="wrap_content"
             android:text="Name : "
-            android:layout_below="@+id/label_role"
+            android:layout_below="@+id/role"
             android:textColor="@color/colorPrimary"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -93,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/label_name"
+            android:layout_alignTop="@+id/label_name"
             android:layout_below="@+id/label_role"
             android:textSize="18sp"
             android:layout_marginBottom="2dp"/>
@@ -100,7 +101,7 @@
             android:id="@+id/label_contact"
             android:layout_width="wrap_content"
             android:text="Contact : "
-            android:layout_below="@+id/label_name"
+            android:layout_below="@+id/name"
             android:textColor="@color/colorPrimary"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -110,6 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/label_contact"
+            android:layout_alignTop="@+id/label_contact"
             android:layout_below="@+id/label_name"
             android:textSize="18sp"
             android:layout_marginBottom="2dp"/>
@@ -117,14 +119,16 @@
             android:id="@+id/callButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_call"
+            android:src="@android:drawable/sym_action_call"
+            android:layout_alignTop="@+id/contact"
+            android:background="@color/black"
             android:layout_below="@+id/label_name"
             android:layout_toRightOf="@+id/contact"/>
         <TextView
             android:id="@+id/label_email"
             android:layout_width="wrap_content"
             android:text="Email-ID : "
-            android:layout_below="@+id/label_contact"
+            android:layout_below="@+id/contact"
             android:textColor="@color/colorPrimary"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -134,6 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/label_email"
+            android:layout_alignTop="@+id/label_email"
             android:layout_below="@+id/label_contact"
             android:textSize="18sp"
             android:layout_marginBottom="2dp"/>
@@ -141,9 +146,9 @@
             android:id="@+id/mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/label_email"
+            android:layout_alignTop="@+id/email"
             android:layout_toEndOf="@+id/email"
-            android:background="#000000"
+            android:background="@color/black"
             android:onClick="sendEmail"
             app:srcCompat="@android:drawable/sym_action_email" />
     </RelativeLayout>

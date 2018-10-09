@@ -51,7 +51,7 @@ public class EmergencyPost extends AppCompatActivity {
 
     JSONParser jsonParser = new JSONParser();
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
-    String email,name,role,contact,address,emer_address;
+    String email,name,role1,role2,role3,contact,address,emer_address;
     double emer_lat,emer_long;
     int success = 0;
 
@@ -155,7 +155,9 @@ public class EmergencyPost extends AppCompatActivity {
 
                 JSONObject details = values.getJSONObject(0);
                 name = details.getString("name");
-                role = details.getString("role");
+                role1 = details.getString("role1");
+                role2 = details.getString("role2");
+                role3 = details.getString("role3");
                 contact = details.getString("contact");
                 address = details.getString("address");
                 // check log cat fro response
@@ -173,7 +175,15 @@ public class EmergencyPost extends AppCompatActivity {
             tvName = findViewById(R.id.name);
             tvName.setText(name);
             tvRole = findViewById(R.id.role);
-            tvRole.setText(role);
+            if(!role1.equals("") && !role2.equals("") && !role3.equals("")){
+                tvRole.setText(role1+", "+role2+", "+role3);
+            }
+            else if(!role2.equals("") && role3.equals("")){
+                tvRole.setText(role1+", "+role2);
+            }
+            else if(role2.equals("") && role3.equals("")){
+                tvRole.setText(role1);
+            }
             tvContact = findViewById(R.id.contact);
             tvContact.setText(contact);
             tvEmail = findViewById(R.id.email);

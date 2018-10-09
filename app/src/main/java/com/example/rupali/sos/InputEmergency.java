@@ -103,6 +103,7 @@ public class InputEmergency extends Fragment {
     private static final String TAG_SUCCESS = "success";
     ArrayList<String> emergencyTypes;
 
+    View progressOverlay;
 
     public InputEmergency() {
         // Required empty public constructor
@@ -119,6 +120,8 @@ public class InputEmergency extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_input_emergency, container, false);
         choose = view.findViewById(R.id.choose);
+        progressOverlay = view.findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
         choose.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -134,18 +137,21 @@ public class InputEmergency extends Fragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = prefs.edit();
 
         emergencyTypes=new ArrayList<>();
 
-        currentlattitude = prefs.getString("lat","None");
-        currentlongitude = prefs.getString("long","None");
-        emailOfUser = prefs.getString("user_email","Not Found");
-        addressOfUser = prefs.getString("user_address","Not Found");
+        currentlattitude = prefs.getString("lat","");
+        currentlongitude = prefs.getString("long","");
+        emailOfUser = prefs.getString("user_email","");
+        addressOfUser = prefs.getString("user_address","");
         nameOfUser = prefs.getString("user_name", "Guest");
-        roleOfUser = prefs.getString("user_role","Not Found");
-        contactOfUser = prefs.getString("user_contact","Not Found");
+        roleOfUser = prefs.getString("roles","");
+        contactOfUser = prefs.getString("user_contact","");
         currentAddressOfUser = prefs.getString("user_current_address", "Not Found");
 
 
@@ -477,6 +483,8 @@ public class InputEmergency extends Fragment {
 
                 }catch (JSONException e){e.printStackTrace();}
 
+                // Hide it (with animation):
+                AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
             }
 
         }, new Response.ErrorListener() {

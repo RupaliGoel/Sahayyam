@@ -295,7 +295,7 @@ public class SignupActivity extends AppCompatActivity {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("name", name));
-                params.add(new BasicNameValuePair("role", role));
+                params.add(new BasicNameValuePair("role1", role));
                 params.add(new BasicNameValuePair("contact", contact));
                 params.add(new BasicNameValuePair("email", email));
                 params.add(new BasicNameValuePair("password", password));
@@ -335,7 +335,7 @@ public class SignupActivity extends AppCompatActivity {
                 editor.putBoolean("Islogin", true).apply();
                 editor.putString("user_email",inputEmail.getText().toString().trim()).commit();
                 editor.putString("user_name",inputName.getText().toString().trim()).commit();
-                editor.putString("user_role",inputRole.getText().toString().trim()).commit();
+                editor.putString("user_role1",inputRole.getText().toString().trim()).commit();
                 editor.putString("user_contact",inputContact.getText().toString().trim()).commit();
                 //editor.putString("user_address",inputAddress.getText().toString().trim()).commit();
                 setResult(Activity.RESULT_OK, intent);

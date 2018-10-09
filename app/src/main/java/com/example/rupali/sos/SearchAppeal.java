@@ -108,6 +108,11 @@ public class SearchAppeal extends AppCompatActivity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
 
+        progressOverlay = findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+
         appealTypes=new ArrayList<>();
 
         currentlattitude = prefs.getString("lat", "None");
@@ -128,9 +133,6 @@ public class SearchAppeal extends AppCompatActivity {
 
         spinner = findViewById(R.id.apptype);
         loadSpinnerData(URL);
-
-        progressOverlay = findViewById(R.id.progress_overlay);
-        progressOverlay.bringToFront();
 
         //-------------------------------toolbar, location textbox & button-----------------------------------
         AppealListView = findViewById(R.id.AppealListView);
@@ -359,6 +361,9 @@ public class SearchAppeal extends AppCompatActivity {
                     spinner.setAdapter(new ArrayAdapter<String>(SearchAppeal.this, android.R.layout.simple_spinner_dropdown_item, appealTypes));
 
                 }catch (JSONException e){e.printStackTrace();}
+
+                // Hide it (with animation):
+                AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
 
             }
 

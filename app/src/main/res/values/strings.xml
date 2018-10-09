@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SOS</string>
+    <string name="app_name">Sahayyam</string>
     <string name="search_emergency">Search Emergency</string>
     <string name="input_emergency">Input Emergency</string>
     <string name="todo">TODO</string>
@@ -67,41 +67,5 @@
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_back">Back</string>
 
-
-
-
-
-    <string-array name="roles">
-        <item>General Manager</item>
-        <item>Sr. DME</item>
-        <item>DME</item>
-        <item>Loco Inspector</item>
-        <item>Private Hospital</item>
-        <item>Govt. Hospital</item>
-        <item>Police</item>
-        <item>NGO,Club</item>
-        <item>Doctors</item>
-        <item>Ambulance</item>
-        <item>Local Administration</item>
-        <item>Station Master</item>
-        <item>Dy. Station Superintendent</item>
-        <item>Station Manager</item>
-        <item>Junior Engineer(Telecommunication)</item>
-        <item>Electrical official in-charge</item>
-        <item>Gas Cutters</item>
-        <item>Power Cutters</item>
-
-    </string-array>
-    <string-array name="appeal_type">
-        <item>All</item>
-        <item>Donation</item>
-        <item>Adoption</item>
-    </string-array>
-    <string-array name="emergency_type">
-        <item>Flood</item>
-        <item>Fire</item>
-        <item>Tsunami</item>
-        <item>Others</item>
-    </string-array>
     <string name="title_activity_maps">Map</string>
 </resources>
