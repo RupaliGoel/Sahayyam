@@ -3,6 +3,7 @@ package com.example.rupali.sos;
 
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.io.File;
@@ -61,8 +62,17 @@ public class UploadPhoto extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addphoto:
-                Intent intent = new Intent(UploadPhoto.this,CustomPhotoGalleryActivity.class);
-                startActivityForResult(intent,PICK_IMAGE_MULTIPLE);
+                try {
+                    if (ActivityCompat.checkSelfPermission(UploadPhoto.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(UploadPhoto.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_IMAGE_MULTIPLE);
+                    }
+                    else{
+                    Intent intent = new Intent(UploadPhoto.this,CustomPhotoGalleryActivity.class);
+                    startActivityForResult(intent,PICK_IMAGE_MULTIPLE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
 //            case R.id.btnSaveImages:
 //                if(imagesPathList !=null){
