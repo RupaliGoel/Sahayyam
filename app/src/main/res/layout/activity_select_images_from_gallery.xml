@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="@string/mainTitle"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+
+    <!-- Button to Open Custom gallery -->
+    <Button
+        android:id="@+id/openCustomGallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_margin="5dp"
+        android:background="#ffffff"
+        android:text="@string/openCustomGallery"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp" />
+
+
+    <View
+        android:id="@+id/saparator"
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/openCustomGallery"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/saparator"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/selectedImages"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/submit_photos"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/hint"
+        android:text="Submit"
+        android:textColor="@color/white" />
+
+    !--  Grid View to display Selected Images-->
+    <include
+        android:id="@+id/selectedImagesGridView"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/submit_photos"
+        layout="@layout/gridview_layout" />
+</RelativeLayout>

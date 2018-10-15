@@ -67,7 +67,7 @@ public class UploadPhoto extends Activity implements View.OnClickListener{
                         ActivityCompat.requestPermissions(UploadPhoto.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_IMAGE_MULTIPLE);
                     }
                     else{
-                    Intent intent = new Intent(UploadPhoto.this,CustomPhotoGalleryActivity.class);
+                    Intent intent = new Intent(UploadPhoto.this,SelectImagesFromGallery.class); //CustomPhotoGalleryActivity.class);
                     startActivityForResult(intent,PICK_IMAGE_MULTIPLE);
                     }
                 } catch (Exception e) {

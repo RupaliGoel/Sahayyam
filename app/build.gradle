@@ -32,7 +32,8 @@ android {
 }
 
 dependencies {
-    compile 'com.github.yesidlazaro:GmailBackground:1.2.0'
+    implementation 'com.github.yesidlazaro:GmailBackground:1.2.0'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //implementation 'com.android.support:appcompat-v7:26.1.0'
     //implementation 'com.android.support:design:26.1.0'
