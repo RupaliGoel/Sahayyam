@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
+//import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -50,6 +50,32 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 }
 
                progressBar.setVisibility(View.VISIBLE);
+
+//                BackgroundMail.newBuilder(ResetPasswordActivity.this)
+//                        .withUsername("mridusharma4567@gmail.com") // compsny ki id se jaega mail
+//                        .withPassword("8901054440")
+//                        .withMailto(""+email)   //customer ko jaega
+//                        .withType(BackgroundMail.TYPE_PLAIN)
+//                        .withSubject("FEEDBACK")
+//                        .withBody("Thank you for your feedback! \n Feedback given: ")
+//                        .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+//                            @Override
+//                            public void onSuccess() {
+//                                Toast.makeText(ResetPasswordActivity.this,"done",Toast.LENGTH_LONG).show();
+////                                Intent i=new Intent(Feedback_ms.this,CustomerActivity_cm.class);
+////                                startActivity(i);
+//                            }
+//                        })
+//                        .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+//                            @Override
+//                            public void onFail() {
+//                                Toast.makeText(ResetPasswordActivity.this,"Not done",Toast.LENGTH_LONG).show();
+//                            }
+//                        })
+//                        .send();
+
+
+
             }
         });
 
