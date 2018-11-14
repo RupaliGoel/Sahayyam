@@ -3,6 +3,7 @@ package com.example.rupali.sos;
 import java.util.List;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
 public class EmergencyListAdapter extends BaseAdapter
 {
     Context context;
+    ViewItem viewItem = null;
+    ImageLoader imageLoader = ImageLoader.getInstance();
+
 
     List<Emergency> emergency_list;
 
@@ -20,6 +32,7 @@ public class EmergencyListAdapter extends BaseAdapter
     {
         this.context = context;
         this.emergency_list = listValue;
+        imageLoader.init(ImageLoaderConfiguration.createDefault(context.getApplicationContext()));
     }
 
     @Override
@@ -43,7 +56,7 @@ public class EmergencyListAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        ViewItem viewItem = null;
+
         if(convertView == null)
         {
             viewItem = new ViewItem();
@@ -64,11 +77,40 @@ public class EmergencyListAdapter extends BaseAdapter
 
         viewItem.EmerNameTextView.setText(emergency_list.get(position).Emergency_Name);
 
-        viewItem.EmerImageView.setImageResource(emergency_list.get(position).Emergency_Image);
+        /*imageLoader.loadImage(emergency_list.get(position).Emergency_Image, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                // Do whatever you want with Bitmap
+                System.out.print("LOADED IMAGE : "+loadedImage);
+
+
+            }
+        });*/
+
+        /*ImageSize targetSize = new ImageSize(100, 100); // result Bitmap will be fit to this size
+        imageLoader.loadImage(emergency_list.get(position).Emergency_Name, targetSize, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                // Do whatever you want with Bitmap
+                System.out.println("\nBITMAP : "+loadedImage);
+                setImage(loadedImage);
+            }
+        });*/
+
+        if(!emergency_list.get(position).Emergency_Image.equals(""))
+            imageLoader.displayImage(emergency_list.get(position).Emergency_Image, viewItem.EmerImageView);
+
+//        imageLoader.destroy();
+
+        //viewItem.EmerImageView.setImageResource(emergency_list.get(position).Emergency_Image);
 
         viewItem.EmerDistanceView.setText(String.valueOf((int)Math.round(emergency_list.get(position).Emergency_Distance))+" KM");
 
         return convertView;
+    }
+
+    void setImage(Bitmap bmp){
+        viewItem.EmerImageView.setImageBitmap(bmp);
     }
 }
 

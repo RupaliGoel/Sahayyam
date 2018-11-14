@@ -32,7 +32,7 @@
     <!-- Strings related to drawer -->
     <string name="drawer_item_home">Home</string>
     <string name="drawer_item_upload_photo">Upload Photo</string>
-    <string name="drawer_item_add_role">Add Role(s)</string>
+    <string name="drawer_item_my_posts">My Posts</string>
     <string name="drawer_item_write_review">Write Review</string>
     <string name="drawer_item_glossary">Glossary</string>
     <string name="drawer_item_settings">Settings</string>
@@ -68,4 +68,10 @@
     <string name="btn_back">Back</string>
 
     <string name="title_activity_maps">Map</string>
+
+    <!--Strings related to upload photo-->
+    <string name="customGallery">Gallery</string>
+    <string name="mainTitle">Select Multiple Images From Gallery</string>
+    <string name="openCustomGallery">Open Gallery</string>
+    <string name="selectedImages">Selected Images will Display Below</string>
 </resources>

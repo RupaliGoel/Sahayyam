@@ -173,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
                     .withIcon(R.drawable.ic_upload_photo);
             PrimaryDrawerItem primary_item2 = new PrimaryDrawerItem()
                     .withIdentifier(3)
-                    .withName(R.string.drawer_item_add_role)
-                    .withIcon(R.drawable.ic_add_role);
+                    .withName(R.string.drawer_item_my_posts)
+                    .withIcon(R.drawable.ic_my_posts);
             PrimaryDrawerItem primary_item3 = new PrimaryDrawerItem()
                     .withIdentifier(4)
                     .withName(R.string.drawer_item_write_review)
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (drawerItem.getIdentifier() == 2) {
                                     intent = new Intent(MainActivity.this, UploadPhoto.class);
                                 } else if (drawerItem.getIdentifier() == 3) {
-                                    intent = new Intent(MainActivity.this, AddRole.class);
+                                    intent = new Intent(MainActivity.this, MyPosts.class);
                                 } else if (drawerItem.getIdentifier() == 4) {
                                     intent = new Intent(MainActivity.this, WriteReview.class);
                                 } else if (drawerItem.getIdentifier() == 5) {
@@ -319,6 +319,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
+
+
             //-----------------------------code for Toolbar---------------------------------------------
 
             AccountHeader headerResult = new AccountHeaderBuilder()

@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProfile">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layout">
+
+        <ImageView
+            android:id="@+id/header_cover_image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerCrop"
+            android:src="@drawable/header"
+            app:srcCompat="@drawable/header" />
+
+        <FrameLayout
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_centerHorizontal="true"
+            android:elevation="5dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:clickable="true"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#FFFFFFFF"
+                android:id="@+id/profile"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-130dp"
+                android:elevation="5dp"
+                android:padding="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile"
+                android:layout_gravity="bottom|center_horizontal" />
+
+            <ImageButton
+                android:id="@+id/choose"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:background="#ebca0707"
+                android:elevation="5dp"
+                android:src="@drawable/ic_edit"
+                android:scaleType="fitCenter"
+                android:layout_gravity="bottom|right"
+                />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/header_cover_image"
+            android:background="#ebca0707"
+            android:elevation="4dp"
+            android:paddingBottom="24dp">
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/profile_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+            <TextView
+                android:id="@+id/labelName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Name : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/labelName"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:scrollHorizontally="false"
+                android:background="@drawable/edit_text_style"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/role1_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/name_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+            <TextView
+                android:id="@+id/labelRole1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Role 1 : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <Spinner
+                android:id="@+id/role1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/labelRole1"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/role2_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/role1_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+            <TextView
+                android:id="@+id/labelRole2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Role 2 : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <Spinner
+                android:id="@+id/role2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/labelRole2"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/role3_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/role2_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+            <TextView
+                android:id="@+id/labelRole3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Role 3 : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <Spinner
+                android:id="@+id/role3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/labelRole3"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+        </RelativeLayout>
+
+        <!--<RelativeLayout
+            android:id="@+id/role_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/role3_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+            <Button
+                android:id="@+id/add_roles"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:text="Add Roles"/>
+
+        </RelativeLayout>-->
+
+        <RelativeLayout
+            android:id="@+id/contact_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/role3_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+
+            <TextView
+                android:id="@+id/labelContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Contact : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/contact"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:inputType="phone"
+                android:layout_toRightOf="@+id/labelContact"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:scrollHorizontally="false"
+                android:background="@drawable/edit_text_style"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/address_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/contact_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+
+            <TextView
+                android:id="@+id/labelAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Address : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/labelAddress"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:scrollHorizontally="false"
+                android:background="@drawable/edit_text_style"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/new_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/address_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+
+            <TextView
+                android:id="@+id/labelNew_Password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="New Password : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/new_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:inputType="textPassword"
+                android:layout_toRightOf="@+id/labelNew_Password"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:scrollHorizontally="false"
+                android:background="@drawable/edit_text_style"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/confirm_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/new_password_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+
+            <TextView
+                android:id="@+id/labelConfirm_Password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Confirm Password : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <EditText
+                android:id="@+id/confirm_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:inputType="textPassword"
+                android:layout_toRightOf="@+id/labelConfirm_Password"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:scrollHorizontally="false"
+                android:background="@drawable/edit_text_style"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/update_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/confirm_password_layout"
+            android:background="#ebca0707"
+            android:elevation="4dp"
+            android:paddingBottom="24dp">
+
+            <Button
+                android:id="@+id/update"
+                android:layout_centerHorizontal="true"
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="UPDATE" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</ScrollView>
