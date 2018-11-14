@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -58,6 +58,22 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/etAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address"
+                android:inputType="textPostalAddress"
+                android:maxLines="3"
+                android:singleLine="true"
+                android:textColor="@android:color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,21 +107,87 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/role1_layout">
 
-            <Button
-                android:id="@+id/etRole"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/labelRole1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="ADD ROLE"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/colortextBlack" />
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Role 1 : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <Spinner
+                android:id="@+id/role1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/labelRole1"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
 
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/role2_layout">
 
+            <TextView
+                android:id="@+id/labelRole2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Role 2 : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <Spinner
+                android:id="@+id/role2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/labelRole2"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/role3_layout">
+
+            <TextView
+                android:id="@+id/labelRole3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:text="Role 3 : "
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
+
+            <Spinner
+                android:id="@+id/role3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/labelRole3"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -168,15 +250,5 @@
             android:textSize="15dp" />
     </LinearLayout>
 
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
-        android:visibility="gone" />
-
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
 </ScrollView>

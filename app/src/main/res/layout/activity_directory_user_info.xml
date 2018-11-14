@@ -1,47 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DirectoryUserInfo">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DirectoryUserInfo"
+    android:background="#FFE9A0">
 
-    <RelativeLayout
-        android:id="@+id/user_details_post"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/page_name"
+        android:minHeight="?android:attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#CCFFFF"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/page_name"
-            android:minHeight="?android:attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:fitsSystemWindows="true"
-            android:layout_width="match_parent"
-            android:layout_height="30dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/post"
-                android:textColor="@android:color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
-        </android.support.v7.widget.Toolbar>
-    </RelativeLayout>
+        android:layout_height="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/post"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/user_details_post"
-        android:background="#FFE9A0"
-        tools:context="com.example.rupali.sos.DirectoryUserInfo">
+        android:layout_below="@+id/page_name">
 
         <ImageView
             android:id="@+id/image"
@@ -152,6 +140,4 @@
             android:onClick="sendEmail"
             app:srcCompat="@android:drawable/sym_action_email" />
     </RelativeLayout>
-
 </RelativeLayout>
-</ScrollView>

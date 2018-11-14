@@ -51,6 +51,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -340,9 +341,8 @@ public class SearchEmergency extends Fragment {
                                     distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
                                     emergency.Emergency_Distance = distance;
                                 }
-                            /* image = jsonObject.getInt("emer_image");
-                            emergency.Emergency_Image = image;*/
-
+                                String image = json.getString("emer_image");
+                                emergency.Emergency_Image = image;
                                 EmergencyList.add(emergency);
                             }
 
@@ -388,6 +388,8 @@ public class SearchEmergency extends Fragment {
                             /* image = jsonObject.getInt("emer_image");
                             emergency.Emergency_Image = image;*/
 
+                                String image = json.getString("emer_image");
+                                emergency.Emergency_Image = image;
                                 EmergencyList.add(emergency);
                             }
 
@@ -439,6 +441,7 @@ public class SearchEmergency extends Fragment {
                         desc = sendEmergency.Emergency_Desc;
                         emailpost = sendEmergency.User_Email;
                         distance =sendEmergency.Emergency_Distance;
+                        String imageuri = sendEmergency.Emergency_Image;
                         double emergency_lat = sendEmergency.Emergency_Lat;
                         double emergency_long = sendEmergency.Emergency_Long;
                         String emergency_address = getCompleteAddressString(emergency_lat,emergency_long);
@@ -450,6 +453,7 @@ public class SearchEmergency extends Fragment {
                         myIntent.putExtra("Content", desc);
                         myIntent.putExtra("Distance",distance);
                         myIntent.putExtra("Email",emailpost);
+                        myIntent.putExtra("ImageURI",imageuri);
                         myIntent.putExtra("Emer_lat",emergency_lat);
                         myIntent.putExtra("Emer_long",emergency_long);
                         myIntent.putExtra("Emer_address",emergency_address);

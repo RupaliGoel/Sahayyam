@@ -68,7 +68,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SignupActivity"
             android:screenOrientation="portrait" />
@@ -98,11 +98,13 @@
             android:screenOrientation="portrait" />
         <activity android:name=".SelectImagesFromGallery">
             <intent-filter>
-                <!-- Intent filter action for receiving multiple images  -->
+
+                <!-- Intent filter action for receiving multiple images -->
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <!--  To receive Images set mime type to image -->
+                <!-- To receive Images set mime type to image -->
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
@@ -110,6 +112,9 @@
         <activity
             android:name=".CustomGallery_Activity"
             android:label="@string/customGallery" />
+        <activity android:name=".EditProfile" />
+        <activity android:name=".MyPosts" />
+        <activity android:name=".ProfileDetails"></activity>
     </application>
 
 </manifest>

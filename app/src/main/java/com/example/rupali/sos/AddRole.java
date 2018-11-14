@@ -1,6 +1,10 @@
 package com.example.rupali.sos;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
@@ -12,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,35 +40,86 @@ import java.util.Map;
 
 public class AddRole extends AppCompatActivity {
 
-    TextView roles;
-    private LinearLayout parentLinearLayout;
-    int count = 1;
+    int count = 0, count_selected_options = 0;
 
     String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
     ArrayList<String> roleTypes;
-    Spinner spinner;
-
-    String selected_option1,selected_option2,selected_option3;
+    Spinner spinner1, spinner2, spinner3;
+    Button enable1, enable2, enable3, disable1, disable2, disable3, submit ;
+    Bundle bundle;
+    ProgressDialog dialog;
+    String callingActivity,role1,role2,role3;
+    String[] selected_options = new String[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_role);
-        parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
-        roles = findViewById(R.id.addrolestv);
-        spinner =  findViewById(R.id.type_spinner);
+        dialog = new ProgressDialog(AddRole.this);
+        dialog.setMessage("Loading...");
+        dialog.show();
+
         roleTypes=new ArrayList<>();
+        roleTypes.add("-- Select --");
+
+        spinner1 = findViewById(R.id.type_spinner1);
+        spinner1.setEnabled(false);
+        enable1 = findViewById(R.id.enable_button1);
+        disable1 = findViewById(R.id.disable_button1);
+
+        spinner2 = findViewById(R.id.type_spinner2);
+        spinner2.setEnabled(false);
+        enable2 = findViewById(R.id.enable_button2);
+        disable2 = findViewById(R.id.disable_button2);
+
+        spinner3 = findViewById(R.id.type_spinner3);
+        spinner3.setEnabled(false);
+        enable3 = findViewById(R.id.enable_button3);
+        disable3 = findViewById(R.id.disable_button3);
 
         loadSpinnerData(URL);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        bundle = getIntent().getExtras();
+        callingActivity = bundle.getString("CallingActivity");
+
+        if(callingActivity.equals("EditProfile")) {
+
+            role1 = bundle.getString("Role1");
+            System.out.println("ROLE 1 = "+role1);
+            role2 = bundle.getString("Role2");
+            System.out.println("ROLE 2 = "+role2);
+            role3 = bundle.getString("Role3");
+            System.out.println("ROLE 3 = "+role3);
+
+        }
+
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
 
             @Override
 
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                // TODO Auto-generated method stub
+                Toast.makeText(AddRole.this,"Working",Toast.LENGTH_LONG).show();
 
+                String Selected = spinner1.getSelectedItem().toString().trim();
+                selected_options[0] = Selected ;
+                System.out.println(selected_options[0]);
+                Toast.makeText(AddRole.this,Selected,Toast.LENGTH_LONG).show();
+                count_selected_options++;
+                ArrayList<String> roles = new ArrayList<>();
+                roles.addAll(roleTypes);
+                roles.remove(selected_options[0]);
+                spinner2.setAdapter(new ArrayAdapter<String>(AddRole.this, android.R.layout.simple_spinner_dropdown_item, roles));
+                if(callingActivity.equals("EditProfile")) {
+                    spinner1.setSelection(getIndex(spinner1,role1));
+                    spinner1.setEnabled(true);
+                    if(!role2.equals("")){
+                        spinner2.setSelection(getIndex(spinner2,role2));
+                        spinner2.setEnabled(true);
+                    }
+                }
             }
 
             @Override
@@ -75,50 +131,142 @@ public class AddRole extends AppCompatActivity {
             }
 
         });
-    }
 
-    public void onAddField(View v) {
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-        if(count < 3){
+            @Override
 
-            ++count;
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View rowView = inflater.inflate(R.layout.roles, null);
-            spinner = rowView.findViewById(R.id.type_spinner);
-            loadSpinnerData(URL);
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                @Override
-
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    // TODO Auto-generated method stub
-
+                String Selected = spinner2.getSelectedItem().toString().trim();
+                selected_options[1] = Selected ;
+                System.out.println(selected_options[1]);
+                count_selected_options++;
+                ArrayList<String> roles = new ArrayList<>();
+                roles.addAll(roleTypes);
+                roles.remove(selected_options[0]);
+                roles.remove(selected_options[1]);
+                spinner3.setAdapter(new ArrayAdapter<String>(AddRole.this, android.R.layout.simple_spinner_dropdown_item, roles));
+                if(callingActivity.equals("EditProfile")) {
+                    if(!role3.equals("")){
+                        spinner3.setSelection(getIndex(spinner3,role3));
+                        spinner3.setEnabled(true);
+                    }
                 }
+            }
 
-                @Override
+            @Override
 
-                public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-                    // DO Nothing here
+                // DO Nothing here
 
+            }
+
+        });
+
+        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String Selected = spinner3.getSelectedItem().toString().trim();
+                selected_options[2] = Selected ;
+                System.out.println(selected_options[2]);
+                count_selected_options++;
+            }
+
+            @Override
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                // DO Nothing here
+
+            }
+
+        });
+
+        enable1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner1.setClickable(true);
+                spinner1.setEnabled(true);
+            }
+        });
+        disable1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner1.setClickable(false);
+                spinner1.setEnabled(false);
+            }
+        });
+
+        enable2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(spinner1.isEnabled()&&!(spinner1.getSelectedItem().toString()).equals("-- Select --")){
+                    spinner2.setClickable(true);
+                    spinner2.setEnabled(true);
                 }
+            }
+        });
+        disable2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!spinner3.isEnabled()){
+                    spinner2.setClickable(false);
+                    spinner2.setEnabled(false);
+                }
+            }
+        });
 
-            });
 
-            // Add the new row before the add field button.
-            parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 1);
-        }
+        enable3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(spinner1.isEnabled() && !(spinner1.getSelectedItem().toString()).equals("-- Select --")
+                        && spinner2.isEnabled() && !(spinner2.getSelectedItem().toString()).equals("-- Select --")){
+                    spinner3.setClickable(true);
+                    spinner3.setEnabled(true);
+                }
+            }
+        });
+        disable3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner3.setClickable(false);
+                spinner3.setEnabled(false);
+            }
+        });
 
-        else{
-            Toast.makeText(AddRole.this,"YOU CAN ADD MAXIMUM 3 ROLES.",Toast.LENGTH_LONG).show();
-        }
 
+        submit = findViewById(R.id.submitRoles);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    }
+                selected_options[0] = spinner1.getSelectedItem().toString().trim();
+                selected_options[1] = spinner2.getSelectedItem().toString().trim();
+                selected_options[2] = spinner3.getSelectedItem().toString().trim();
 
-    public void onDelete(View v) {
-        parentLinearLayout.removeView((View) v.getParent());
+                if(selected_options[0].equals("-- Select --")){
+                    Toast.makeText(AddRole.this,"Please Add at least one Role .",Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                    System.out.println("SELECTED ROLES = "+selected_options[0]+","+selected_options[1]+","+selected_options[2]);
+
+                    Intent intent = new Intent();
+                    intent.putExtra("SelectedRole1", selected_options[0]);
+                    intent.putExtra("SelectedRole2", selected_options[1]);
+                    intent.putExtra("SelectedRole3", selected_options[2]);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
+            }
+        });
+
     }
 
     private void loadSpinnerData(String url) {
@@ -151,7 +299,11 @@ public class AddRole extends AppCompatActivity {
 
                     }
 
-                        spinner.setAdapter(new ArrayAdapter<String>(AddRole.this, android.R.layout.simple_spinner_dropdown_item, roleTypes));
+                    spinner1.setAdapter(new ArrayAdapter<String>(AddRole.this, android.R.layout.simple_spinner_dropdown_item, roleTypes));
+                    spinner2.setAdapter(new ArrayAdapter<String>(AddRole.this, android.R.layout.simple_spinner_dropdown_item, roleTypes));
+                    spinner3.setAdapter(new ArrayAdapter<String>(AddRole.this, android.R.layout.simple_spinner_dropdown_item, roleTypes));
+
+                    dialog.dismiss();
 
                 }catch (JSONException e){e.printStackTrace();}
 
@@ -186,4 +338,15 @@ public class AddRole extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
+
+    //private method of your class
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
+    }
+
 }

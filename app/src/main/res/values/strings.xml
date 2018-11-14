@@ -32,7 +32,7 @@
     <!-- Strings related to drawer -->
     <string name="drawer_item_home">Home</string>
     <string name="drawer_item_upload_photo">Upload Photo</string>
-    <string name="drawer_item_add_role">Add Role(s)</string>
+    <string name="drawer_item_my_posts">My Posts</string>
     <string name="drawer_item_write_review">Write Review</string>
     <string name="drawer_item_glossary">Glossary</string>
     <string name="drawer_item_settings">Settings</string>

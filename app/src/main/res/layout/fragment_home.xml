@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,37 +27,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="2"
+        android:layout_centerVertical="true"
         android:rowCount="8"
+        android:layout_centerHorizontal="true"
         android:useDefaultMargins="true"
         android:foregroundGravity="center"
         android:layout_gravity="center"
         android:gravity="center" >
-
-        <ImageButton
-            android:id="@+id/searchDirectory"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_row="0"
-            android:adjustViewBounds="true"
-            android:background="@drawable/background_imagebtn2"
-            android:cropToPadding="true"
-            android:foreground="@drawable/ic_search_directory"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="15dp"
-            android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/searchDirectorylabel"
-            android:layout_width="150dp"
-            android:layout_column="0"
-            android:layout_row="1"
-            android:gravity="center"
-            android:text="Search Directory"
-            android:textAlignment="center"
-            android:textSize="20sp" />
 
         <!--<ImageButton
             android:id="@+id/inputDirectory"
@@ -87,9 +63,42 @@
             android:textSize="20sp" />-->
 
         <ImageButton
+            android:id="@+id/searchDirectory"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_row="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="@drawable/background_imagebtn2"
+            android:cropToPadding="true"
+            android:foreground="@drawable/ic_search_directory"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/searchDirectorylabel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/searchDirectory"
+            android:layout_centerHorizontal="true"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Search Directory"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <ImageButton
             android:id="@+id/searchAppeal"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:adjustViewBounds="true"
             android:cropToPadding="true"
             android:gravity="center"
@@ -105,7 +114,7 @@
 
         <TextView
             android:id="@+id/searchAppeallabel"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_column="0"
             android:layout_row="3"
             android:gravity="center"
@@ -115,8 +124,8 @@
 
         <ImageButton
             android:id="@+id/raiseOnAppeal"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:gravity="center"
             android:adjustViewBounds="true"
             android:cropToPadding="true"
@@ -132,7 +141,7 @@
 
         <TextView
             android:id="@+id/raiseOnAppeallabel"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_column="1"
             android:layout_row="3"
             android:gravity="center"
@@ -142,4 +151,4 @@
 
     </GridLayout>
 
-</FrameLayout>
+</RelativeLayout>

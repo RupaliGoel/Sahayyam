@@ -1,14 +1,19 @@
 package com.example.rupali.sos;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MyProfile extends AppCompatActivity {
 
     String email,name,role1,role2,role3,contact,address,roles;
+    ImageButton editbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,15 @@ public class MyProfile extends AppCompatActivity {
         TextView textEmail = findViewById(R.id.email);
         TextView textContact =findViewById(R.id.mobileNumber);
         TextView textAddress = findViewById(R.id.location);
+
+        editbtn = findViewById(R.id.edit);
+        editbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyProfile.this, EditProfile.class);
+                startActivity(intent);
+            }
+        });
 
         textName.setText(name);
         textContact.setText(contact);

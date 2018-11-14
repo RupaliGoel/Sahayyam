@@ -1,6 +1,5 @@
 package com.example.rupali.sos;
 
-
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.ActivityCompat;
