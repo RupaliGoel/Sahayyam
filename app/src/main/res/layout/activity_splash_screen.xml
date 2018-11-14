@@ -5,7 +5,7 @@
     android:id="@+id/splashScreenLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     tools:context=".SplashScreen">
 
     <!-- Progress bar overlay; shown while login is in progress -->

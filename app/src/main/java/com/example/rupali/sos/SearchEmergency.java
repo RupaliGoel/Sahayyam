@@ -409,6 +409,11 @@ public class SearchEmergency extends Fragment {
             return null;
         }
 
+        public ArrayList<Emergency> getList()
+        {
+            return EmergencyList;
+        }
+
         protected void onPostExecute(String file_url)
         {
 
