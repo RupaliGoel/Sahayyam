@@ -119,23 +119,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:clickable="true"
-                android:text="Education: "
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:fontFamily="@font/roboto"
+                android:text="Education: "
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/labelRole"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:clickable="true"
-                android:text="Role :"
-                android:textStyle="bold"
-                android:layout_marginLeft="5dp"
                 android:layout_below="@+id/education"
-                android:layout_marginTop="8dp" />
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:fontFamily="@font/roboto"
+                android:text="Role :"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/labelDOB"
