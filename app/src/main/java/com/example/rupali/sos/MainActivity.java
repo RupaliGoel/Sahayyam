@@ -209,8 +209,10 @@ public class MainActivity extends AppCompatActivity {
                     .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                         @Override
                         public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+
                             Intent intent = new Intent(MainActivity.this, MyProfile.class);
                             MainActivity.this.startActivity(intent);
+
                             return false;
                         }
                     })
@@ -256,8 +258,14 @@ public class MainActivity extends AppCompatActivity {
                                 } else if (drawerItem.getIdentifier() == 100) {
                                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                                     prefs.edit().putBoolean("Islogin", false).commit();
-                                    prefs.edit().putString("user_email","guest@guest.com");
-                                    prefs.edit().putString("user_name","Guest");
+                                    prefs.edit().putString("user_email","").commit();
+                                    prefs.edit().putString("user_name","Guest").commit();
+                                    prefs.edit().putString("user_role1","").commit();
+                                    prefs.edit().putString("user_role2","").commit();
+                                    prefs.edit().putString("user_role3","").commit();
+                                    prefs.edit().putString("roles","").commit();
+                                    prefs.edit().putString("user_contact","").commit();
+                                    prefs.edit().putString("user_address","").commit();
                                     Toast.makeText(getBaseContext(), "Successfully Signed Out", Toast.LENGTH_SHORT).show();
                                     Islogin = false;
                                     /////////////////////
@@ -280,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
                     .build();
         } else {
             user_name = "Guest";
-            user_email = "guest@email.com";
+            user_email = "";
             new DrawerBuilder().withActivity(this).build();
 
             //primary items
@@ -321,8 +329,6 @@ public class MainActivity extends AppCompatActivity {
                     .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                         @Override
                         public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                            Intent intent = new Intent(MainActivity.this, MyProfile.class);
-                            MainActivity.this.startActivity(intent);
                             return false;
                         }
                     })

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/post_view_n_delete"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CCFFFF"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/page_name"
+        android:minHeight="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/post"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Details"
+        android:layout_below="@+id/page_name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/details"
+        android:id="@+id/titlePost"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/descriptionPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imagePost"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:textSize="18sp"
+        android:inputType="textMultiLine"
+        android:layout_marginLeft="10dp" />
+
+    <ImageView
+        android:id="@+id/imagePost"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/titlePost"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="120dp"
+        android:layout_marginLeft="10dp" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descriptionPost"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:text="Delete"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>
+

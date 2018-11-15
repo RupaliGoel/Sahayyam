@@ -22,28 +22,31 @@ public class MyProfile extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        name = prefs.getString("user_name","");
-        roles = prefs.getString("roles", "");
+        name = prefs.getString("user_name","guest");
+        roles = prefs.getString("roles", "guest");
         /*role1 = prefs.getString("user_role1","");
         role2 = prefs.getString("user_role2","");
         role3 = prefs.getString("user_role3","");*/
 
-        contact = prefs.getString("user_contact","");
-        email = prefs.getString("user_email", "");
-        address = prefs.getString("user_address", "");
+        contact = prefs.getString("user_contact","**********");
+        email = prefs.getString("user_email", "guest@guest.com");
+        address = prefs.getString("user_address", "***");
+        final boolean isLogin = prefs.getBoolean("Islogin",false);
 
         TextView textName = findViewById(R.id.name);
         TextView textRole = findViewById(R.id.role);
         TextView textEmail = findViewById(R.id.email);
         TextView textContact =findViewById(R.id.mobileNumber);
-        TextView textAddress = findViewById(R.id.location);
+        TextView textAddress = findViewById(R.id.address);
 
         editbtn = findViewById(R.id.edit);
         editbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MyProfile.this, EditProfile.class);
-                startActivity(intent);
+                if(isLogin == true){
+                    Intent intent = new Intent(MyProfile.this, EditProfile.class);
+                    startActivity(intent);
+                }
             }
         });
 

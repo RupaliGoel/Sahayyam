@@ -79,6 +79,9 @@ public class SearchEmergency extends Fragment {
         // Required empty public constructor
     }
 
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+
     //--------------------------------get location-----------------------------------------
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
@@ -135,6 +138,9 @@ public class SearchEmergency extends Fragment {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.addToBackStack(null);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        editor = prefs.edit();
+
         //-------------------------------toolbar, location textbox & button-----------------------------------
         ((AppCompatActivity)getActivity()).setTitle(null);
         page_name = (Toolbar) getActivity().findViewById(R.id.page_name);
@@ -160,6 +166,7 @@ public class SearchEmergency extends Fragment {
             @Override
             public void onClick(View v) {
                 changeaddress = locationedit.getText().toString();
+                editor.putString("user_current_address",changeaddress).commit();
                 convertAddress();
                 new getEmergency().execute();
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -428,7 +435,7 @@ public class SearchEmergency extends Fragment {
                     });
                 }
 
-                EmergencyListAdapter adapter = new EmergencyListAdapter(EmergencyList, getActivity());
+                EmergencyListAdapter adapter = new EmergencyListAdapter(EmergencyList, getActivity().getApplicationContext());
 
                 EmergencyListView.setAdapter(adapter);
 

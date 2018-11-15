@@ -128,5 +128,4 @@ public class SelectImagesFromGallery extends AppCompatActivity implements View.O
         ImageLoader.getInstance().init(config.build());
 
     }
-
 }
