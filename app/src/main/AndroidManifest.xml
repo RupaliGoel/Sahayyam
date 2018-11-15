@@ -114,8 +114,8 @@
             android:label="@string/customGallery" />
         <activity android:name=".EditProfile" />
         <activity android:name=".MyPosts" />
-        <activity android:name=".ProfileDetails" />
-        <activity android:name=".ManageEmergency" />
+        <activity android:name=".ProfileDetails"></activity>
+        <activity android:name=".PostViewNDelete"></activity>
     </application>
 
 </manifest>

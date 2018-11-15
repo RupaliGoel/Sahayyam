@@ -1,6 +1,7 @@
 package com.example.rupali.sos;
 
 public class Emergency {
+    public int Emergency_Id;
     public String Emergency_Name;
     public String Emergency_Desc;
     public String User_Email;

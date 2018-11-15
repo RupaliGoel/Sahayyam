@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
     String email,password,name,role1,role2,role3,contact,address;
     int success = 0;
+    String message = "";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -154,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                 // check for success tag
                 try {
                     success = json.getInt(TAG_SUCCESS);
+                    message = json.getString("message");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -171,8 +173,11 @@ public class LoginActivity extends AppCompatActivity {
             if(success==1) {
                 new GetDetails().execute();
             }
-            else
-                Toast.makeText(getApplicationContext(),"Login Failed",Toast.LENGTH_LONG).show();
+            else{
+                Toast.makeText(getApplicationContext(),message ,Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -251,7 +256,7 @@ public class LoginActivity extends AppCompatActivity {
             prefs.edit().putString("user_contact",contact).commit();
             prefs.edit().putString("user_address",address).commit();
             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
-            Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             setResult(Activity.RESULT_OK, intent);
             startActivity((intent).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             progressBar.setVisibility(View.GONE);

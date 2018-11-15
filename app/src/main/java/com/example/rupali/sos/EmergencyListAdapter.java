@@ -97,8 +97,8 @@ public class EmergencyListAdapter extends BaseAdapter
             }
         });*/
 
-        if(!emergency_list.get(position).Emergency_Image.equals(""))
-            imageLoader.displayImage(emergency_list.get(position).Emergency_Image, viewItem.EmerImageView);
+        /*if(!emergency_list.get(position).Emergency_Image.equals(""))
+            imageLoader.displayImage(emergency_list.get(position).Emergency_Image, viewItem.EmerImageView);*/
 
 //        imageLoader.destroy();
 

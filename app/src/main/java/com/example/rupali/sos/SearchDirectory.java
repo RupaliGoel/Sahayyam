@@ -67,7 +67,7 @@ public class SearchDirectory extends AppCompatActivity {
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
     String currentlattitude, currentlongitude, addressOfUser, nameOfUser, roleOfUser, contactOfUser, emailOfUser;
-
+    String currentAddressOfUser;
     ListView DirectoryListView;
     JSONArray jsonArray = null;
     JSONObject jsonObject;
@@ -119,6 +119,7 @@ public class SearchDirectory extends AppCompatActivity {
         currentlongitude = prefs.getString("long", "None");
         emailOfUser = prefs.getString("user_email", "Not Found");
         addressOfUser = prefs.getString("user_address", "Not Found");
+        currentAddressOfUser = prefs.getString("user_current_address", "Not Found");
         nameOfUser = prefs.getString("user_name", "Guest");
         roleOfUser = prefs.getString("user_role", "Not Found");
         contactOfUser = prefs.getString("user_contact", "Not Found");
@@ -128,7 +129,7 @@ public class SearchDirectory extends AppCompatActivity {
         setSupportActionBar(search_dir);
 
         locationedit = findViewById(R.id.currentLocation);
-        locationedit.setText(addressOfUser);
+        locationedit.setText(currentAddressOfUser);
         change = findViewById(R.id.changeButton);
         audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);

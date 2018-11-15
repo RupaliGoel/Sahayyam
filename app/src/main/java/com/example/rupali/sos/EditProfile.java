@@ -526,6 +526,22 @@ public class EditProfile extends AppCompatActivity {
                 editor.putString("user_contact",contact.getText().toString().trim()).commit();
                 editor.putString("user_address",address.getText().toString().trim()).commit();
 
+                String Role1 = role1.getSelectedItem().toString();
+                String Role2 = role2.getSelectedItem().toString();
+                String Role3 = role3.getSelectedItem().toString();
+
+                String roles = null;
+                if(!Role1.equals("-- Select --") && !Role2.equals("-- Select --") && !Role3.equals("-- Select --")){
+                    roles = Role1+", "+Role2+", "+Role3;
+                }
+                else if(!Role2.equals("-- Select --") && Role3.equals("-- Select --")){
+                    roles = Role1+", "+Role2;
+                }
+                else if(Role2.equals("-- Select --") && Role3.equals("-- Select --")){
+                    roles = Role1;
+                }
+                editor.putString("roles",roles).commit();
+
                 Intent intent=new Intent(EditProfile.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

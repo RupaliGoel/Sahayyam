@@ -42,14 +42,9 @@ public class ManageAppeal extends Fragment {
     ListView AppealListView;
     ArrayList<String> appealTypes;
 
-    String currentlattitude, currentlongitude, user_email;
+    String user_email;
 
-    JSONArray jsonArray = null;
-    JSONObject jsonObject;
     Appeal appeal;
-    Spinner spinner;
-    String chosenType ;
-
 
     ArrayList<Appeal> AppealList;
 
@@ -58,15 +53,6 @@ public class ManageAppeal extends Fragment {
     String email,desc,type,address;
     Double lat,lon;
     int success = 0;
-
-    // JSON Node names
-    private static final String TAG_SUCCESS = "success";
-
-    //-------------------------------toolbar, location textbox & button-----------------------------------
-    ClearableEditText textbox;
-    ImageButton audio_mode;
-    Button go;
-    private android.support.v7.widget.Toolbar search_app;
     View progressOverlay;
 
     SharedPreferences prefs;
@@ -190,20 +176,22 @@ public class ManageAppeal extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         try{
-                                       /* Intent myIntent = new Intent(view.getContext(), AppealPost.class);
-                                        *//*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
+                                       Intent myIntent = new Intent(view.getContext(), PostViewNDelete.class);
+                                        /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
                                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                                         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();*//*
+                                        byte[] byteArray = stream.toByteArray();*/
                                         Appeal app = AppealList.get(position);
                                         type = app.Appeal_Type;
                                         desc = app.Appeal_Desc;
                                         email = app.User_email;
-                                        myIntent.putExtra("Type",type);
+                                        int appeal_id = app.Appeal_Id;
+                                        myIntent.putExtra("Id",appeal_id);
+                                        myIntent.putExtra("Title",type);
+                                        myIntent.putExtra("Type","appeal");
                                         myIntent.putExtra("Content", desc);
-                                        myIntent.putExtra("Email",email);
 //                                      myIntent.putExtra("Picture", byteArray);
-                                        startActivity(myIntent);*/
+                                        startActivity(myIntent);
                         }
                         catch (Exception e){
                             e.printStackTrace();
