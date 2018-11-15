@@ -200,6 +200,17 @@ public class MainActivity extends AppCompatActivity {
                     .withIdentifier(100)
                     .withName(R.string.sign_out)
                     .withIcon(R.drawable.ic_sign_out);
+
+
+            //-----------------------------code for Toolbar---------------------------------------------
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeButtonEnabled(false);
+            //-----------------------------code for Toolbar---------------------------------------------
+
+
             AccountHeader headerResult = new AccountHeaderBuilder()
                     .withActivity(this)
                     .withHeaderBackground(R.drawable.header)
