@@ -175,6 +175,7 @@ public class ManageEmergency extends Fragment {
                             Emergency emer = EmergencyList.get(position);
                             type = emer.Emergency_Name;
                             desc = emer.Emergency_Desc;
+                            //add address to description
                             address = getCompleteAddressString(emer.Emergency_Lat, emer.Emergency_Long);
                             desc = desc+"\n\nAddress : "+address;
                             int emer_id = emer.Emergency_Id;
