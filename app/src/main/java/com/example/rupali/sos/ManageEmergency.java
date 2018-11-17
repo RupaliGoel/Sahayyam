@@ -35,8 +35,11 @@ import java.util.Locale;
 
 public class ManageEmergency extends Fragment {
 
+
+
     ListView EmergencyListView;
     ArrayList<String> EmergencyTypes;
+
 
     ArrayList<Emergency> EmergencyList;
 
@@ -77,11 +80,20 @@ public class ManageEmergency extends Fragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        progressOverlay=view.findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
+
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         user_email = prefs.getString("user_email","admin");
 
         EmergencyListView = view.findViewById(R.id.EmergencyListView);
         new GetEmergency().execute();
+
+
     }
 
     class GetEmergency extends AsyncTask<String,String,String> {
@@ -94,8 +106,6 @@ public class ManageEmergency extends Fragment {
         protected void onPreExecute() {
 
             super.onPreExecute();
-            // Show progress overlay (with animation):
-//            AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
 
         }
 
@@ -193,7 +203,7 @@ public class ManageEmergency extends Fragment {
                 });
             }
             // Hide it (with animation):
-            //AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
+            AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
 
         }
 
