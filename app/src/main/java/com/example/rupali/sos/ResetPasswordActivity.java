@@ -74,28 +74,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                progressBar.setVisibility(View.VISIBLE);
 
-                BackgroundMail.newBuilder(ResetPasswordActivity.this)
-                        .withUsername("sahayyam18@gmail.com")
-                        .withPassword("qwerty@2018")
-                        .withMailto(""+email)
-                        .withType(BackgroundMail.TYPE_PLAIN)
-                        .withSubject("PASSWORD RESET")
-                        .withBody("Your Password is "+password)
-                        .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
-                            @Override
-                            public void onSuccess() {
-                                Toast.makeText(ResetPasswordActivity.this,"Successful.",Toast.LENGTH_LONG).show();
-//                                Intent i=new Intent(Feedback_ms.this,CustomerActivity_cm.class);
-//                                startActivity(i);
-                            }
-                        })
-                        .withOnFailCallback(new BackgroundMail.OnFailCallback() {
-                            @Override
-                            public void onFail() {
-                                Toast.makeText(ResetPasswordActivity.this,"Failed.",Toast.LENGTH_LONG).show();
-                            }
-                        })
-                        .send();
+
             }
         });
 
@@ -161,6 +140,28 @@ public class ResetPasswordActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),message ,Toast.LENGTH_LONG).show();
             progressBar.setVisibility(View.GONE);
 
+            BackgroundMail.newBuilder(ResetPasswordActivity.this)
+                    .withUsername("sahayyam18@gmail.com")
+                    .withPassword("qwerty@2018")
+                    .withMailto(""+email)
+                    .withType(BackgroundMail.TYPE_PLAIN)
+                    .withSubject("PASSWORD RESET")
+                    .withBody("Your Password is "+password)
+                    .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(ResetPasswordActivity.this,"Successful.",Toast.LENGTH_LONG).show();
+//                                Intent i=new Intent(Feedback_ms.this,CustomerActivity_cm.class);
+//                                startActivity(i);
+                        }
+                    })
+                    .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                        @Override
+                        public void onFail() {
+                            Toast.makeText(ResetPasswordActivity.this,"Failed.",Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .send();
         }
     }
 }

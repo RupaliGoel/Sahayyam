@@ -207,9 +207,9 @@ public class SearchEmergency extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
         } else {
-            Location location1 = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
 
@@ -440,7 +440,10 @@ public class SearchEmergency extends Fragment {
                     });
                 }
 
-                EmergencyListAdapter adapter = new EmergencyListAdapter(EmergencyList, getActivity().getApplicationContext());
+                EmergencyListAdapter adapter = null;
+
+                if(isAdded())
+                    adapter = new EmergencyListAdapter(EmergencyList, getActivity().getApplicationContext());
 
                 EmergencyListView.setAdapter(adapter);
 

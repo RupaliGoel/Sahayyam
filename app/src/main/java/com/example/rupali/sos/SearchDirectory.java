@@ -67,11 +67,12 @@ public class SearchDirectory extends AppCompatActivity {
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
     String currentlattitude, currentlongitude, addressOfUser, nameOfUser, roleOfUser, contactOfUser, emailOfUser;
-    String currentAddressOfUser;
+    String currentAddressOfUser, changeaddress;
     ListView DirectoryListView;
     JSONArray jsonArray = null;
     JSONObject jsonObject;
     User user;
+    double searchlat,searchlong,lati,longi;
 
     private static String url_details = "https://sahayyam.000webhostapp.com/get_users_by_role.php";
     String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
@@ -174,6 +175,9 @@ public class SearchDirectory extends AppCompatActivity {
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeaddress = locationedit.getText().toString();
+                editor.putString("user_current_address",changeaddress).commit();
+                convertAddress();
                 new GetDirectory(SearchDirectory.this).execute();
             }
         });
@@ -247,6 +251,11 @@ public class SearchDirectory extends AppCompatActivity {
                                 user.User_Contact = jsonObject.getString("user_contact");
 
                                 user.User_Address = jsonObject.getString("user_address");
+                                convertAddress(user.User_Address);
+                                if(!((locationedit.getText().toString()).equals(""))){
+                                    double distance = getDistance(searchlat, searchlong, lati, longi);
+                                    user.User_Distance = distance;
+                                }
 
                                 //lat = Double.parseDouble(jsonObject.getString("user_address_lat"));
                                 //lon = Double.parseDouble(jsonObject.getString("user_address_long"));
@@ -310,6 +319,13 @@ public class SearchDirectory extends AppCompatActivity {
 
             if (DirectoryList != null) {
 
+                Collections.sort(DirectoryList, new Comparator<User>() {
+                    @Override
+                    public int compare(User p1, User p2) {
+                        return ((int) Math.round(p1.User_Distance)) - ((int) Math.round(p2.User_Distance)); // Ascending
+                    }
+                });
+
                 DirectoryListAdapter adapter = new DirectoryListAdapter(DirectoryList, context);
 
                 DirectoryListView.setAdapter(adapter);
@@ -325,30 +341,50 @@ public class SearchDirectory extends AppCompatActivity {
         }
     }
 
+    private double getDistance(double fromLat, double fromLon, double toLat, double toLon){
+        double radius = 6371;   // Earth radius in km
+        double deltaLat = Math.toRadians(toLat - fromLat);
+        double deltaLon = Math.toRadians(toLon - fromLon);
+        double lat1 = Math.toRadians(fromLat);
+        double lat2 = Math.toRadians(toLat);
+        double aVal = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
+                Math.sin(deltaLon/2) * Math.sin(deltaLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        double cVal = 2*Math.atan2(Math.sqrt(aVal), Math.sqrt(1-aVal));
 
-    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
-        String strAdd = "";
-        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
-            if (addresses != null) {
-                Address returnedAddress = addresses.get(0);
-                StringBuilder strReturnedAddress = new StringBuilder("");
-
-                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
-                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
-                }
-                strAdd = strReturnedAddress.toString();
-                Log.w("Current loction address", strReturnedAddress.toString());
-            } else {
-                Log.w("Current loction address", "No Address returned!");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.w("Current loction address", "Cannot get Address!");
-        }
-        return strAdd;
+        double distance = radius*cVal;
+        Log.d("distance","radius * angle = " +distance);
+        return distance;
     }
+
+    public void convertAddress() {
+        Geocoder geocoder = new Geocoder(SearchDirectory.this, Locale.getDefault());
+        if (changeaddress != null && !changeaddress.isEmpty()) {
+            try {
+                List<Address> addressList = geocoder.getFromLocationName(changeaddress, 1);
+                if (addressList != null && addressList.size() > 0) {
+                    searchlat = addressList.get(0).getLatitude();
+                    searchlong = addressList.get(0).getLongitude();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } // end catch
+        } // end if
+    } // end convertAddress
+
+    public void convertAddress(String address) {
+        Geocoder geocoder = new Geocoder(SearchDirectory.this, Locale.getDefault());
+        if (address != null && !address.isEmpty()) {
+            try {
+                List<Address> addressList = geocoder.getFromLocationName(address, 1);
+                if (addressList != null && addressList.size() > 0) {
+                    lati = addressList.get(0).getLatitude();
+                    longi = addressList.get(0).getLongitude();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } // end catch
+        } // end if
+    } // end convertAddress
 
     private void loadSpinnerData(String url) {
 
