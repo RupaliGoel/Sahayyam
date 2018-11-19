@@ -84,6 +84,14 @@ public class ManageEmergency extends Fragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        progressOverlay=view.findViewById(R.id.progress_overlay);
+        progressOverlay.bringToFront();
+
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+
+
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         user_email = prefs.getString("user_email","admin");
         currentaddress = prefs.getString("user_current_address","");
@@ -210,8 +218,11 @@ public class ManageEmergency extends Fragment {
                     }
                 });
             }
+
             // Hide it (with animation):
-            //AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
+            AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
+
+
         }
 
         private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
