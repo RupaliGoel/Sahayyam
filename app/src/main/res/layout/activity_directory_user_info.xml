@@ -139,5 +139,31 @@
             android:background="@color/black"
             android:onClick="sendEmail"
             app:srcCompat="@android:drawable/sym_action_email" />
+        <TextView
+            android:id="@+id/label_address"
+            android:layout_width="wrap_content"
+            android:text="Address : "
+            android:layout_below="@+id/email"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/label_address"
+            android:layout_alignTop="@+id/label_address"
+            android:layout_below="@+id/label_email"
+            android:textSize="18sp"
+            android:layout_marginBottom="2dp"/>
+        <ImageButton
+            android:id="@+id/direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/address"
+            android:layout_toEndOf="@+id/address"
+            android:background="@color/black"
+            app:srcCompat="@android:drawable/ic_menu_directions" />
     </RelativeLayout>
 </RelativeLayout>

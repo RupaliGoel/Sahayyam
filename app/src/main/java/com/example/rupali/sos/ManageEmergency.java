@@ -1,5 +1,6 @@
 package com.example.rupali.sos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +30,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +40,9 @@ public class ManageEmergency extends Fragment {
 
     ListView EmergencyListView;
     ArrayList<String> EmergencyTypes;
+    String currentaddress;
+    double searchlat,searchlong;
+    double distance;
 
     ArrayList<Emergency> EmergencyList;
 
@@ -64,6 +70,7 @@ public class ManageEmergency extends Fragment {
         super.onCreate(savedInstanceState);
 
         EmergencyTypes=new ArrayList<>();
+
     }
 
     @Override
@@ -79,6 +86,8 @@ public class ManageEmergency extends Fragment {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         user_email = prefs.getString("user_email","admin");
+        currentaddress = prefs.getString("user_current_address","");
+        convertAddress();
 
         EmergencyListView = view.findViewById(R.id.EmergencyListView);
         new GetEmergency().execute();
@@ -131,6 +140,8 @@ public class ManageEmergency extends Fragment {
                             lon = Double.parseDouble(json.getString("emer_place_long"));
                             emergency.Emergency_Lat = lat;
                             emergency.Emergency_Long = lon;
+                            distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
+                            emergency.Emergency_Distance = distance;
                             //address = getAddress(getActivity().getApplicationContext(),lat,lon);
                                    /* image = jsonObject.getInt("emer_image");
                                     emergency.Emergency_Image = image;*/
@@ -158,6 +169,13 @@ public class ManageEmergency extends Fragment {
             EmergencyListView.setVisibility(View.VISIBLE);
 
             if (EmergencyList != null) {
+
+                Collections.sort(EmergencyList, new Comparator<Emergency>() {
+                    @Override
+                    public int compare(Emergency p1, Emergency p2) {
+                        return ((int) Math.round(p1.getEmergency_Distance())) - ((int) Math.round(p2.getEmergency_Distance())); // Ascending
+                    }
+                });
 
                 EmergencyListAdapter adapter = new EmergencyListAdapter(EmergencyList, getActivity().getApplicationContext());
 
@@ -194,7 +212,6 @@ public class ManageEmergency extends Fragment {
             }
             // Hide it (with animation):
             //AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
-
         }
 
         private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
@@ -260,4 +277,33 @@ public class ManageEmergency extends Fragment {
         return fulladdress;
     }
 */
+    private double getDistance(double fromLat, double fromLon, double toLat, double toLon){
+        double radius = 6371;   // Earth radius in km
+        double deltaLat = Math.toRadians(toLat - fromLat);
+        double deltaLon = Math.toRadians(toLon - fromLon);
+        double lat1 = Math.toRadians(fromLat);
+        double lat2 = Math.toRadians(toLat);
+        double aVal = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
+                Math.sin(deltaLon/2) * Math.sin(deltaLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        double cVal = 2*Math.atan2(Math.sqrt(aVal), Math.sqrt(1-aVal));
+
+        double distance = radius*cVal;
+        Log.d("distance","radius * angle = " +distance);
+        return distance;
+    }
+
+    public void convertAddress() {
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+        if (currentaddress != null && !currentaddress.isEmpty()) {
+            try {
+                List<Address> addressList = geocoder.getFromLocationName(currentaddress, 1);
+                if (addressList != null && addressList.size() > 0) {
+                    searchlat = addressList.get(0).getLatitude();
+                    searchlong = addressList.get(0).getLongitude();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } // end catch
+        } // end if
+    } // end convertAddress
 }

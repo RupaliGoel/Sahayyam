@@ -63,7 +63,7 @@
 
     <!--Strings related to Forget Password-->
     <string name="lbl_forgot_password">Forgot Password?</string>
-    <string name="forgot_password_msg">We just need your registered Email Id to send you password reset instructions</string>
+    <string name="forgot_password_msg">We just need your Registered Email Id to send your password. This Password can be changed later from Edit Profile. </string>
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_back">Back</string>
 

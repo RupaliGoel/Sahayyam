@@ -1,9 +1,12 @@
 package com.example.rupali.sos;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +17,29 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ResetPasswordActivity extends AppCompatActivity {
 
 
     private EditText inputEmail;
     private Button btnReset, btnBack;
     private ProgressBar progressBar;
+
+    JSONParser jsonParser = new JSONParser();
+    // url to create new product
+    private static String url_check_user = "https://sahayyam.000webhostapp.com/check_email.php";
+    // JSON Node names
+    int success;
+    String message;
+    String email,password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +62,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
+                email = inputEmail.getText().toString().trim();
                 //String email="rupaligoel@yahoo.com";
 
                 if (TextUtils.isEmpty(email)) {
@@ -50,19 +70,21 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     return;
                 }
 
+                new CheckUser().execute();
+
                progressBar.setVisibility(View.VISIBLE);
 
                 BackgroundMail.newBuilder(ResetPasswordActivity.this)
-                        .withUsername("sahayyam18@gmail.com") // compsny ki id se jaega mail
+                        .withUsername("sahayyam18@gmail.com")
                         .withPassword("qwerty@2018")
-                        .withMailto(""+email)   //customer ko jaega
+                        .withMailto(""+email)
                         .withType(BackgroundMail.TYPE_PLAIN)
                         .withSubject("PASSWORD RESET")
-                        .withBody("Your new Password is ")
+                        .withBody("Your Password is "+password)
                         .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
                             @Override
                             public void onSuccess() {
-                                Toast.makeText(ResetPasswordActivity.this,"done",Toast.LENGTH_LONG).show();
+                                Toast.makeText(ResetPasswordActivity.this,"Successful.",Toast.LENGTH_LONG).show();
 //                                Intent i=new Intent(Feedback_ms.this,CustomerActivity_cm.class);
 //                                startActivity(i);
                             }
@@ -70,39 +92,75 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         .withOnFailCallback(new BackgroundMail.OnFailCallback() {
                             @Override
                             public void onFail() {
-                                Toast.makeText(ResetPasswordActivity.this,"Not done",Toast.LENGTH_LONG).show();
+                                Toast.makeText(ResetPasswordActivity.this,"Failed.",Toast.LENGTH_LONG).show();
                             }
                         })
                         .send();
-
-
-
             }
         });
 
+    }
+
+    /**
+     * Background Async Task to Create new user
+     * */
+    class CheckUser extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressBar.setVisibility(View.VISIBLE);
+
+        }
+
+        /**
+         * Login user
+         */
+        protected String doInBackground(String... args) {
 
 
+            try
+            {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("email", email));
+
+                // getting JSON Object
+                // Note that create user url accepts POST method
+                JSONObject json = jsonParser.makeHttpRequest(url_check_user, "POST", params);
+                // check log cat fro response
+                Log.d("Create Response", json.toString());
+
+                JSONArray jsonArray = json.getJSONArray("user");
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                // check for success tag
+                try {
+                    password =jsonObject.getString("password");
+                    success = json.getInt("success");
+                    message = json.getString("message");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.print(e);
+            }
+            return null;
+        }
 
 
+        protected void onPostExecute(String file_url) {
 
+            // dismiss the progressbar once done
+            Toast.makeText(getApplicationContext(),message ,Toast.LENGTH_LONG).show();
+            progressBar.setVisibility(View.GONE);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
     }
 }

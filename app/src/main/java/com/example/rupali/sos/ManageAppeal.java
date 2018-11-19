@@ -1,5 +1,6 @@
 package com.example.rupali.sos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -69,8 +70,6 @@ public class ManageAppeal extends Fragment {
         super.onCreate(savedInstanceState);
 
         appealTypes=new ArrayList<>();
-
-
 
     }
 
@@ -198,6 +197,7 @@ public class ManageAppeal extends Fragment {
                         }
                     }
                 });
+
             }
             // Hide it (with animation):
             //AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);

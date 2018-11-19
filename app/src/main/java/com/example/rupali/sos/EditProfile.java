@@ -474,10 +474,10 @@ public class EditProfile extends AppCompatActivity {
                 params.add(new BasicNameValuePair("name", name.getText().toString().trim()));
                 params.add(new BasicNameValuePair("role1", selected_options[0]));
                 if(!selected_options[1].equals("-- Select --")){
-                    params.add(new BasicNameValuePair("role2" , selected_options[0]));
+                    params.add(new BasicNameValuePair("role2" , selected_options[1]));
                 }
                 if(!selected_options[2].equals("-- Select --")){
-                    params.add(new BasicNameValuePair("role3" , selected_options[0]));
+                    params.add(new BasicNameValuePair("role3" , selected_options[2]));
                 }
                 params.add(new BasicNameValuePair("contact", contact.getText().toString().trim()));
                 params.add(new BasicNameValuePair("address", address.getText().toString().trim()));

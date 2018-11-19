@@ -295,7 +295,11 @@ public class SearchAppeal extends AppCompatActivity {
                 AppealListAdapter adapter = new AppealListAdapter(AppealList, context);
 
                 AppealListView.setAdapter(adapter);
+
+                AppealListView.setVisibility(View.VISIBLE);
             }
+            else
+                AppealListView.setVisibility(View.GONE);
 
             // Hide it (with animation):
             AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);

@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -32,13 +34,15 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DirectoryUserInfo extends AppCompatActivity {
 
-    TextView tvName,tvContact,tvEmail,tvRole;
-    String email,name,role,contact;
+    TextView tvName,tvContact,tvEmail,tvRole,tvAddress;
+    String email,name,role,contact,address;
     Toolbar page_name;
-    ImageButton emailbtn;
+    ImageButton emailbtn,directionbtn;
+    Double lat = null, lon = null;
 
 
     @Override
@@ -56,6 +60,7 @@ public class DirectoryUserInfo extends AppCompatActivity {
         role = bundle.getString("Role");
         name = bundle.getString("Name");
         contact = bundle.getString("Contact");
+        address = bundle.getString("Address");
 //        double distance = bundle.getDouble("Distance");
 //        byte[] byteArray = bundle.getByteArray("Picture");
 
@@ -71,6 +76,8 @@ public class DirectoryUserInfo extends AppCompatActivity {
         tvContact.setText(contact);
         tvEmail = findViewById(R.id.email);
         tvEmail.setText(email);
+        tvAddress = findViewById(R.id.address);
+        tvAddress.setText(address);
 
         ImageView call = (ImageView) findViewById(R.id.callButton);
 
@@ -89,6 +96,19 @@ public class DirectoryUserInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendEmail(DirectoryUserInfo.this,email,"","",null);
+            }
+        });
+
+        directionbtn = findViewById(R.id.direction);
+
+        convertAddress(address);
+        directionbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String lati=Double.toString(lat);
+                String longi=Double.toString(lon);
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?daddr="+lati+","+longi));startActivity(intent);
             }
         });
     }
@@ -268,4 +288,19 @@ public class DirectoryUserInfo extends AppCompatActivity {
             //Toast.makeText(ContactUs.this,"Error sending Email",Toast.LENGTH_LONG).show();
         }
     }
+
+    public void convertAddress(String address) {
+        Geocoder geocoder = new Geocoder(DirectoryUserInfo.this, Locale.getDefault());
+        if (address != null && !address.isEmpty()) {
+            try {
+                List<Address> addressList = geocoder.getFromLocationName(address, 1);
+                if (addressList != null && addressList.size() > 0) {
+                    lat = addressList.get(0).getLatitude();
+                    lon = addressList.get(0).getLongitude();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } // end catch
+        } // end if
+    } // end convertAddress
 }

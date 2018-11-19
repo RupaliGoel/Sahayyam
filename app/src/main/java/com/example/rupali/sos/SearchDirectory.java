@@ -198,6 +198,8 @@ public class SearchDirectory extends AppCompatActivity {
         protected void onPreExecute() {
 
             super.onPreExecute();
+            // Show progress overlay (with animation):
+            AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
         }
 
         @Override
@@ -244,6 +246,8 @@ public class SearchDirectory extends AppCompatActivity {
 
                                 user.User_Contact = jsonObject.getString("user_contact");
 
+                                user.User_Address = jsonObject.getString("user_address");
+
                                 //lat = Double.parseDouble(jsonObject.getString("user_address_lat"));
                                 //lon = Double.parseDouble(jsonObject.getString("user_address_long"));
                                 //address = getCompleteAddressString(lat,lon);
@@ -268,11 +272,13 @@ public class SearchDirectory extends AppCompatActivity {
                                         name = clickedUser.User_Name;
                                         role = clickedUser.User_Role;
                                         contact = clickedUser.User_Contact;
+                                        address = clickedUser.User_Address;
 
                                         myIntent.putExtra("Role",role);
                                         myIntent.putExtra("Name", name);
                                         myIntent.putExtra("Email",email);
                                         myIntent.putExtra("Contact",contact);
+                                        myIntent.putExtra("Address",address);
 //                                      myIntent.putExtra("Picture", byteArray);
                                         startActivity(myIntent);
                                     }
@@ -302,14 +308,19 @@ public class SearchDirectory extends AppCompatActivity {
 
         {
 
-            DirectoryListView.setVisibility(View.VISIBLE);
-
             if (DirectoryList != null) {
 
                 DirectoryListAdapter adapter = new DirectoryListAdapter(DirectoryList, context);
 
                 DirectoryListView.setAdapter(adapter);
+
+                DirectoryListView.setVisibility(View.VISIBLE);
             }
+            else
+                DirectoryListView.setVisibility(View.GONE);
+
+            // Hide it (with animation):
+            AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
 
         }
     }
