@@ -36,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,18 +50,15 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.mikepenz.iconics.utils.Utils;
-
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -81,9 +79,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.net.ssl.HttpsURLConnection;
-
 import static android.app.Activity.RESULT_OK;
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 
@@ -95,10 +91,11 @@ public class InputEmergency extends Fragment {
     boolean check = true;
     byte[] byteArrayVar;
     ProgressDialog progressDialog;
-    EditText role, name, address, contact, place, desc, hiddenType,imagename;
+    EditText role, name, address, contact, placeedit, desc, hiddenType,imagename;
     Spinner spinner;
     Button submit, choose;
     ImageView ivImage;
+    ImageButton placepickerbtn;
     String userChoosenTask, currentAddressOfUser;
     String GetImageNameEditText;
     private android.support.v7.widget.Toolbar page_name;
@@ -121,6 +118,7 @@ public class InputEmergency extends Fragment {
     private static final String TAG_SUCCESS = "success";
     ArrayList<String> emergencyTypes;
     View progressOverlay;
+    int PLACE_PICKER_REQUEST = 3;
 
     public InputEmergency() {
         // Required empty public constructor
@@ -184,9 +182,10 @@ public class InputEmergency extends Fragment {
         address = view.findViewById(R.id.address);
         spinner = view.findViewById(R.id.emergency_Type);
         contact = view.findViewById(R.id.contact);
-        place = view.findViewById(R.id.place);
+        placeedit = view.findViewById(R.id.place);
         desc = view.findViewById(R.id.description);
         hiddenType = view.findViewById(R.id.title);
+        placepickerbtn = view.findViewById(R.id.placepickerbtn);
 
         address.setText(addressOfUser);
         address.setEnabled(false);
@@ -196,7 +195,7 @@ public class InputEmergency extends Fragment {
         contact.setEnabled(false);
         name.setText(nameOfUser);
         name.setEnabled(false);
-        place.setText(currentAddressOfUser);
+        placeedit.setText(currentAddressOfUser);
         //spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 
         loadSpinnerData(URL);
@@ -250,9 +249,9 @@ public class InputEmergency extends Fragment {
             public void onClick(View v) {
                 GetImageNameEditText = imagename.getText().toString();
                 ImageUploadToServerFunction();
-                getCoordinatesFromAddress(place.getText().toString().trim());
+                getCoordinatesFromAddress(placeedit.getText().toString().trim());
                 System.out.print("\nLAT:"+placelattitude+"\nLONG:"+placelongitude);
-                if ((place.getText().toString()).equals("")) {
+                if ((placeedit.getText().toString()).equals("")) {
                     Toast.makeText(getActivity().getApplicationContext(), "Enter Place of Emergency !", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -267,6 +266,21 @@ public class InputEmergency extends Fragment {
 
             }
         });
+
+        placepickerbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
     }
 
@@ -344,7 +358,14 @@ public class InputEmergency extends Fragment {
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
+            else if (requestCode == PLACE_PICKER_REQUEST) {
+                Place place = PlacePicker.getPlace(data, getActivity().getApplicationContext());
+                String toastMsg = String.format("%s", place.getAddress());
+                placeedit.setText(toastMsg);
+                //Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+            }
         }
+
     }
     public void ImageUploadToServerFunction(){
         final String ConvertImage = Base64.encodeToString(byteArrayVar, Base64.DEFAULT);
@@ -573,8 +594,8 @@ public class InputEmergency extends Fragment {
             if(success==1) {
                 Toast.makeText(getActivity().getApplicationContext(),"Saved Successfully.",Toast.LENGTH_LONG).show();
                 hiddenType.setVisibility(View.INVISIBLE);
-                place = getView().findViewById(R.id.place);
-                place.setText(currentAddressOfUser);
+                placeedit = getView().findViewById(R.id.place);
+                placeedit.setText(currentAddressOfUser);
                 desc = getView().findViewById(R.id.description);
                 desc.setText("");
                 ivImage = getView().findViewById(R.id.uploadedphoto);

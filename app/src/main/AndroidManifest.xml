@@ -116,6 +116,9 @@
         <activity android:name=".MyPosts" />
         <activity android:name=".ProfileDetails"></activity>
         <activity android:name=".PostViewNDelete"></activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAg7cSdPLN38XYiDujfMQ8lB5YAAg95it8"/>
     </application>
 
 </manifest>

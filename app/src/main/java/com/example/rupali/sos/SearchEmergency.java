@@ -51,6 +51,10 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.NameValuePair;
@@ -72,6 +76,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.security.auth.Subject;
+
+import static android.app.Activity.RESULT_OK;
 
 public class SearchEmergency extends Fragment {
 
@@ -104,6 +110,7 @@ public class SearchEmergency extends Fragment {
     String changeaddress;
     double lat,lon;
     double distance;
+    int PLACE_PICKER_REQUEST = 2;
 
     View progressOverlay;
     ArrayList<Emergency> EmergencyList ;
@@ -111,8 +118,8 @@ public class SearchEmergency extends Fragment {
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
     AutoCompleteTextView locationedit;
-    ImageButton audio_mode;
-    Button change,go;
+    ImageButton change,audio_mode,placepickerbtn;
+    Button go;
     private android.support.v7.widget.Toolbar page_name;
     //-------------------------------toolbar, location textbox & button-----------------------------------
 
@@ -153,6 +160,7 @@ public class SearchEmergency extends Fragment {
         go = view.findViewById(R.id.GoButton);
         audio_mode = view.findViewById(R.id.audioModeButton);
         searchByText = view.findViewById(R.id.textSearch);
+        placepickerbtn = view.findViewById(R.id.placepickerbtn);
 
         change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,8 +177,22 @@ public class SearchEmergency extends Fragment {
                 editor.putString("user_current_address",changeaddress).commit();
                 convertAddress();
                 new getEmergency().execute();
-                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                /*InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);*/
+            }
+        });
+
+        placepickerbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -184,7 +206,7 @@ public class SearchEmergency extends Fragment {
                 REQUEST_LOCATION);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
+            //buildAlertMessageNoGps();
             getLocation();
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             getLocation();
@@ -194,6 +216,32 @@ public class SearchEmergency extends Fragment {
         EmergencyListView = (ListView) view.findViewById(R.id.EmergencyListView);
         new getEmergency().execute();
         //----------------------------------listview------------------------------------------------
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*if (resultCode == RESULT_OK && resultCode == 1 && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                ivImage.setImageBitmap(bitmap);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }*/
+        if (resultCode == RESULT_OK )
+        {
+            if (requestCode == PLACE_PICKER_REQUEST) {
+                Place place = PlacePicker.getPlace(data, getActivity().getApplicationContext());
+                String toastMsg = String.format("%s", place.getAddress());
+                locationedit.setText(toastMsg);
+                //Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 
 
