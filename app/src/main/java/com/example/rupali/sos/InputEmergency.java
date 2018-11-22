@@ -230,7 +230,6 @@ public class InputEmergency extends Fragment {
                 // DO Nothing here
 
             }
-
         });
         choose = view.findViewById(R.id.choose);
         choose.setOnClickListener(new View.OnClickListener()
@@ -248,7 +247,7 @@ public class InputEmergency extends Fragment {
             public void onClick(View v) {
                 convertAddress();
                 GetImageNameEditText = imagename.getText().toString();
-                ImageUploadToServerFunction();
+                //ImageUploadToServerFunction();
                 getCoordinatesFromAddress(placeedit.getText().toString().trim());
                 System.out.print("\nLAT:"+placelattitude+"\nLONG:"+placelongitude);
                 if ((placeedit.getText().toString()).equals("")) {
@@ -367,6 +366,7 @@ public class InputEmergency extends Fragment {
         }
 
     }
+
     public void ImageUploadToServerFunction(){
         final String ConvertImage = Base64.encodeToString(byteArrayVar, Base64.DEFAULT);
         class AsyncTaskUploadClass extends AsyncTask<Void,Void,String> {
@@ -381,7 +381,8 @@ public class InputEmergency extends Fragment {
                 // Dismiss the progress dialog after done uploading.
                 progressDialog.dismiss();
                 // Printing uploading success message coming from server on android app.
-                //Toast.makeText(getActivity(),string1,Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),string1,Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Done",Toast.LENGTH_LONG).show();
                 // Setting image as transparent after done uploading.
                // ivImage.setImageResource(android.R.color.transparent);
             }
@@ -592,6 +593,7 @@ public class InputEmergency extends Fragment {
          **/
         protected void onPostExecute(String file_url) {
             if(success==1) {
+                ImageUploadToServerFunction();
                 Toast.makeText(getActivity().getApplicationContext(),"Saved Successfully.",Toast.LENGTH_LONG).show();
                 hiddenType.setVisibility(View.INVISIBLE);
                 placeedit = getView().findViewById(R.id.place);
