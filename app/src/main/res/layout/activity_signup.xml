@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,14 +7,54 @@
     android:layout_height="match_parent"
     tools:context=".SignupActivity">
 
+<android.support.v7.widget.Toolbar
+    android:id="@+id/login1"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="@color/tab1"
+    android:fitsSystemWindows="true"
+    android:minHeight="?android:attr/actionBarSize">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Register"
+        android:textColor="@android:color/white"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+
+</android.support.v7.widget.Toolbar>
+
+
+
+
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_below="@+id/login1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context=".SignupActivity">-->
+
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/white"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
+
+
+
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -33,7 +68,7 @@
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -49,7 +84,7 @@
                 android:inputType="phone"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -65,7 +100,7 @@
                 android:inputType="textPostalAddress"
                 android:maxLines="3"
                 android:singleLine="true"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -81,7 +116,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -100,7 +135,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 tools:ignore="InvalidImeActionId" />
 
         </android.support.design.widget.TextInputLayout>
@@ -115,11 +150,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:clickable="true"
-                android:text="Role 1 : "
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:fontFamily="sans-serif"
+                android:text="Role 1 : "
+                android:textSize="18sp"
+                />
 
             <Spinner
                 android:id="@+id/role1"
@@ -143,11 +180,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:clickable="true"
-                android:text="Role 2 : "
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:fontFamily="sans-serif"
+                android:text="Role 2 : "
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/role2"
@@ -171,11 +209,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:clickable="true"
-                android:text="Role 3 : "
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:fontFamily="sans-serif"
+                android:text="Role 3 : "
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/role3"
@@ -192,17 +231,18 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upload :"
-                android:textSize="15sp" />
+                android:fontFamily="sans-serif"
+                android:text=" Upload:"
+                android:textSize="18sp" />
 
             <ImageView
                 android:id="@+id/uploadedphoto"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="center" />
         </LinearLayout>
@@ -214,41 +254,48 @@
             android:id="@+id/separator2" /-->
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content" >
 
             <Button
                 android:id="@+id/choose"
-                android:layout_width="match_parent"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="center"
                 android:text="Choose Photo"
-                android:textColor="@color/colortextBlack"/>
+                android:background="@color/tab1"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"/>
 
         </LinearLayout>
 
         <Button
             android:id="@+id/sign_up_button"
             style="?android:textAppearanceSmall"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:background="@color/colorAccent"
-            android:text="@string/action_sign_in_short"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:text="Register"
+            android:background="@color/tab1"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/sign_in_button"
-            android:layout_width="fill_parent"
+            style="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="@color/colorAccent"
-            android:text="GO TO LOGIN PAGE"
-            android:textAllCaps="false"
-            android:textColor="@color/colortextBlack"
-            android:textSize="15dp" />
+            android:background="@color/tab1"
+            android:text="Go To Login Page"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            />
     </LinearLayout>
+</ScrollView>
 
 </RelativeLayout>
-</ScrollView>

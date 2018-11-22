@@ -15,10 +15,8 @@
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@color/colorPrimary"
-            android:scaleType="centerCrop"
-            android:src="@drawable/header"
-            app:srcCompat="@drawable/header" />
+            android:background="@color/md_grey_600"
+            android:scaleType="centerCrop"/>
 
         <FrameLayout
             android:layout_width="220dp"
@@ -48,7 +46,7 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
-                android:background="#ebca0707"
+                android:background="@color/colorPrimary"
                 android:elevation="5dp"
                 android:src="@drawable/ic_edit"
                 android:scaleType="fitCenter"
@@ -61,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_below="@+id/header_cover_image"
-            android:background="#ebca0707"
+            android:background="@color/black"
             android:elevation="4dp"
             android:paddingBottom="24dp">
 

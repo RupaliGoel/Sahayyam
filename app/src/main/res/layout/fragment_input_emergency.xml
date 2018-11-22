@@ -41,63 +41,86 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFE9A0"
+                android:background="@color/md_grey_300"
                 tools:context="com.example.rupali.sos.InputEmergency">
 
                 <TextView
                     android:id="@+id/person_details"
                     android:layout_width="match_parent"
                     android:textAlignment="center"
-                    android:text="Person's Details"
+                    android:text="Informant"
                     android:textColor="@color/colorPrimary"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/label_role"
                     android:layout_width="wrap_content"
                     android:text="Role"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <EditText
                     android:id="@+id/role"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="2dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Name"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <EditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
                     android:layout_marginBottom="2dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Address"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <EditText
                     android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="2dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Contact"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <EditText
                     android:id="@+id/contact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
                     android:layout_marginBottom="2dp"/>
                 </LinearLayout>
 
@@ -112,7 +135,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#CCFFFF"
+                android:background="@color/white"
                 tools:context="com.example.rupali.sos.InputEmergency">
 
                 <TextView
@@ -122,18 +145,25 @@
                     android:text="Emergency Details"
                     android:textColor="@color/colorPrimary"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Place"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <EditText
                     android:id="@+id/place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"/>
+                    android:layout_marginBottom="2dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
                 <ImageButton
                     android:id="@+id/placepickerbtn"
                     android:layout_width="40dp"
@@ -146,7 +176,9 @@
                     android:layout_width="wrap_content"
                     android:text="Emergency Type"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <Spinner
                     android:id="@+id/emergency_Type"
                     android:layout_width="match_parent"
@@ -163,7 +195,9 @@
                     android:layout_width="wrap_content"
                     android:text="Emergency Description"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <EditText
                     android:id="@+id/description"
                     android:layout_width="match_parent"
@@ -184,7 +218,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#CCFFFF">
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="50dp"
@@ -219,27 +253,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#CCFFFF">
+                android:background="@color/white">
 
                 <Button
                     android:id="@+id/choose"
                     android:layout_width="186dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center"
                     android:text="Upload Photo"
-                    android:background="@color/colorPrimary"
                     android:layout_marginRight="2dp"
-                    android:textColor="#ffffff"/>
+                    android:background="@color/black"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/submit"
                     android:layout_width="194dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
                     android:layout_gravity="center"
                     android:layout_marginLeft="2dp"
                     android:text="Submit"
-                    android:textColor="#ffffff"/>
+                    android:background="@color/black"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
         </LinearLayout>
