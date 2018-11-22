@@ -214,24 +214,26 @@
                     android:background="@drawable/edit_text_style"/>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@color/white">
 
                 <TextView
-                    android:layout_width="50dp"
+                    android:id="@+id/ImageTV"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Image :"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/imagename"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="37dp"
                     android:background="@drawable/edit_text_style"
                     android:gravity="top|left"
+                    android:layout_toRightOf="@+id/ImageTV"
                     android:hint="ImageName"
                     android:inputType="textMultiLine"
                     android:lines="5"
@@ -242,12 +244,30 @@
                     android:scrollHorizontally="false"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
+                <Button
+                    android:id="@+id/choose"
+                    android:layout_width="186dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imagename"
+                    android:layout_gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:text="Choose Photo"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/black"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white" />
+
                 <ImageView
                     android:id="@+id/uploadedphoto"
-                    android:layout_width="351dp"
+                    android:layout_below="@+id/choose"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="200dp"
                     android:layout_height="200dp"
-                    android:layout_gravity="center" />
-            </LinearLayout>
+                    android:layout_gravity="bottom" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -256,20 +276,8 @@
                 android:background="@color/white">
 
                 <Button
-                    android:id="@+id/choose"
-                    android:layout_width="186dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Upload Photo"
-                    android:layout_marginRight="2dp"
-                    android:background="@color/black"
-                    android:fontFamily="sans-serif"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/white" />
-
-                <Button
                     android:id="@+id/submit"
-                    android:layout_width="194dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="2dp"
