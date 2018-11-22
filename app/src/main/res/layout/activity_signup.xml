@@ -277,8 +277,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:background="@color/tab1"
             android:text="Register"
+            android:background="@color/tab1"
             android:fontFamily="sans-serif"
             android:textSize="18sp"
             android:textColor="@android:color/white" />
