@@ -153,5 +153,16 @@
         android:layout_below="@+id/label_email"
         android:textSize="18sp"
         android:layout_marginBottom="2dp"/>
+    <Button
+        android:id="@+id/historyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mail"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:text="Posts"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="50dp"/>
 
 </RelativeLayout>

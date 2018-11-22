@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    android:id="@+id/post_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".EmergencyPost"
     android:background="#CCFFFF"
-    android:orientation="vertical">
-
-    <include layout="@layout/progress_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/page_name"
         android:minHeight="?android:attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="30dp">
@@ -31,20 +25,20 @@
     </android.support.v7.widget.Toolbar>
 
     <TextView
-        android:id="@+id/emergency_details"
+        android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Emergency Details"
+        android:text="Details"
         android:layout_below="@+id/page_name"
         android:textColor="@color/colorPrimary"
         android:textSize="21sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textAlignment="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/emergency_details"
+        android:layout_below="@+id/details"
         android:id="@+id/titlePost"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
@@ -70,29 +64,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="120dp"
         android:layout_marginLeft="10dp" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/descriptionPost"
-        android:background="@color/colorPrimary"
-        android:src="@drawable/ic_direction"
-        android:scaleType="fitCenter"
-        android:layout_marginRight="10dp"/>
-
-    <Button
-        android:id="@+id/detailsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButton"
-        android:layout_centerHorizontal="true"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/white"
-        android:text="Posted By"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>
 

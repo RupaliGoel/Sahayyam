@@ -38,16 +38,13 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class ManageAppeal extends Fragment {
+public class AppealHistory extends Fragment {
 
-    ListView AppealListView;
-    ArrayList<String> appealTypes;
-
-    String user_email;
-
+    ListView AppealListView = null;
+    ArrayList<Appeal> AppealList = null;
     Appeal appeal;
 
-    ArrayList<Appeal> AppealList;
+    String user_email;
 
     JSONParser jsonParser = new JSONParser();
     private static String url_appeal_details = "https://sahayyam.000webhostapp.com/get_my_appeals.php";
@@ -59,7 +56,7 @@ public class ManageAppeal extends Fragment {
     SharedPreferences prefs;
 
 
-    public ManageAppeal() {
+    public AppealHistory() {
         // Required empty public constructor
     }
 
@@ -68,16 +65,13 @@ public class ManageAppeal extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        appealTypes=new ArrayList<>();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_manage_appeal, container, false);
+        return inflater.inflate(R.layout.fragment_appeal_history, container, false);
 
     }
 
@@ -91,9 +85,10 @@ public class ManageAppeal extends Fragment {
         // Show progress overlay (with animation):
         AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
 
+        //user_email = getArguments().getString("email");
+        //System.out.println("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EMAIL FROM BUNDLE : " + user_email);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        user_email = prefs.getString("user_email","");
 
         AppealListView = view.findViewById(R.id.AppealListView);
         new GetAppeals().execute();
@@ -115,7 +110,7 @@ public class ManageAppeal extends Fragment {
         }
 
         @Override
-            protected String doInBackground(String... args) {
+        protected String doInBackground(String... args) {
 
             try {
 
@@ -182,22 +177,22 @@ public class ManageAppeal extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         try{
-                                       Intent myIntent = new Intent(view.getContext(), PostViewNDelete.class);
+                            Intent myIntent = new Intent(view.getContext(), ViewPostHistory.class);
                                         /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
                                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                                         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                                         byte[] byteArray = stream.toByteArray();*/
-                                        Appeal app = AppealList.get(position);
-                                        type = app.Appeal_Type;
-                                        desc = app.Appeal_Desc;
-                                        email = app.User_email;
-                                        int appeal_id = app.Appeal_Id;
-                                        myIntent.putExtra("Id",appeal_id);
-                                        myIntent.putExtra("Title",type);
-                                        myIntent.putExtra("Type","appeal");
-                                        myIntent.putExtra("Content", desc);
+                            Appeal app = AppealList.get(position);
+                            type = app.Appeal_Type;
+                            desc = app.Appeal_Desc;
+                            email = app.User_email;
+                            int appeal_id = app.Appeal_Id;
+                            myIntent.putExtra("Id",appeal_id);
+                            myIntent.putExtra("Title",type);
+                            myIntent.putExtra("Type","appeal");
+                            myIntent.putExtra("Content", desc);
 //                                      myIntent.putExtra("Picture", byteArray);
-                                        startActivity(myIntent);
+                            startActivity(myIntent);
                         }
                         catch (Exception e){
                             e.printStackTrace();
@@ -234,6 +229,10 @@ public class ManageAppeal extends Fragment {
             }
             return strAdd;
         }
+    }
+
+    public void setEmail(String email){
+        this.user_email = email;
     }
 }
 

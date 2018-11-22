@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class ManageEmergency extends Fragment {
+public class EmergencyHistory extends Fragment {
 
     ListView EmergencyListView;
     ArrayList<String> EmergencyTypes;
@@ -59,7 +59,7 @@ public class ManageEmergency extends Fragment {
 
     SharedPreferences prefs;
 
-    public ManageEmergency() {
+    public EmergencyHistory() {
         // Required empty public constructor
     }
 
@@ -77,7 +77,7 @@ public class ManageEmergency extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_manage_emergency, container, false);
+        return inflater.inflate(R.layout.fragment_emergency_history, container, false);
     }
 
     @Override
@@ -89,9 +89,9 @@ public class ManageEmergency extends Fragment {
 
         // Show progress overlay (with animation):
         AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        user_email = prefs.getString("user_email","");
 
+        //user_email = getArguments().getString("email");
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         currentaddress = prefs.getString("user_current_address","");
         convertAddress();
@@ -192,7 +192,7 @@ public class ManageEmergency extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         try{
-                            Intent myIntent = new Intent(view.getContext(), PostViewNDelete.class);
+                            Intent myIntent = new Intent(view.getContext(), ViewPostHistory.class);
                                         /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
                                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                                         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -316,4 +316,8 @@ public class ManageEmergency extends Fragment {
             } // end catch
         } // end if
     } // end convertAddress
+
+    public void setEmail(String email){
+        this.user_email = email;
+    }
 }

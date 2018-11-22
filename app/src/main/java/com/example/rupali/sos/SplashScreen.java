@@ -32,12 +32,13 @@ import java.util.List;
 public class SplashScreen extends AppCompatActivity {
 
     JSONParser jsonParser = new JSONParser();
-    // url to create new product
+
     private static String url_app_details = "https://sahayyam.000webhostapp.com/get_app_details.php";
 
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 4000;
+    private static int SPLASH_TIME_OUT = 5000;
     String strWelcomeMessage, strOwner, strAppName, strInventorName, strOrganisationName, strOrganisationAddress, strInventorContact;
+    String toolbarMessage;
     TextView welcome, organisation, appname, name, department, department_address, contact;
     View progressOverlay;
 
@@ -62,6 +63,7 @@ public class SplashScreen extends AppCompatActivity {
                     finishAndRemoveTask();
                 }
             });
+
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
@@ -73,23 +75,42 @@ public class SplashScreen extends AppCompatActivity {
 
             new GetDetails().execute();
 
-            new Handler().postDelayed(new Runnable() {
+            // Check if enabled and if not send user to the GPS settings
+            if (!enabled) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("GPS is off");
+                builder.setMessage("Please turn on gps to use the App.");
+                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //(SplashScreen.this).finishAffinity();
+                        finishAndRemoveTask();
+                    }
+                });
 
-                /*
-                 * Showing splash screen with a timer. This will be useful when you
-                 * want to show case your app logo / company
-                 */
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+            else{
+                new Handler().postDelayed(new Runnable() {
 
-                @Override
-                public void run() {
-                    // This method will be executed once the timer is over
-                    // Start your app main activity
-                    Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                    startActivity(i);
-                    // close this activity
-                    finish();
-                }
-            }, SPLASH_TIME_OUT);
+                    /*
+                     * Showing splash screen with a timer. This will be useful when you
+                     * want to show case your app logo / company
+                     */
+
+                    @Override
+                    public void run() {
+                        // This method will be executed once the timer is over
+                        // Start your app main activity
+                        Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                        startActivity(i);
+                        // close this activity
+                        finish();
+                    }
+                }, SPLASH_TIME_OUT);
+            }
         } else {
             try {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -197,6 +218,10 @@ public class SplashScreen extends AppCompatActivity {
             department.setText(strOrganisationName);
             department_address.setText(strOrganisationAddress);
             contact.setText(strInventorContact);
+
+            toolbarMessage = strOwner + " - " + strAppName;
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SplashScreen.this);
+            prefs.edit().putString("AppName",toolbarMessage).commit();
 
             // Hide it (with animation):
             AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);

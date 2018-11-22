@@ -55,6 +55,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.NameValuePair;
@@ -118,7 +119,7 @@ public class SearchEmergency extends Fragment {
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
     AutoCompleteTextView locationedit;
-    ImageButton change,audio_mode,placepickerbtn;
+    ImageButton getlocationbtn,audio_mode,placepickerbtn;
     Button go;
     private android.support.v7.widget.Toolbar page_name;
     //-------------------------------toolbar, location textbox & button-----------------------------------
@@ -156,17 +157,27 @@ public class SearchEmergency extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         locationedit = view.findViewById(R.id.currentLocation);
-        change = view.findViewById(R.id.changeButton);
+        getlocationbtn = view.findViewById(R.id.LocationButton);
         go = view.findViewById(R.id.GoButton);
         audio_mode = view.findViewById(R.id.audioModeButton);
         searchByText = view.findViewById(R.id.textSearch);
         placepickerbtn = view.findViewById(R.id.placepickerbtn);
 
-        change.setOnClickListener(new View.OnClickListener() {
+        getlocationbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                locationedit.setText("");
-                locationedit.setFocusableInTouchMode(true);
+                //-----------------------------get location-------------------------------------------------
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{ android.Manifest.permission.ACCESS_FINE_LOCATION },
+                        REQUEST_LOCATION);
+                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    buildAlertMessageNoGps();
+                    //getLocation();
+                } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    getLocation();
+                }
+                //--------------------------------get location----------------------------------------------
             }
         });
 
@@ -200,18 +211,7 @@ public class SearchEmergency extends Fragment {
         progressOverlay.bringToFront();
         //-------------------------------toolbar, location textbox & button-----------------------------------
 
-        //-----------------------------get location-------------------------------------------------
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{ android.Manifest.permission.ACCESS_FINE_LOCATION },
-                REQUEST_LOCATION);
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            //buildAlertMessageNoGps();
-            getLocation();
-        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            getLocation();
-        }
-        //--------------------------------get location----------------------------------------------
+
 
         EmergencyListView = (ListView) view.findViewById(R.id.EmergencyListView);
         new getEmergency().execute();
@@ -237,8 +237,12 @@ public class SearchEmergency extends Fragment {
             if (requestCode == PLACE_PICKER_REQUEST) {
                 Place place = PlacePicker.getPlace(data, getActivity().getApplicationContext());
                 String toastMsg = String.format("%s", place.getAddress());
+                LatLng latlongLocation = place.getLatLng();
                 locationedit.setText(toastMsg);
-                //Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                searchlat = latlongLocation.latitude;
+                searchlong = latlongLocation.longitude;
+                new getEmergency().execute();
+                editor.putString("user_current_address",toastMsg).commit();
             }
         }
 
@@ -294,34 +298,33 @@ public class SearchEmergency extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(),"Unable to Trace your location",Toast.LENGTH_SHORT).show();
 
             }
+
+                searchlat = Double.parseDouble(lattitude);
+                searchlong = Double.parseDouble(longitude);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("lat",lattitude).commit();
+                editor.putString("long",longitude).commit();
+                editor.putString("user_current_address",addressOfUser).commit();
+
         }
 
-        searchlat = Double.parseDouble(lattitude);
-        searchlong = Double.parseDouble(longitude);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("lat",lattitude).commit();
-        editor.putString("long",longitude).commit();
-        editor.putString("user_current_address",addressOfUser).commit();
+
     }
 
     protected void buildAlertMessageNoGps() {
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
-        builder.setMessage("Please Turn ON your GPS Connection")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
+        builder.setTitle("GPS is off");
+        builder.setMessage("Please turn on gps to use the App.");
+        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {

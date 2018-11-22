@@ -78,6 +78,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 import static android.app.Activity.RESULT_OK;
@@ -101,7 +102,8 @@ public class InputEmergency extends Fragment {
     private android.support.v7.widget.Toolbar page_name;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    String currentlattitude,currentlongitude,addressOfUser,nameOfUser,roleOfUser,contactOfUser,emailOfUser;
+    double currentlat,currentlong;
+    String addressOfUser,nameOfUser,roleOfUser,contactOfUser,emailOfUser;
     String placelattitude,placelongitude;
     String title_emergency ;
     int success;
@@ -150,9 +152,6 @@ public class InputEmergency extends Fragment {
         editor = prefs.edit();
 
         emergencyTypes=new ArrayList<>();
-
-        currentlattitude = prefs.getString("lat","");
-        currentlongitude = prefs.getString("long","");
         emailOfUser = prefs.getString("user_email","");
         addressOfUser = prefs.getString("user_address","");
         nameOfUser = prefs.getString("user_name", "Guest");
@@ -247,6 +246,7 @@ public class InputEmergency extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                convertAddress();
                 GetImageNameEditText = imagename.getText().toString();
                 ImageUploadToServerFunction();
                 getCoordinatesFromAddress(placeedit.getText().toString().trim());
@@ -560,8 +560,8 @@ public class InputEmergency extends Fragment {
                 params.add(new BasicNameValuePair("email", emailOfUser));
                 params.add(new BasicNameValuePair("title", title_emergency));
                 params.add(new BasicNameValuePair("desc", desc.getText().toString().trim()));
-                params.add(new BasicNameValuePair("addlat", currentlattitude));
-                params.add(new BasicNameValuePair("addlong", currentlongitude));
+                params.add(new BasicNameValuePair("addlat", String.valueOf(currentlat)));
+                params.add(new BasicNameValuePair("addlong", String.valueOf(currentlong)));
                 params.add(new BasicNameValuePair("placelat", placelattitude));
                 params.add(new BasicNameValuePair("placelong", placelongitude));
 
@@ -605,6 +605,21 @@ public class InputEmergency extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();
         }
     }
+
+    public void convertAddress() {
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        if (!currentAddressOfUser.equals("")) {
+            try {
+                List<Address> addressList = geocoder.getFromLocationName(currentAddressOfUser, 1);
+                if (addressList != null && addressList.size() > 0) {
+                    currentlat = addressList.get(0).getLatitude();
+                    currentlong = addressList.get(0).getLongitude();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } // end catch
+        } // end if
+    } // end convertAddress
 
     private void loadSpinnerData(String url) {
 
