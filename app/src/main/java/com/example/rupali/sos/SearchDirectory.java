@@ -66,7 +66,7 @@ public class SearchDirectory extends AppCompatActivity {
 
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    String currentlattitude, currentlongitude, addressOfUser, nameOfUser, roleOfUser, contactOfUser, emailOfUser;
+    String addressOfUser, nameOfUser, roleOfUser, contactOfUser, emailOfUser;
     String currentAddressOfUser, changeaddress;
     ListView DirectoryListView;
     JSONArray jsonArray = null;
@@ -81,8 +81,6 @@ public class SearchDirectory extends AppCompatActivity {
     Double lat,lon;
     int success = 0;
 
-    // JSON Node names
-    private static final String TAG_SUCCESS = "success";
     ArrayList<String> roleTypes;
     Spinner spinner;
     View progressOverlay;
@@ -116,8 +114,6 @@ public class SearchDirectory extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
-        currentlattitude = prefs.getString("lat", "None");
-        currentlongitude = prefs.getString("long", "None");
         emailOfUser = prefs.getString("user_email", "Not Found");
         addressOfUser = prefs.getString("user_address", "Not Found");
         currentAddressOfUser = prefs.getString("user_current_address", "Not Found");
@@ -263,7 +259,6 @@ public class SearchDirectory extends AppCompatActivity {
 
                            /* image = jsonObject.getInt("emer_image");
                             emergency.Emergency_Image = image;*/
-                                System.out.println("All details saved in object."+user.User_Email+user.User_Name+user.User_Role+user.User_Contact);
                                 DirectoryList.add(user);
                             }
 
@@ -271,7 +266,7 @@ public class SearchDirectory extends AppCompatActivity {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     try{
-                                        Intent myIntent = new Intent(view.getContext(), DirectoryUserInfo.class);
+                                        Intent myIntent = new Intent(view.getContext(), ProfileDetails.class);
                                         /*Bitmap bmp = BitmapFactory.decodeResource(getResources(), image);
                                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                                         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -283,11 +278,8 @@ public class SearchDirectory extends AppCompatActivity {
                                         contact = clickedUser.User_Contact;
                                         address = clickedUser.User_Address;
 
-                                        myIntent.putExtra("Role",role);
-                                        myIntent.putExtra("Name", name);
-                                        myIntent.putExtra("Email",email);
-                                        myIntent.putExtra("Contact",contact);
-                                        myIntent.putExtra("Address",address);
+                                        myIntent.putExtra("email",email);
+
 //                                      myIntent.putExtra("Picture", byteArray);
                                         startActivity(myIntent);
                                     }

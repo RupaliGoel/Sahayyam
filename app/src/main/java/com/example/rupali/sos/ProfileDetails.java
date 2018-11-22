@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class ProfileDetails extends AppCompatActivity {
     String email,name,role1,role2,role3,contact,address;
     Toolbar page_name;
     ImageButton emailbtn,call,direction;
+    Button history;
     View progressOverlay;
     TextView tvName,tvContact,tvEmail,tvRole,tvAddress;
 
@@ -144,6 +146,16 @@ public class ProfileDetails extends AppCompatActivity {
                     if(isPermissionGranted()){
                         call_action();
                     }
+                }
+            });
+
+            history = findViewById(R.id.historyButton);
+            history.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ProfileDetails.this, PostHistory.class);
+                    intent.putExtra("email",email);
+                    startActivity(intent);
                 }
             });
 

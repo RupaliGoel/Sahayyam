@@ -46,11 +46,10 @@
         android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="Current Location"
-        android:focusable="false"
         android:inputType="textPostalAddress"
         android:textSize="15sp"
         android:drawableLeft="@drawable/ic_location"
-        android:layout_toLeftOf="@+id/changeButton"
+        android:layout_toLeftOf="@+id/LocationButton"
         android:padding="5dip"
         android:background="@drawable/edit_text_style"
         />
@@ -95,8 +94,8 @@
         android:layout_marginRight="5dp"
         android:layout_above="@+id/EmergencyListView"
         android:layout_alignBottom="@+id/currentLocation"
-        android:background="@color/colorPrimary"
-        android:src="@drawable/ic_input_emergency" />
+        android:background="@color/red"
+        android:src="@drawable/ic_get_location" />
 
     <ImageButton
         android:id="@+id/placepickerbtn"

@@ -299,13 +299,13 @@ public class SearchEmergency extends Fragment {
 
             }
 
-            searchlat = Double.parseDouble(lattitude);
-            searchlong = Double.parseDouble(longitude);
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("lat",lattitude).commit();
-            editor.putString("long",longitude).commit();
-            editor.putString("user_current_address",addressOfUser).commit();
+                searchlat = Double.parseDouble(lattitude);
+                searchlong = Double.parseDouble(longitude);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("lat",lattitude).commit();
+                editor.putString("long",longitude).commit();
+                editor.putString("user_current_address",addressOfUser).commit();
 
         }
 

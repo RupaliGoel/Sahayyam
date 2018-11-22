@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Bundle SavedInstanceState;
     Boolean Islogin;
+    TextView appnametv;
     //-----------------------------------
 
     //------------------------------code for bottom navigation tabs-----------------------------------
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     //------------------------------code for bottom navigation tabs-----------------------------------
 
-    String user_name,user_email;
+    String user_name,user_email,toolbarMessage;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Islogin = prefs.getBoolean("Islogin", false);
         user_email = prefs.getString("user_email","guest@guest.com");
         user_name = prefs.getString("user_name","Guest");
+        toolbarMessage = prefs.getString("AppName","App");
 
 
         //------------------------------code for bottom navigation tabs-----------------------------------
@@ -217,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
 
             //-----------------------------code for Toolbar---------------------------------------------
             toolbar = (Toolbar) findViewById(R.id.toolbar);
+            appnametv = (TextView)findViewById(R.id.appname);
+            appnametv.setText(toolbarMessage);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
