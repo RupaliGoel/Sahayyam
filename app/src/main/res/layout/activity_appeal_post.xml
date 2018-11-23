@@ -3,7 +3,7 @@
     android:id="@+id/appeal_details_post"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCFFFF"
+    android:background="@color/white"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -31,17 +31,20 @@
         android:text="Appeal Details"
         android:layout_below="@+id/page_name"
         android:textColor="@color/colorPrimary"
-        android:textSize="21sp"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif"
         android:textStyle="bold"
         android:textAlignment="center"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appeal_details"
         android:id="@+id/titlePost"
         android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
+        android:background="@color/md_grey_300"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp" />
 
@@ -53,6 +56,8 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif"
         android:inputType="textMultiLine"
         android:layout_marginLeft="10dp" />
 
@@ -67,13 +72,15 @@
 
     <Button
         android:id="@+id/detailsButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/descriptionPost"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:text="Posted By"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
         android:scaleType="fitCenter"
         android:layout_marginTop="20dp"/>
 
