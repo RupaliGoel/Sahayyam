@@ -93,6 +93,7 @@ public class SplashScreen extends AppCompatActivity {
                 alertDialog.show();
             }
             else{
+
                 new Handler().postDelayed(new Runnable() {
 
                     /*
@@ -161,6 +162,7 @@ public class SplashScreen extends AppCompatActivity {
 
             try
             {
+
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
 

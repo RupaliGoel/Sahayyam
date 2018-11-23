@@ -29,6 +29,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.ncapdevi.fragnav.FragNavController;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
+
+import java.security.Permissions;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SavedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_main);
+
+        //requestsPermissions();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         editor = prefs.edit();
@@ -401,6 +405,29 @@ public class MainActivity extends AppCompatActivity {
                         }
                     })
                     .build();
+        }
+    }
+
+    public void requestsPermissions(){
+        if(!CustomPermissions.Check_STORAGE(MainActivity.this))
+        {
+            //if not permisson granted so request permisson with request code
+            CustomPermissions.Request_STORAGE(MainActivity.this,1);
+        }
+        if(!CustomPermissions.Check_CAMERA(MainActivity.this))
+        {
+            //if not permisson granted so request permisson with request code
+            CustomPermissions.Request_CAMERA(MainActivity.this,2);
+        }
+        if(!CustomPermissions.Check_FINE_LOCATION(MainActivity.this))
+        {
+            //if not permisson granted so request permisson with request code
+            CustomPermissions.Request_FINE_LOCATION(MainActivity.this,3);
+        }
+        if(!CustomPermissions.Check_COURSE_LOCATION(MainActivity.this))
+        {
+            //if not permisson granted so request permisson with request code
+            CustomPermissions.Request_COURSE_LOCATION(MainActivity.this,4);
         }
     }
 

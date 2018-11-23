@@ -93,33 +93,33 @@ public class SearchEmergency extends Fragment {
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     String lattitude, longitude;
-    double searchlat,searchlong;
+    double searchlat, searchlong;
     JSONParser jsonParser = new JSONParser();
     //---------------------------------get location-----------------------------------------
 
     //-------------------------------listview---------------------------------------------------
 
-    ListView EmergencyListView;
+    ListView EmergencyListView = null;
     ClearableEditText searchByText;
     JSONArray jsonArray = null;
     JSONObject jsonObject;
 
-    double latti,longi;
+    double latti, longi;
     String addressOfUser;
     public static String HttpURL = "https://sahayyam.000webhostapp.com/get_emergencies.php";
-    String name,desc,emailpost;
+    String name, desc, emailpost;
     String changeaddress;
-    double lat,lon;
+    double lat, lon;
     double distance;
     int PLACE_PICKER_REQUEST = 2;
 
     View progressOverlay;
-    ArrayList<Emergency> EmergencyList ;
+    ArrayList<Emergency> EmergencyList = null;
     //-------------------------------listview---------------------------------------------------
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
     AutoCompleteTextView locationedit;
-    ImageButton getlocationbtn,audio_mode,placepickerbtn;
+    ImageButton getlocationbtn, audio_mode, placepickerbtn;
     Button go;
     private android.support.v7.widget.Toolbar page_name;
     //-------------------------------toolbar, location textbox & button-----------------------------------
@@ -127,7 +127,7 @@ public class SearchEmergency extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //addFragment(this);
+
     }
 
     @Override
@@ -150,11 +150,11 @@ public class SearchEmergency extends Fragment {
         editor = prefs.edit();
 
         //-------------------------------toolbar, location textbox & button-----------------------------------
-        ((AppCompatActivity)getActivity()).setTitle(null);
+        ((AppCompatActivity) getActivity()).setTitle(null);
         page_name = (Toolbar) getActivity().findViewById(R.id.page_name);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(page_name);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(page_name);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         locationedit = view.findViewById(R.id.currentLocation);
         getlocationbtn = view.findViewById(R.id.LocationButton);
@@ -167,17 +167,26 @@ public class SearchEmergency extends Fragment {
             @Override
             public void onClick(View v) {
                 //-----------------------------get location-------------------------------------------------
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{ android.Manifest.permission.ACCESS_FINE_LOCATION },
-                        REQUEST_LOCATION);
-                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    buildAlertMessageNoGps();
-                    //getLocation();
-                } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    getLocation();
+                if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+                } else {
+                    locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        buildAlertMessageNoGps();
+                    } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        getLocation();
+
+                        changeaddress = locationedit.getText().toString();
+                        editor.putString("user_current_address", changeaddress).commit();
+                        convertAddress();
+                        new getEmergency().execute();
+                    }
                 }
                 //--------------------------------get location----------------------------------------------
+
             }
         });
 
@@ -185,7 +194,7 @@ public class SearchEmergency extends Fragment {
             @Override
             public void onClick(View v) {
                 changeaddress = locationedit.getText().toString();
-                editor.putString("user_current_address",changeaddress).commit();
+                editor.putString("user_current_address", changeaddress).commit();
                 convertAddress();
                 new getEmergency().execute();
                 /*InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -212,9 +221,7 @@ public class SearchEmergency extends Fragment {
         //-------------------------------toolbar, location textbox & button-----------------------------------
 
 
-
         EmergencyListView = (ListView) view.findViewById(R.id.EmergencyListView);
-        new getEmergency().execute();
         //----------------------------------listview------------------------------------------------
     }
 
@@ -232,8 +239,7 @@ public class SearchEmergency extends Fragment {
                 e.printStackTrace();
             }
         }*/
-        if (resultCode == RESULT_OK )
-        {
+        if (resultCode == RESULT_OK) {
             if (requestCode == PLACE_PICKER_REQUEST) {
                 Place place = PlacePicker.getPlace(data, getActivity().getApplicationContext());
                 String toastMsg = String.format("%s", place.getAddress());
@@ -242,74 +248,91 @@ public class SearchEmergency extends Fragment {
                 searchlat = latlongLocation.latitude;
                 searchlong = latlongLocation.longitude;
                 new getEmergency().execute();
-                editor.putString("user_current_address",toastMsg).commit();
+                editor.putString("user_current_address", toastMsg).commit();
             }
         }
 
     }
 
 
-
     //----------------------------------------get location----------------------------------------------
     private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (!CustomPermissions.Check_FINE_LOCATION(getActivity()) && !CustomPermissions.Check_FINE_LOCATION(getActivity())) {
 
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            CustomPermissions.Request_FINE_LOCATION(getActivity(),1);
+            CustomPermissions.Request_COURSE_LOCATION(getActivity(),2);
 
         } else {
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                try {
 
-            Location location2 = locationManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+                    Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            if (location != null) {
-                latti = location.getLatitude();
-                longi = location.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti,longi);
-                addressOfUser = address;
-                locationedit.setText(address);
+                    Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-            } else  if (location1 != null) {
-                latti = location1.getLatitude();
-                longi = location1.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti,longi);
-                addressOfUser = address;
-                locationedit.setText(address);
+                    Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
+                    if (location != null) {
+                        latti = location.getLatitude();
+                        longi = location.getLongitude();
+                        lattitude = String.valueOf(latti);
+                        longitude = String.valueOf(longi);
+                        String address = getCompleteAddressString(latti,longi);
+                        addressOfUser = address;
+                        locationedit.setText(address);
 
-            } else  if (location2 != null) {
-                latti = location2.getLatitude();
-                longi = location2.getLongitude();
-                lattitude = String.valueOf(latti);
-                longitude = String.valueOf(longi);
-                String address = getCompleteAddressString(latti,longi);
-                addressOfUser = address;
-                locationedit.setText(address);
+                        searchlat = Double.parseDouble(lattitude);
+                        searchlong = Double.parseDouble(longitude);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("lat",lattitude).commit();
+                        editor.putString("long",longitude).commit();
+                        editor.putString("user_current_address",addressOfUser).commit();
 
-            }else{
+                    } else  if (location1 != null) {
+                        latti = location1.getLatitude();
+                        longi = location1.getLongitude();
+                        lattitude = String.valueOf(latti);
+                        longitude = String.valueOf(longi);
+                        String address = getCompleteAddressString(latti,longi);
+                        addressOfUser = address;
+                        locationedit.setText(address);
 
-                Toast.makeText(getActivity().getApplicationContext(),"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+                        searchlat = Double.parseDouble(lattitude);
+                        searchlong = Double.parseDouble(longitude);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("lat",lattitude).commit();
+                        editor.putString("long",longitude).commit();
+                        editor.putString("user_current_address",addressOfUser).commit();
 
-            }
+                    } else  if (location2 != null) {
+                        latti = location2.getLatitude();
+                        longi = location2.getLongitude();
+                        lattitude = String.valueOf(latti);
+                        longitude = String.valueOf(longi);
+                        String address = getCompleteAddressString(latti,longi);
+                        addressOfUser = address;
+                        locationedit.setText(address);
 
-                searchlat = Double.parseDouble(lattitude);
-                searchlong = Double.parseDouble(longitude);
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("lat",lattitude).commit();
-                editor.putString("long",longitude).commit();
-                editor.putString("user_current_address",addressOfUser).commit();
+                        searchlat = Double.parseDouble(lattitude);
+                        searchlong = Double.parseDouble(longitude);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("lat",lattitude).commit();
+                        editor.putString("long",longitude).commit();
+                        editor.putString("user_current_address",addressOfUser).commit();
 
+                    }else{
+
+                        Toast.makeText(getActivity().getApplicationContext(),"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+                catch (SecurityException e){
+                    e.printStackTrace();
+                }
         }
-
-
     }
 
     protected void buildAlertMessageNoGps() {
