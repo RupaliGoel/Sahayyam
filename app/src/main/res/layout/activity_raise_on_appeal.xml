@@ -187,13 +187,14 @@
                     android:background="@drawable/edit_text_style"/>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@color/white">
 
                 <TextView
+                    android:id="@+id/ImageTV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="Image"
@@ -201,12 +202,29 @@
                     android:textColor="@color/md_grey_600"
                     android:textSize="18sp" />
 
+                <Button
+                    android:id="@+id/choose"
+                    android:layout_width="186dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="Choose Photo"
+                    android:layout_toRightOf="@+id/ImageTV"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="#ffffff"/>
+
                 <ImageView
                     android:id="@+id/uploadedphoto"
-                    android:layout_width="300dp"
+                    android:layout_below="@+id/choose"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_gravity="center" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -215,20 +233,8 @@
                 android:background="@color/white">
 
                 <Button
-                    android:id="@+id/choose"
-                    android:layout_width="186dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="Upload Photo"
-                    android:layout_marginRight="2dp"
-                    android:background="@color/colorPrimary"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif"
-                    android:textColor="#ffffff"/>
-
-                <Button
                     android:id="@+id/submit"
-                    android:layout_width="194dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Submit"
