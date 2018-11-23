@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingTop="50dp"
+            android:paddingTop="100dp"
             android:paddingRight="10dp">
 
             <EditText
@@ -66,7 +66,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingTop="30dp"
             android:paddingRight="10dp">
 
             <EditText
@@ -89,7 +88,7 @@
             style="?android:textAppearanceSmall"
             android:layout_gravity="center"
             android:layout_marginTop="20dip"
-            android:background="@color/tab1"
+            android:background="@color/black"
             android:fontFamily="sans-serif"
             android:text="@string/btn_login"
             android:textColor="@android:color/white"
@@ -104,22 +103,22 @@
             android:fontFamily="sans-serif"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
-            android:textColor="@color/tab1"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <!-- Link to Login Screen -->
 
-        <Button
-            android:id="@+id/btn_signup"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@null"
-            android:fontFamily="sans-serif"
-            android:text="@string/btn_link_to_register"
-            android:textAllCaps="false"
-            android:textColor="@color/tab1"
-            android:textSize="18sp" />
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:background="@null"
+        android:fontFamily="sans-serif"
+        android:text="@string/btn_link_to_register"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
 
     <ProgressBar

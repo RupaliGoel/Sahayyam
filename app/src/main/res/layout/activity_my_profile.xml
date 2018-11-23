@@ -72,9 +72,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="70dp"
+                android:fontFamily="sans-serif"
                 android:text="Guest"
-                android:textColor="#fff"
-                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -86,7 +87,8 @@
                 android:layout_alignLeft="@+id/edit"
                 android:layout_marginRight="16dp"
                 android:text="Edit"
-                android:textColor="#fff"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif"
                 android:textSize="18sp" />
         </RelativeLayout>
 
@@ -97,7 +99,7 @@
             android:layout_below="@+id/profile_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
+            android:background="@color/md_grey_300"
             android:elevation="4dp"
             android:orientation="vertical"
             android:paddingTop="20dp"
@@ -123,8 +125,9 @@
                 android:layout_margin="5dp"
                 android:clickable="true"
                 android:text="Role :"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/md_grey_600"
+                android:textSize="18sp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
 
@@ -178,8 +181,9 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:text="Email: "
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/md_grey_600"
+                android:textSize="18sp"
                 android:layout_marginTop="8dp"
                 android:layout_below="@+id/role"
                 android:layout_marginLeft="5dp" />
@@ -190,8 +194,9 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:text="Mobile: "
-                android:textStyle="bold"
-                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/md_grey_600"
+                android:textSize="18sp"
                 android:layout_below="@+id/email"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
@@ -202,8 +207,9 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:text="Address: "
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/md_grey_600"
+                android:textSize="18sp"
                 android:layout_below="@+id/mobileNumber"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
@@ -253,7 +259,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 android:layout_toRightOf="@+id/labelRole"
                 android:layout_alignTop="@+id/labelRole"/>
 
@@ -262,7 +270,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 android:layout_toRightOf="@+id/labelMobile"
                 android:layout_alignTop="@+id/labelMobile"
                 android:layout_below="@+id/email" />
@@ -272,7 +282,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 android:layout_toRightOf="@+id/labelEmail"
                 android:layout_alignTop="@+id/labelEmail"
                 android:layout_below="@+id/role"/>
@@ -282,7 +294,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 android:layout_toRightOf="@+id/labelAddress"
                 android:layout_alignTop="@+id/labelAddress"
                 android:layout_below="@+id/email"/>
