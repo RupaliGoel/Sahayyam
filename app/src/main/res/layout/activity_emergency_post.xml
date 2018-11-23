@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".EmergencyPost"
-    android:background="#CCFFFF"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/progress_overlay"
@@ -38,27 +38,32 @@
         android:text="Emergency Details"
         android:layout_below="@+id/page_name"
         android:textColor="@color/colorPrimary"
-        android:textSize="21sp"
-        android:textStyle="bold"/>
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/emergency_details"
         android:id="@+id/titlePost"
+        android:background="@color/md_grey_300"
         android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/descriptionPost"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imagePost"
         android:layout_marginTop="10dp"
         android:ems="10"
+        android:fontFamily="sans-serif"
         android:textSize="18sp"
+        android:textColor="@color/black"
         android:inputType="textMultiLine"
         android:layout_marginLeft="10dp" />
 
@@ -84,13 +89,15 @@
 
     <Button
         android:id="@+id/detailsButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:text="Posted By"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
         android:scaleType="fitCenter"
         android:layout_marginTop="20dp"/>
 

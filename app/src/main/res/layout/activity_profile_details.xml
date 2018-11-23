@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFE9A0"
+    android:background="@color/white"
     tools:context=".ProfileDetails">
 
     <!-- Progress bar overlay; shown while page is in progress -->
@@ -25,11 +25,11 @@
             android:id="@+id/person_details"
             android:layout_width="match_parent"
             android:textAlignment="center"
-            android:text="Person's Details"
+            android:text="Details"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:textSize="21sp" />
+            android:textSize="22sp" />
 
     </android.support.v7.widget.Toolbar>
 
@@ -49,44 +49,55 @@
     <TextView
         android:id="@+id/label_role"
         android:layout_width="wrap_content"
-        android:text="Role : "
+        android:text="Role"
+        android:textColor="@color/md_grey_600"
         android:layout_below="@+id/image"
-        android:textColor="@color/colorPrimary"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:fontFamily="sans-serif"/>
     <TextView
         android:id="@+id/role"
         android:layout_width="wrap_content"
-        android:layout_toRightOf="@id/label_role"
-        android:layout_below="@+id/image"
+        android:layout_below="@id/label_role"
+        android:textColor="@color/black"
+        android:padding="5dip"
+        android:textStyle="bold"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="120dp"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginBottom="2dp"/>
     <TextView
         android:id="@+id/label_name"
         android:layout_width="wrap_content"
-        android:text="Name : "
+        android:text="Name"
         android:layout_below="@+id/role"
-        android:textColor="@color/colorPrimary"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:layout_marginLeft="10dp"/>
+        android:textColor="@color/md_grey_600"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="sans-serif"/>
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/label_name"
-        android:layout_alignTop="@+id/label_name"
-        android:layout_below="@+id/label_role"
+        android:layout_below="@+id/label_name"
         android:textSize="18sp"
-        android:layout_marginBottom="2dp"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/black"
+        android:padding="5dip"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="120dp"
+        />
     <TextView
         android:id="@+id/label_contact"
         android:layout_width="wrap_content"
-        android:text="Contact : "
+        android:text="Contact"
         android:layout_below="@+id/name"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/md_grey_600"
+        android:fontFamily="sans-serif"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginLeft="10dp" />
@@ -94,38 +105,45 @@
         android:id="@+id/contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/label_contact"
-        android:layout_alignTop="@+id/label_contact"
-        android:layout_below="@+id/label_name"
+        android:layout_below="@+id/label_contact"
         android:textSize="18sp"
-        android:layout_marginBottom="2dp"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/black"
+        android:padding="5dip"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="120dp"
+        />
     <ImageButton
         android:id="@+id/callButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/sym_action_call"
         android:background="@color/black"
-        android:layout_below="@+id/label_name"
         android:layout_toRightOf="@+id/contact"
         android:layout_alignTop="@+id/contact"/>
     <TextView
         android:id="@+id/label_email"
         android:layout_width="wrap_content"
-        android:text="Email-ID : "
+        android:text="Email-ID"
         android:layout_below="@+id/contact"
-        android:textColor="@color/colorPrimary"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/md_grey_600"
+        android:fontFamily="sans-serif"/>
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/label_email"
-        android:layout_alignTop="@+id/label_email"
-        android:layout_below="@+id/label_contact"
+        android:layout_below="@+id/label_email"
         android:textSize="18sp"
-        android:layout_marginBottom="2dp"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/black"
+        android:padding="5dip"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="120dp"/>
     <ImageButton
         android:id="@+id/mail"
         android:layout_width="wrap_content"
@@ -138,31 +156,36 @@
     <TextView
         android:id="@+id/label_address"
         android:layout_width="wrap_content"
-        android:text="Address : "
+        android:text="Address"
         android:layout_below="@+id/email"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/md_grey_600"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:fontFamily="sans-serif"
         android:layout_marginLeft="10dp" />
     <TextView
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/label_address"
-        android:layout_alignTop="@+id/label_address"
-        android:layout_below="@+id/label_email"
+        android:textStyle="bold"
+        android:layout_below="@+id/label_address"
         android:textSize="18sp"
-        android:layout_marginBottom="2dp"/>
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/black"
+        android:padding="5dip"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="120dp"/>
     <Button
         android:id="@+id/historyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mail"
+        android:layout_below="@+id/address"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:text="Posts"
         android:scaleType="fitCenter"
-        android:layout_marginTop="50dp"/>
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"/>
 
 </RelativeLayout>

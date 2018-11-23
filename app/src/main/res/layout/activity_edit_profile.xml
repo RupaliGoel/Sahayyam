@@ -73,11 +73,9 @@
             android:layout_below="@+id/profile_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
@@ -85,25 +83,28 @@
                 android:id="@+id/labelName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dip"
                 android:layout_margin="5dp"
                 android:clickable="true"
                 android:text="Name : "
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
                 android:layout_marginTop="8dp" />
 
             <EditText
                 android:id="@+id/name"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dip"
                 android:layout_margin="5dp"
                 android:layout_toRightOf="@+id/labelName"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:scrollHorizontally="false"
-                android:background="@drawable/edit_text_style"
                 android:layout_marginLeft="120dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -113,11 +114,9 @@
             android:layout_below="@+id/name_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
@@ -125,20 +124,23 @@
                 android:id="@+id/labelRole1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dip"
                 android:layout_margin="5dp"
                 android:clickable="true"
                 android:text="Role 1 : "
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"/>
 
             <Spinner
                 android:id="@+id/role1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dip"
                 android:layout_margin="5dp"
-                android:layout_toRightOf="@+id/labelRole1"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:layout_below="@+id/labelRole1"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp" />
 
@@ -151,11 +153,9 @@
             android:layout_below="@+id/role1_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
@@ -164,21 +164,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:padding="5dip"
                 android:clickable="true"
                 android:text="Role 2 : "
-                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
 
             <Spinner
                 android:id="@+id/role2"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dip"
                 android:layout_margin="5dp"
-                android:layout_toRightOf="@+id/labelRole2"
+                android:layout_below="@+id/labelRole2"
                 android:layout_marginLeft="120dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -188,11 +192,9 @@
             android:layout_below="@+id/role2_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
@@ -201,19 +203,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:padding="5dip"
                 android:clickable="true"
                 android:text="Role 3 : "
-                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
 
             <Spinner
                 android:id="@+id/role3"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dip"
                 android:layout_margin="5dp"
-                android:layout_toRightOf="@+id/labelRole3"
+                android:layout_below="@+id/labelRole3"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp" />
         </RelativeLayout>
@@ -250,11 +254,9 @@
             android:layout_below="@+id/role3_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
@@ -264,23 +266,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:padding="5dip"
                 android:clickable="true"
-                android:text="Contact : "
-                android:textStyle="bold"
+                android:text="Contact:"
                 android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
                 android:layout_marginTop="8dp" />
 
             <EditText
                 android:id="@+id/contact"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dip"
                 android:layout_margin="5dp"
                 android:inputType="phone"
-                android:layout_toRightOf="@+id/labelContact"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_below="@+id/labelContact"
                 android:scrollHorizontally="false"
-                android:background="@drawable/edit_text_style"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp" />
         </RelativeLayout>
@@ -292,11 +296,9 @@
             android:layout_below="@+id/contact_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
@@ -307,8 +309,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:clickable="true"
-                android:text="Address : "
-                android:textStyle="bold"
+                android:text="Address:"
+                android:textSize="18sp"
+                android:padding="5dip"
+                android:fontFamily="sans-serif"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
 
@@ -318,10 +322,10 @@
                 android:layout_height="wrap_content"
                 android:padding="5dip"
                 android:layout_margin="5dp"
-                android:layout_toRightOf="@+id/labelAddress"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_below="@+id/labelAddress"
                 android:scrollHorizontally="false"
-                android:background="@drawable/edit_text_style"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp" />
         </RelativeLayout>
@@ -333,11 +337,9 @@
             android:layout_below="@+id/address_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
@@ -348,8 +350,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:clickable="true"
-                android:text="New Password : "
-                android:textStyle="bold"
+                android:text="New Password:"
+                android:padding="5dip"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
 
@@ -360,10 +364,10 @@
                 android:padding="5dip"
                 android:layout_margin="5dp"
                 android:inputType="textPassword"
-                android:layout_toRightOf="@+id/labelNew_Password"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:layout_below="@+id/labelNew_Password"
                 android:scrollHorizontally="false"
-                android:background="@drawable/edit_text_style"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp" />
         </RelativeLayout>
@@ -375,11 +379,9 @@
             android:layout_below="@+id/new_password_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
@@ -389,9 +391,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
+                android:padding="5dip"
                 android:clickable="true"
-                android:text="Confirm Password : "
-                android:textStyle="bold"
+                android:text="Confirm Password:"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp" />
 
@@ -401,11 +405,11 @@
                 android:layout_height="wrap_content"
                 android:padding="5dip"
                 android:layout_margin="5dp"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
                 android:inputType="textPassword"
-                android:layout_toRightOf="@+id/labelConfirm_Password"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_below="@+id/labelConfirm_Password"
                 android:scrollHorizontally="false"
-                android:background="@drawable/edit_text_style"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp" />
         </RelativeLayout>
@@ -417,7 +421,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/confirm_password_layout"
-            android:background="#ebca0707"
             android:elevation="4dp"
             android:paddingBottom="24dp">
 
@@ -427,7 +430,12 @@
                 android:layout_width="186dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="UPDATE" />
+                android:background="@color/black"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/white"
+                android:text="Update"
+                android:textSize="18sp"
+                />
 
         </RelativeLayout>
 
