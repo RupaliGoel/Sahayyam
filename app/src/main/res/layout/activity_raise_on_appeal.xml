@@ -35,68 +35,88 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/page_name"
         tools:context="com.example.rupali.sos.RaiseOnAppeal" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFE9A0"
+                android:background="@color/md_grey_300"
                 tools:context="com.example.rupali.sos.RaiseOnAppeal">
 
                 <TextView
                     android:id="@+id/person_details"
                     android:layout_width="match_parent"
                     android:textAlignment="center"
-                    android:text="Appellent's Details"
+                    android:text="Appellent"
                     android:textColor="@color/colorPrimary"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/label_role"
                     android:layout_width="wrap_content"
                     android:text="Role"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"/>
                 <EditText
                     android:id="@+id/role"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="2dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Name"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"/>
                 <EditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="2dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Address"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"/>
                 <EditText
                     android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="2dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Contact"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"/>
                 <EditText
                     android:id="@+id/contact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="2dp"/>
             </LinearLayout>
 
@@ -111,7 +131,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#CCFFFF"
+                android:background="@color/white"
                 tools:context="com.example.rupali.sos.RaiseOnAppeal">
 
                 <TextView
@@ -119,15 +139,19 @@
                     android:layout_width="match_parent"
                     android:textAlignment="center"
                     android:text="Appeal Details"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="Appeal Type : "
+                    android:text="Appeal Type"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <Spinner
                     android:id="@+id/apptype"
                     android:layout_width="match_parent"
@@ -142,9 +166,11 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="Appeal Description : "
+                    android:text="Appeal Description"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"/>
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp"/>
                 <EditText
                     android:id="@+id/description"
                     android:layout_width="match_parent"
@@ -165,13 +191,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#CCFFFF">
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Image :"
-                    android:textSize="15sp" />
+                    android:text="Image"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/uploadedphoto"
@@ -184,7 +212,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#CCFFFF">
+                android:background="@color/white">
 
                 <Button
                     android:id="@+id/choose"
@@ -194,6 +222,8 @@
                     android:text="Upload Photo"
                     android:layout_marginRight="2dp"
                     android:background="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"
                     android:textColor="#ffffff"/>
 
                 <Button
@@ -203,6 +233,8 @@
                     android:layout_gravity="center"
                     android:text="Submit"
                     android:layout_marginLeft="2dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"
                     android:background="@color/colorPrimary"
                     android:textColor="#ffffff"/>
             </LinearLayout>
