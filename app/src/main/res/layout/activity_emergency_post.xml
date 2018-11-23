@@ -89,13 +89,14 @@
 
     <Button
         android:id="@+id/detailsButton"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:text="Posted By"
+        android:textSize="18sp"
         android:fontFamily="sans-serif"
         android:scaleType="fitCenter"
         android:layout_marginTop="20dp"/>
