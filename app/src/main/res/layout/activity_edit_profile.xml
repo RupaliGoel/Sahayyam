@@ -79,39 +79,273 @@
             android:paddingRight="5dp"
             android:paddingLeft="5dp" >
 
-            <TextView
-                android:id="@+id/labelName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:layout_margin="5dp"
-                android:clickable="true"
-                android:text="Name : "
-                android:layout_marginLeft="5dp"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif"
-                android:layout_marginTop="8dp" />
+
+            <!--<TextView-->
+                <!--android:id="@+id/labelName"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="5dip"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:clickable="true"-->
+                <!--android:text="Name"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:textSize="18sp"-->
+                <!--android:fontFamily="sans-serif"-->
+                <!--android:layout_marginTop="8dp" />-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
 
             <EditText
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dip"
+                android:hint="Name"
                 android:layout_margin="5dp"
-                android:layout_toRightOf="@+id/labelName"
+                android:layout_below="@+id/labelName"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:scrollHorizontally="false"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif"/>
+
+         </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+
+        <!--<RelativeLayout
+            android:id="@+id/role_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/role3_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+            <Button
+                android:id="@+id/add_roles"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:text="Add Roles"/>
+
+        </RelativeLayout>-->
+
+        <RelativeLayout
+            android:id="@+id/contact_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/name_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/labelContact"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:padding="5dip"-->
+                <!--android:clickable="true"-->
+                <!--android:text="Contact:"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:textSize="18sp"-->
+                <!--android:fontFamily="sans-serif"-->
+                <!--android:layout_marginTop="8dp" />-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:hint="Contact"
+                android:inputType="phone"
+                android:layout_below="@+id/labelContact"
+                android:scrollHorizontally="false"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+
+
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/address_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/contact_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/labelAddress"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:clickable="true"-->
+                <!--android:text="Address:"-->
+                <!--android:textSize="18sp"-->
+                <!--android:padding="5dip"-->
+                <!--android:fontFamily="sans-serif"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginTop="8dp" />-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:hint="Address"
+                android:layout_margin="5dp"
+                android:layout_below="@+id/labelAddress"
+                android:scrollHorizontally="false"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/new_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/address_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/labelNew_Password"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:clickable="true"-->
+                <!--android:text="New Password:"-->
+                <!--android:padding="5dip"-->
+                <!--android:textSize="18sp"-->
+                <!--android:fontFamily="sans-serif"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginTop="8dp" />-->
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/new_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:inputType="textPassword"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:hint="New Password"
+                android:layout_below="@+id/labelNew_Password"
+                android:scrollHorizontally="false"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/confirm_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/new_password_layout"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" >
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/labelConfirm_Password"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:fontFamily="sans-serif"-->
+                <!--android:textSize="18sp"-->
+                <!--android:padding="5dip"-->
+                <!--android:clickable="true"-->
+                <!--android:text="Confirm Password:"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginTop="8dp" />-->
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/confirm_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_margin="5dp"
+                android:fontFamily="sans-serif"
+                android:textSize="18sp"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:layout_below="@+id/labelConfirm_Password"
+                android:scrollHorizontally="false"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="8dp" />
+
+
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/role1_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/name_layout"
+            android:layout_below="@+id/confirm_password_layout"
             android:layout_margin="5dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical"
@@ -222,197 +456,6 @@
                 android:layout_marginTop="8dp" />
         </RelativeLayout>
 
-        <!--<RelativeLayout
-            android:id="@+id/role_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/role3_layout"
-            android:layout_margin="5dp"
-            android:layout_marginTop="5dp"
-            android:background="#ffffff"
-            android:elevation="4dp"
-            android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp" >
-
-            <Button
-                android:id="@+id/add_roles"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/white"
-                android:text="Add Roles"/>
-
-        </RelativeLayout>-->
-
-        <RelativeLayout
-            android:id="@+id/contact_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/role3_layout"
-            android:layout_margin="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp" >
-
-
-            <TextView
-                android:id="@+id/labelContact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:padding="5dip"
-                android:clickable="true"
-                android:text="Contact:"
-                android:layout_marginLeft="5dp"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif"
-                android:layout_marginTop="8dp" />
-
-            <EditText
-                android:id="@+id/contact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:layout_margin="5dp"
-                android:inputType="phone"
-                android:layout_below="@+id/labelContact"
-                android:scrollHorizontally="false"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif"
-                android:layout_marginLeft="120dp"
-                android:layout_marginTop="8dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/address_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/contact_layout"
-            android:layout_margin="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp" >
-
-
-            <TextView
-                android:id="@+id/labelAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:clickable="true"
-                android:text="Address:"
-                android:textSize="18sp"
-                android:padding="5dip"
-                android:fontFamily="sans-serif"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
-
-            <EditText
-                android:id="@+id/address"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:layout_margin="5dp"
-                android:layout_below="@+id/labelAddress"
-                android:scrollHorizontally="false"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif"
-                android:layout_marginLeft="120dp"
-                android:layout_marginTop="8dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/new_password_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/address_layout"
-            android:layout_margin="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp" >
-
-
-            <TextView
-                android:id="@+id/labelNew_Password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:clickable="true"
-                android:text="New Password:"
-                android:padding="5dip"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
-
-            <EditText
-                android:id="@+id/new_password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:layout_margin="5dp"
-                android:inputType="textPassword"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif"
-                android:layout_below="@+id/labelNew_Password"
-                android:scrollHorizontally="false"
-                android:layout_marginLeft="120dp"
-                android:layout_marginTop="8dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/confirm_password_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/new_password_layout"
-            android:layout_margin="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp" >
-
-
-            <TextView
-                android:id="@+id/labelConfirm_Password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:fontFamily="sans-serif"
-                android:textSize="18sp"
-                android:padding="5dip"
-                android:clickable="true"
-                android:text="Confirm Password:"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
-
-            <EditText
-                android:id="@+id/confirm_password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:layout_margin="5dp"
-                android:fontFamily="sans-serif"
-                android:textSize="18sp"
-                android:inputType="textPassword"
-                android:layout_below="@+id/labelConfirm_Password"
-                android:scrollHorizontally="false"
-                android:layout_marginLeft="120dp"
-                android:layout_marginTop="8dp" />
-        </RelativeLayout>
 
 
 
@@ -420,7 +463,7 @@
             android:id="@+id/update_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/confirm_password_layout"
+            android:layout_below="@+id/role3_layout"
             android:elevation="4dp"
             android:paddingBottom="24dp">
 
