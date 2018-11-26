@@ -96,7 +96,9 @@
         <activity
             android:name=".ResetPasswordActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SelectImagesFromGallery">
+        <activity
+            android:name=".SelectImagesFromGallery"
+            android:screenOrientation="portrait">
             <intent-filter>
 
                 <!-- Intent filter action for receiving multiple images -->
@@ -111,18 +113,31 @@
         <!-- Custom Gallery Activity -->
         <activity
             android:name=".CustomGallery_Activity"
-            android:label="@string/customGallery" />
-        <activity android:name=".EditProfile" />
-        <activity android:name=".MyPosts" />
-        <activity android:name=".ProfileDetails" />
-        <activity android:name=".PostViewNDelete" />
+            android:label="@string/customGallery"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditProfile"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MyPosts"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ProfileDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PostViewNDelete"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAg7cSdPLN38XYiDujfMQ8lB5YAAg95it8" />
 
-        <activity android:name=".PostHistory" />
-        <activity android:name=".ViewPostHistory"></activity>
+        <activity
+            android:name=".PostHistory"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ViewPostHistory"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

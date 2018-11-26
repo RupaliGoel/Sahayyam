@@ -88,13 +88,18 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/placepickerbtn">
+
             <EditText
                 android:id="@+id/etAddress"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Address"
                 android:inputType="textPostalAddress"
@@ -103,6 +108,17 @@
                 android:textColor="@android:color/black" />
 
         </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/placepickerbutton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_dialog_map"
+            android:layout_alignParentRight="true"
+            android:background="@color/black"
+            android:layout_gravity="right"/>
+
+        </RelativeLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

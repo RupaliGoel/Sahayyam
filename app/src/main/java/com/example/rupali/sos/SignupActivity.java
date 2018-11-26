@@ -40,6 +40,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -53,12 +54,18 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 
 
 public class SignupActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword, inputName, inputContact, inputAddress;
     private Button btnSignIn, btnSignUp;
+    ImageButton placepickerbtn;
     Spinner Role1, Role2, Role3;
     String email,password,name,role1,role2,role3,contact,address;
     int success;
@@ -78,6 +85,7 @@ public class SignupActivity extends AppCompatActivity {
     Button submit, choose;
     ArrayList<String> roleTypes;
     String[] selected_options = new String[3];
+    int PLACE_PICKER_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,6 +264,21 @@ public class SignupActivity extends AppCompatActivity {
             }
 
         });
+
+        placepickerbtn = findViewById(R.id.placepickerbutton);
+        placepickerbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(SignupActivity.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void selectImage() {
@@ -322,6 +345,11 @@ public class SignupActivity extends AppCompatActivity {
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
+            else if (requestCode == PLACE_PICKER_REQUEST) {
+                Place place = PlacePicker.getPlace(data, SignupActivity.this);
+                String toastMsg = String.format("%s", place.getAddress());
+                inputAddress.setText(toastMsg);
+            }
         }
     }
 
