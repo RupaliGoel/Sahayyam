@@ -246,7 +246,7 @@
 
                 <Button
                     android:id="@+id/choose"
-                    android:layout_width="186dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imagename"
                     android:layout_gravity="center"
