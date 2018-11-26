@@ -5,7 +5,7 @@
     android:id="@+id/splashScreenLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/tab1"
     tools:context=".SplashScreen">
 
     <!-- Progress bar overlay; shown while login is in progress -->
@@ -19,8 +19,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textAlignment="center"
-        android:textSize="40dp"
-        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
         android:layout_alignParentTop="true" />
         <!--android:text="Welcome" />-->
 
@@ -39,8 +41,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="40dp"
-        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
         android:layout_below="@+id/tv_welcome_message" />
         <!--android:text="Indian Railways" />-->
 
@@ -49,8 +53,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="50dp"
-        android:textColor="#FFFF00"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
         android:layout_below="@+id/tv_owner" />
         <!--android:text="'Sahayyam'" />-->
 
@@ -71,8 +77,10 @@
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
         android:textAlignment="center"
-        android:textColor="#FFFF00"
-        android:textSize="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif"
         android:layout_above="@+id/tv_organisation" />
         <!--android:text="Neeraj Gupta" />-->
 
@@ -80,9 +88,11 @@
         android:id="@+id/tv_organisation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif"
         android:layout_above="@+id/tv_address" />
         <!--android:text="Centre for Railway Information Systems" />-->
 
@@ -90,9 +100,11 @@
         android:id="@+id/tv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif"
         android:layout_above="@+id/tv_contact" />
         <!--android:text="Chanakyapuri, New  Delhi - 110021" />-->
 
@@ -100,9 +112,11 @@
         android:id="@+id/tv_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp" />
         <!--android:text="9968150228" />-->
