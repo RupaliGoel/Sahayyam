@@ -12,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -43,6 +45,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class EmergencyPost extends AppCompatActivity {
 
@@ -54,6 +57,8 @@ public class EmergencyPost extends AppCompatActivity {
     String imageURI,emer_address,email;
     double emer_lat,emer_long;
     int success = 0;
+    String CurrentAddress ;
+    double searchlat,searchlong;
 
     ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -80,6 +85,10 @@ public class EmergencyPost extends AppCompatActivity {
         imageURI = bundle.getString("ImageURI");
         email = bundle.getString("Email");
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(EmergencyPost.this);
+        CurrentAddress = prefs.getString("user_current_address","");
+        convertAddress(CurrentAddress);
+
        direction = findViewById(R.id.imageButton);
         direction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +97,7 @@ public class EmergencyPost extends AppCompatActivity {
             String lat=Double.toString(emer_lat);
             String lon=Double.toString(emer_long);
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?daddr="+lat+","+lon));startActivity(intent);
+                Uri.parse("http://maps.google.com/maps?saddr="+searchlat+","+searchlong+"&daddr="+lat+","+lon));startActivity(intent);
             }
         });
 
@@ -115,4 +124,23 @@ public class EmergencyPost extends AppCompatActivity {
 
 
     }
+    public void convertAddress(String address) {
+        Geocoder geocoder = new Geocoder(EmergencyPost.this, Locale.getDefault());
+        if (address != null && !address.isEmpty()) {
+            try {
+                List<Address> addressList = geocoder.getFromLocationName(address, 1);
+                if (addressList != null && addressList.size() > 0) {
+                    searchlat = addressList.get(0).getLatitude();
+                    searchlong = addressList.get(0).getLongitude();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } // end catch
+        } // end if
+    }
+
+
+
 }
+
+
