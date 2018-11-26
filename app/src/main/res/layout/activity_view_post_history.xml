@@ -3,7 +3,7 @@
     android:id="@+id/post_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCFFFF"
+    android:background="@color/white"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -21,6 +21,7 @@
             android:textColor="@android:color/white"
             android:textSize="22sp"
             android:textStyle="bold"
+            android:fontFamily="sans-serif"
             android:layout_gravity="center"/>
     </android.support.v7.widget.Toolbar>
 
@@ -29,10 +30,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Details"
+        android:fontFamily="sans-serif"
         android:layout_below="@+id/page_name"
         android:textColor="@color/colorPrimary"
-        android:textSize="21sp"
-        android:textStyle="bold"
+        android:textSize="22sp"
         android:textAlignment="center"/>
 
     <TextView
@@ -41,7 +42,8 @@
         android:layout_below="@+id/details"
         android:id="@+id/titlePost"
         android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp" />
 
@@ -52,7 +54,9 @@
         android:layout_below="@+id/imagePost"
         android:layout_marginTop="10dp"
         android:ems="10"
+        android:textColor="@color/md_grey_600"
         android:textSize="18sp"
+        android:fontFamily="sans-serif"
         android:inputType="textMultiLine"
         android:layout_marginLeft="10dp" />
 

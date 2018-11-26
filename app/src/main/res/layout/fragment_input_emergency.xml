@@ -246,7 +246,7 @@
 
                 <Button
                     android:id="@+id/choose"
-                    android:layout_width="186dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ImageTV"
                     android:layout_gravity="center"
@@ -273,11 +273,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:gravity="center"
                 android:background="@color/white">
 
                 <Button
                     android:id="@+id/submit"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="2dp"
