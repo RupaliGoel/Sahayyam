@@ -55,6 +55,7 @@ public class DirectoryListAdapter extends BaseAdapter
 
             viewItem.DirectorylImageView = convertView.findViewById(R.id.ImageView);
             viewItem.DirectoryTextView = convertView.findViewById(R.id.TextView);
+            viewItem.DirectoryDistanceView = convertView.findViewById(R.id.DistanceTextView);
             convertView.setTag(viewItem);
         }
         else
@@ -66,6 +67,8 @@ public class DirectoryListAdapter extends BaseAdapter
 
         viewItem.DirectorylImageView.setImageResource(user_list.get(position).User_Image);
 
+        viewItem.DirectoryDistanceView.setText((int)Math.round(user_list.get(position).User_Distance)+" KM");
+
         return convertView;
     }
 }
@@ -74,6 +77,7 @@ class DirectoryViewItem
 {
     TextView DirectoryTextView;
     ImageView DirectorylImageView;
+    TextView DirectoryDistanceView;
 }
 
 

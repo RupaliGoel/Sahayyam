@@ -45,6 +45,11 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -84,12 +89,13 @@ public class SearchDirectory extends AppCompatActivity {
     ArrayList<String> roleTypes;
     Spinner spinner;
     View progressOverlay;
+    int PLACE_PICKER_REQUEST = 1;
 
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
     AutoCompleteTextView locationedit;
-    ImageButton audio_mode;
-    Button change, go;
+    ImageButton audio_mode,placepickerbtn;
+    Button go;
     private android.support.v7.widget.Toolbar search_dir;
     //-------------------------------toolbar, location textbox & button-----------------------------------
 
@@ -127,20 +133,26 @@ public class SearchDirectory extends AppCompatActivity {
 
         locationedit = findViewById(R.id.currentLocation);
         locationedit.setText(currentAddressOfUser);
-        change = findViewById(R.id.changeButton);
+        placepickerbtn = findViewById(R.id.placepickerbtn);
         audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);
         spinner = findViewById(R.id.role);
-
-        change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                locationedit.setText("");
-                locationedit.setFocusableInTouchMode(true);
-            }
-        });
         //-------------------------------toolbar, location textbox & button-----------------------------------
         DirectoryListView = findViewById(R.id.DirectoryListView);
+
+        placepickerbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(SearchDirectory.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         loadSpinnerData(URL);
 
@@ -178,6 +190,20 @@ public class SearchDirectory extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PLACE_PICKER_REQUEST) {
+                Place place = PlacePicker.getPlace(data, SearchDirectory.this);
+                String toastMsg = String.format("%s", place.getAddress());
+                locationedit.setText(toastMsg);
+            }
+        }
 
     }
 
