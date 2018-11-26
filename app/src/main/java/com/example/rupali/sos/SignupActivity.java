@@ -32,6 +32,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,6 +70,7 @@ public class SignupActivity extends AppCompatActivity {
     Spinner Role1, Role2, Role3;
     String email,password,name,role1,role2,role3,contact,address;
     int success;
+    Bitmap bm =null;
 
     JSONParser jsonParser = new JSONParser();
     ProgressDialog dialog;
@@ -81,6 +83,7 @@ public class SignupActivity extends AppCompatActivity {
     String message;
 
     String userChoosenTask;
+    String ImageName = "user_imagename";
     ImageView ivImage;
     Button submit, choose;
     ArrayList<String> roleTypes;
@@ -444,6 +447,14 @@ public class SignupActivity extends AppCompatActivity {
                 params.add(new BasicNameValuePair("email", email));
                 params.add(new BasicNameValuePair("password", password));
                 params.add(new BasicNameValuePair("address",address));
+                ivImage.buildDrawingCache();
+                Bitmap bitmap = ivImage.getDrawingCache();
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,90,stream);
+                byte[] image = stream.toByteArray();
+                String img_str = Base64.encodeToString(image,0);
+                params.add(new BasicNameValuePair("user_image",img_str));
+
 
                 // getting JSON Object
                 // Note that create user url accepts POST method

@@ -1,5 +1,6 @@
 package com.example.rupali.sos;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -75,6 +77,7 @@ public class RaiseOnAppeal extends AppCompatActivity {
     EditText role, name, address, contact, desc, hiddenType;
     Button submit, choose;
     Spinner type;
+    ProgressDialog progressDialog;
     ImageView ivImage;
     String userChoosenTask;
     private android.support.v7.widget.Toolbar page_name;
@@ -341,6 +344,7 @@ public class RaiseOnAppeal extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = ProgressDialog.show(RaiseOnAppeal.this," Appeal is Uploading","Please Wait",false,false);
         }
 
         /**
@@ -363,6 +367,13 @@ public class RaiseOnAppeal extends AppCompatActivity {
                 params.add(new BasicNameValuePair("desc", desc.getText().toString().trim()));
                 params.add(new BasicNameValuePair("addlat", currentlattitude));
                 params.add(new BasicNameValuePair("addlong", currentlongitude));
+                ivImage.buildDrawingCache();
+                Bitmap bitmap = ivImage.getDrawingCache();
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,90,stream);
+                byte[] image = stream.toByteArray();
+                String img_str = Base64.encodeToString(image,0);
+                params.add(new BasicNameValuePair("app_image",img_str));
                 // getting JSON Object
                 // Note that create user url accepts POST method
                 JSONObject json = jsonParser.makeHttpRequest(url_write_appeal, "POST", params);

@@ -92,13 +92,13 @@ public class InputEmergency extends Fragment {
     boolean check = true;
     byte[] byteArrayVar;
     ProgressDialog progressDialog;
-    EditText role, name, address, contact, placeedit, desc, hiddenType,imagename;
+    EditText role, name, address, contact, placeedit, desc, hiddenType;
     Spinner spinner;
     Button submit, choose;
     ImageView ivImage;
     ImageButton placepickerbtn;
     String userChoosenTask, currentAddressOfUser;
-    String GetImageNameEditText;
+    //String GetImageNameEditText;
     private android.support.v7.widget.Toolbar page_name;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
@@ -177,7 +177,7 @@ public class InputEmergency extends Fragment {
         ivImage = view.findViewById(R.id.uploadedphoto);
         role = view.findViewById(R.id.role);
         name = view.findViewById(R.id.name);
-        imagename = view.findViewById(R.id.imagename);
+        //imagename = view.findViewById(R.id.imagename);
         address = view.findViewById(R.id.address);
         spinner = view.findViewById(R.id.emergency_Type);
         contact = view.findViewById(R.id.contact);
@@ -246,7 +246,7 @@ public class InputEmergency extends Fragment {
             @Override
             public void onClick(View v) {
                 convertAddress();
-                GetImageNameEditText = imagename.getText().toString();
+               // GetImageNameEditText = imagename.getText().toString();
                 //ImageUploadToServerFunction();
                 getCoordinatesFromAddress(placeedit.getText().toString().trim());
                 System.out.print("\nLAT:"+placelattitude+"\nLONG:"+placelongitude);
@@ -393,7 +393,7 @@ public class InputEmergency extends Fragment {
 
                 HashMap<String,String> HashMapParams = new HashMap<String,String>();
 
-                HashMapParams.put(ImageName, GetImageNameEditText);
+                //HashMapParams.put(ImageName, GetImageNameEditText);
 
                 HashMapParams.put(ImagePath, ConvertImage);
 
@@ -542,6 +542,7 @@ public class InputEmergency extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = ProgressDialog.show(getActivity()," Emergency is Uploading","Please Wait",false,false);
         }
 
         /**
@@ -565,6 +566,13 @@ public class InputEmergency extends Fragment {
                 params.add(new BasicNameValuePair("addlong", String.valueOf(currentlong)));
                 params.add(new BasicNameValuePair("placelat", placelattitude));
                 params.add(new BasicNameValuePair("placelong", placelongitude));
+                ivImage.buildDrawingCache();
+                Bitmap bitmap = ivImage.getDrawingCache();
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,90,stream);
+                byte[] image = stream.toByteArray();
+                String img_str = Base64.encodeToString(image,0);
+                params.add(new BasicNameValuePair("emer_image",img_str));
 
                 // getting JSON Object
                 // Note that create user url accepts POST method
@@ -600,8 +608,6 @@ public class InputEmergency extends Fragment {
                 placeedit.setText(currentAddressOfUser);
                 desc = getView().findViewById(R.id.description);
                 desc.setText("");
-                ivImage = getView().findViewById(R.id.uploadedphoto);
-                ivImage.setImageDrawable(null);
             }
             else
                 Toast.makeText(getActivity().getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();

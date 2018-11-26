@@ -48,9 +48,6 @@
             android:name=".UploadPhoto"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddRole"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".WriteReview"
             android:screenOrientation="portrait" />
         <activity
@@ -89,9 +86,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AppealPost"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".DirectoryUserInfo"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ResetPasswordActivity"

@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class HomeFragment extends Fragment {
 
     TextView searchdir,inputdir,searchappeal,inputappeal;
-    ImageButton searchdirbtn,inputdirbtn,searchappealbtn,inputappealbtn;
+    ImageButton searchdirbtn,searchappealbtn,inputappealbtn;
 
     private android.support.v7.widget.Toolbar page_name;
 
@@ -35,7 +35,6 @@ public class HomeFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         searchdirbtn = view.findViewById(R.id.searchDirectory);
-        //inputdirbtn = view.findViewById(R.id.inputDirectory);
         searchappealbtn = view.findViewById(R.id.searchAppeal);
         inputappealbtn = view.findViewById(R.id.raiseOnAppeal);
 

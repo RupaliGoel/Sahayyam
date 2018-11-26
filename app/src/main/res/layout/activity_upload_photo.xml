@@ -30,14 +30,14 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
-        <EditText
+        <!--EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextImageName"
             android:layout_above="@+id/buttonUpload"
             android:layout_centerHorizontal="true"
             android:hint="Enter Image Name Here"
-            android:gravity="center"  />
+            android:gravity="center"  /-->
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="270dp"
@@ -45,8 +45,7 @@
             android:layout_below="@+id/buttonSelect"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_above="@+id/editTextImageName" />
-
+            android:layout_above="@+id/buttonUpload" />
 
 
     <!--LinearLayout

@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,8 +27,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.ncapdevi.fragnav.FragNavController;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
-
-import java.security.Permissions;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,13 +111,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMenuTabReSelected(@IdRes int menuItemId) {
                 if (menuItemId == R.id.bottomBarItemOne) {
+                    fragNavController.pop();
                     fragNavController.clearStack();
                 }
             }
         });
 
-        mBottomBar.mapColorForTab(0, getColor(R.color.tab1));
-        mBottomBar.mapColorForTab(1, getColor(R.color.tab2));
+        mBottomBar.mapColorForTab(0, getColor(R.color.tab1));        mBottomBar.mapColorForTab(1, getColor(R.color.tab2));
         mBottomBar.mapColorForTab(2, getColor(R.color.tab3));
 
         //------------------------------code for bottom navigation tabs-----------------------------------

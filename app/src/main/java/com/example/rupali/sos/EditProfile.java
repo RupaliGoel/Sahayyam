@@ -257,6 +257,16 @@ public class EditProfile extends AppCompatActivity {
             return false;
         }
 
+        if(!(new_password.getText().toString()).equals("")){
+            Toast.makeText(EditProfile.this,"Password cannot be Blank. ",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(!(confirm_password.getText().toString()).equals("")){
+            Toast.makeText(EditProfile.this,"Confirm Password cannot be Blank. ",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         if(!(new_password.getText().toString()).equals(confirm_password.getText().toString())){
             Toast.makeText(EditProfile.this,"New Password and Confirmed Password are not same. ",Toast.LENGTH_LONG).show();
             return false;

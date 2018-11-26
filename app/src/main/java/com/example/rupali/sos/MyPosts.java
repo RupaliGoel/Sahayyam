@@ -70,4 +70,9 @@ public class MyPosts extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        MyPosts.this.finish();
+    }
 }

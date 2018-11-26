@@ -99,9 +99,9 @@ public class UploadPhoto extends AppCompatActivity{
     Button SelectImageGallery, UploadImageServer;
     //Button choose,submit;
     ImageView imageView;
-    EditText imageName;
+    //EditText imageName;
     ProgressDialog progressDialog ;
-    String GetImageNameEditText;
+    //String GetImageNameEditText;
     String ImageName = "image_name" ;
     String ImagePath = "image_path" ;
     String ServerUploadPath ="https://sahayyam.000webhostapp.com/uploadphoto.php" ;
@@ -110,7 +110,7 @@ public class UploadPhoto extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_photo);
         imageView = (ImageView)findViewById(R.id.imageView);
-        imageName = (EditText)findViewById(R.id.editTextImageName);
+        //imageName = (EditText)findViewById(R.id.editTextImageName);
         SelectImageGallery = (Button)findViewById(R.id.buttonSelect);
         UploadImageServer = (Button)findViewById(R.id.buttonUpload);
         SelectImageGallery.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,7 @@ public class UploadPhoto extends AppCompatActivity{
         UploadImageServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetImageNameEditText = imageName.getText().toString();
+                //GetImageNameEditText = imageName.getText().toString();
                 ImageUploadToServerFunction();
             }
         });
@@ -170,9 +170,9 @@ public class UploadPhoto extends AppCompatActivity{
                 super.onPostExecute(string1);
                 // Dismiss the progress dialog after done uploading.
                 progressDialog.dismiss();
-                Toast.makeText(UploadPhoto.this,"DONE", Toast.LENGTH_LONG).show();
+                Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
                 // Printing uploading success message coming from server on android app.
-                Toast.makeText(UploadPhoto.this,string1, Toast.LENGTH_LONG).show();
+                //Toast.makeText(UploadPhoto.this,string1, Toast.LENGTH_LONG).show();
                 // Setting image as transparent after done uploading.
                 imageView.setImageResource(android.R.color.transparent);
             }
@@ -180,10 +180,8 @@ public class UploadPhoto extends AppCompatActivity{
             protected String doInBackground(Void... params) {
                 Log.d("php","Forwarding");
                 ImageProcessClass imageProcessClass = new ImageProcessClass();
-
                 HashMap<String,String> HashMapParams = new HashMap<String,String>();
-
-                HashMapParams.put(ImageName, GetImageNameEditText);
+               // HashMapParams.put(ImageName, GetImageNameEditText);
                 HashMapParams.put(ImagePath, ConvertImage);
                 String FinalData = imageProcessClass.ImageHttpRequest(ServerUploadPath, HashMapParams);
                 return FinalData;
