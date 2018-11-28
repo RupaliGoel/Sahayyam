@@ -73,6 +73,7 @@ public class SearchAppeal extends AppCompatActivity {
     JSONArray jsonArray = null;
     JSONObject jsonObject;
     Appeal appeal;
+    String image;
     Spinner spinner;
     String chosenType ;
     ArrayList<String> appealTypes;
@@ -219,8 +220,6 @@ public class SearchAppeal extends AppCompatActivity {
 
                             jsonArray = new JSONArray(FinalJSonResult);
 
-                            int image;
-
                             AppealList = new ArrayList<Appeal>();
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -232,6 +231,7 @@ public class SearchAppeal extends AppCompatActivity {
                                 appeal.Appeal_Type = jsonObject.getString("appeal_type");
                                 appeal.Appeal_Desc = jsonObject.getString("appeal_desc");
                                 appeal.User_email = jsonObject.getString("user_email");
+                                appeal.Appeal_Image = jsonObject.getString("app_image");
                                 email = appeal.User_email;
                                 lat = Double.parseDouble(jsonObject.getString("user_address_lat"));
                                 lon = Double.parseDouble(jsonObject.getString("user_address_long"));
@@ -256,10 +256,11 @@ public class SearchAppeal extends AppCompatActivity {
                                         type = app.Appeal_Type;
                                         desc = app.Appeal_Desc;
                                         email = app.User_email;
+                                        image = app.Appeal_Image;
                                         myIntent.putExtra("Type",type);
                                         myIntent.putExtra("Content", desc);
                                         myIntent.putExtra("Email",email);
-//                                      myIntent.putExtra("Picture", byteArray);
+                                        myIntent.putExtra("Picture", image);
                                         startActivity(myIntent);
                                     }
                                     catch (Exception e){

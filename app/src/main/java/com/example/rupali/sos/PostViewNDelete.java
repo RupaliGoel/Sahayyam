@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -31,6 +33,7 @@ public class PostViewNDelete extends AppCompatActivity {
     Toolbar page_name;
     int id;
     String type;
+    String imageurl;
     Button delete;
 
     int success;
@@ -50,6 +53,7 @@ public class PostViewNDelete extends AppCompatActivity {
         setContentView(R.layout.activity_post_view_ndelete);
 
         page_name = findViewById(R.id.page_name);
+        imagePost = findViewById(R.id.imagePost);
         setSupportActionBar(page_name);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -57,6 +61,7 @@ public class PostViewNDelete extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String title = bundle.getString("Title");
         String content = bundle.getString("Content");
+       // String imageurl = bundle.getString("Picture");
         type = bundle.getString("Type");
         id = bundle.getInt("Id");
         //        byte[] byteArray = bundle.getByteArray("Picture");
@@ -69,6 +74,28 @@ public class PostViewNDelete extends AppCompatActivity {
         titlePost.setText(title);
         descriptionPost = findViewById(R.id.descriptionPost);
         descriptionPost.setText(content);
+        imageurl = bundle.getString("Picture");
+        System.out.println(imageurl);
+
+        imagePost = findViewById(R.id.imagePost);
+        if (imageurl.isEmpty()) {
+            imagePost.setImageResource(R.drawable.whiteimageview);
+        } else {
+            Picasso.with(PostViewNDelete.this)
+                    .load(imageurl).resize(150, 150)
+                    .noFade().into(imagePost);
+        }
+        imagePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PostViewNDelete.this,FullImage.class);
+                if(!imageurl.equals("")) {
+                    intent.putExtra("image", imageurl);
+                    startActivity(intent);
+                }
+            }
+        });
+
 
         delete = findViewById(R.id.deleteButton);
         delete.setOnClickListener(new View.OnClickListener() {

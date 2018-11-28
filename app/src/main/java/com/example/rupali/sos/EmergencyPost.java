@@ -110,6 +110,16 @@ public class EmergencyPost extends AppCompatActivity {
         imagePost = findViewById(R.id.imagePost);
         if(!imageURI.equals(""))
             imageLoader.displayImage(imageURI, imagePost);
+        imagePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EmergencyPost.this,FullImage.class);
+                if(!imageURI.equals("")) {
+                    intent.putExtra("image", imageURI);
+                    startActivity(intent);
+                }
+            }
+        });
 
         details = findViewById(R.id.detailsButton);
         details.setOnClickListener(new View.OnClickListener() {
@@ -138,9 +148,6 @@ public class EmergencyPost extends AppCompatActivity {
             } // end catch
         } // end if
     }
-
-
-
 }
 
 

@@ -40,7 +40,7 @@ public class EmergencyHistory extends Fragment {
 
     ListView EmergencyListView;
     ArrayList<String> EmergencyTypes;
-    String currentaddress;
+    String currentaddress,image;
     double searchlat,searchlong;
     double distance;
 
@@ -145,6 +145,7 @@ public class EmergencyHistory extends Fragment {
                             email = emergency.User_Email;
                             lat = Double.parseDouble(json.getString("emer_place_lat"));
                             lon = Double.parseDouble(json.getString("emer_place_long"));
+                            emergency.Emergency_Image = json.getString("emer_image");
                             emergency.Emergency_Lat = lat;
                             emergency.Emergency_Long = lon;
                             distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
@@ -200,6 +201,7 @@ public class EmergencyHistory extends Fragment {
                             Emergency emer = EmergencyList.get(position);
                             type = emer.Emergency_Name;
                             desc = emer.Emergency_Desc;
+                            image = emer.Emergency_Image;
                             //add address to description
                             address = getCompleteAddressString(emer.Emergency_Lat, emer.Emergency_Long);
                             desc = desc+"\n\nAddress : "+address;
@@ -208,6 +210,7 @@ public class EmergencyHistory extends Fragment {
                             myIntent.putExtra("Title",type);
                             myIntent.putExtra("Type","emergency");
                             myIntent.putExtra("Content", desc);
+                            myIntent.putExtra("Picture",image);
 //                                      myIntent.putExtra("Picture", byteArray);
                             startActivity(myIntent);
                         }

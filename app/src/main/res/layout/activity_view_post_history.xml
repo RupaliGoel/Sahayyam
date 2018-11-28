@@ -62,12 +62,11 @@
 
     <ImageView
         android:id="@+id/imagePost"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@+id/titlePost"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="120dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:layout_below="@+id/titlePost" />
 
 </RelativeLayout>
 

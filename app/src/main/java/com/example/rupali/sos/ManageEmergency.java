@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -38,13 +39,13 @@ import java.util.Locale;
 
 public class ManageEmergency extends Fragment {
 
-    ListView EmergencyListView;
-    ArrayList<String> EmergencyTypes;
+    ListView EmergencyListView = null;
+    ArrayList<String> EmergencyTypes = null;
     String currentaddress;
     double searchlat,searchlong;
     double distance;
 
-    ArrayList<Emergency> EmergencyList;
+    ArrayList<Emergency> EmergencyList = null;
 
     String user_email;
 
@@ -136,12 +137,15 @@ public class ManageEmergency extends Fragment {
                             emergency = new Emergency();
 
                             JSONObject json = jsonArray.getJSONObject(i);
+                            Log.d("Response",json.getString("emer_image"));
                             Emergency emergency = new Emergency();
 
                             emergency.Emergency_Id = json.getInt("emer_id");
                             emergency.Emergency_Name = json.getString("emer_title");
                             emergency.Emergency_Desc = json.getString("emer_desc");
                             emergency.User_Email = json.getString("user_email");
+                            emergency.Emergency_Image = json.getString("emer_image");
+                            System.out.println(emergency.Emergency_Image);
                             email = emergency.User_Email;
                             lat = Double.parseDouble(json.getString("emer_place_lat"));
                             lon = Double.parseDouble(json.getString("emer_place_long"));
@@ -204,11 +208,13 @@ public class ManageEmergency extends Fragment {
                             address = getCompleteAddressString(emer.Emergency_Lat, emer.Emergency_Long);
                             desc = desc+"\n\nAddress : "+address;
                             int emer_id = emer.Emergency_Id;
+                            String image = emer.Emergency_Image;
+                            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+image);
                             myIntent.putExtra("Id",emer_id);
                             myIntent.putExtra("Title",type);
                             myIntent.putExtra("Type","emergency");
                             myIntent.putExtra("Content", desc);
-//                                      myIntent.putExtra("Picture", byteArray);
+                            myIntent.putExtra("Picture",image);
                             startActivity(myIntent);
                         }
                         catch (Exception e){

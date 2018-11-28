@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 public class AppealPost extends AppCompatActivity {
 
     TextView typePost, descriptionPost;
@@ -16,12 +19,16 @@ public class AppealPost extends AppCompatActivity {
     Toolbar page_name;
     String email;
     Button details;
+    String imageURI;
+    ImageLoader imageLoader = ImageLoader.getInstance();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appeal_post);
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+
 
         page_name = findViewById(R.id.page_name);
         setSupportActionBar(page_name);
@@ -32,6 +39,7 @@ public class AppealPost extends AppCompatActivity {
         String type = bundle.getString("Type");
         String content = bundle.getString("Content");
         email = bundle.getString("Email");
+        imageURI = bundle.getString("Picture");
 //        byte[] byteArray = bundle.getByteArray("Picture");
 
         /*Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
@@ -42,6 +50,19 @@ public class AppealPost extends AppCompatActivity {
         typePost.setText(type);
         descriptionPost = findViewById(R.id.descriptionPost);
         descriptionPost.setText(content);
+        imagePost = findViewById(R.id.imagePost);
+        if(!imageURI.equals(""))
+            imageLoader.displayImage(imageURI, imagePost);
+        imagePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AppealPost.this,FullImage.class);
+                if(!imageURI.equals("")) {
+                    intent.putExtra("image", imageURI);
+                    startActivity(intent);
+                }
+            }
+        });
 
         details = findViewById(R.id.detailsButton);
         details.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +73,5 @@ public class AppealPost extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
 }

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,6 +19,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -39,6 +41,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -61,6 +64,7 @@ public class EditProfile extends AppCompatActivity {
     EditText name,contact,address,new_password,confirm_password;
     Spinner role1, role2, role3;
     Button update, addRole;
+    String imageUri;
     ImageButton choose;
     ImageView ivImage;
     String userChoosenTask;
@@ -70,6 +74,7 @@ public class EditProfile extends AppCompatActivity {
     String message;
     JSONParser jsonParser = new JSONParser();
     // url to create new product
+    String PathUrl = "https://sahayyam.000webhostapp.com/getimage.php";
     private static String url_edit_user = "https://sahayyam.000webhostapp.com/edit_user.php";
     String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
     ArrayList<String> roleTypes;
@@ -111,6 +116,8 @@ public class EditProfile extends AppCompatActivity {
         userContact = prefs.getString("user_contact","");
         userAddress = prefs.getString("user_address", "");
         userEmail = prefs.getString("user_email", "");
+
+        new getImage().execute();
 
         name.setText(userName);
         contact.setText(userContact);
@@ -257,12 +264,12 @@ public class EditProfile extends AppCompatActivity {
             return false;
         }
 
-        if(!(new_password.getText().toString()).equals("")){
+        if((new_password.getText().toString()).equals("")){
             Toast.makeText(EditProfile.this,"Password cannot be Blank. ",Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if(!(confirm_password.getText().toString()).equals("")){
+        if((confirm_password.getText().toString()).equals("")){
             Toast.makeText(EditProfile.this,"Confirm Password cannot be Blank. ",Toast.LENGTH_LONG).show();
             return false;
         }
@@ -493,6 +500,13 @@ public class EditProfile extends AppCompatActivity {
                 params.add(new BasicNameValuePair("address", address.getText().toString().trim()));
                 params.add(new BasicNameValuePair("email", userEmail));
                 params.add(new BasicNameValuePair("password", confirm_password.getText().toString()));
+                ivImage.buildDrawingCache();
+                Bitmap bitmap = ivImage.getDrawingCache();
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,90,stream);
+                byte[] image = stream.toByteArray();
+                String img_str = Base64.encodeToString(image,0);
+                params.add(new BasicNameValuePair("user_image",img_str));
 
                 // getting JSON Object
                 // Note that create user url accepts POST method
@@ -564,5 +578,80 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
+    public class getImage extends AsyncTask<String, String, String> {
+                    /**
+                     * Before starting background thread Show Progress Dialog
+                     */
+                    @Override
+                    public void onPreExecute() {
+                        super.onPreExecute();
+                    }
 
+                    /**
+                     * Creating user
+                     */
+                    public String doInBackground(String... args) {
+                        try {
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("email", userEmail));
+                            // getting JSON Object
+                            // Note that create user url accepts POST method
+                            JSONObject json = jsonParser.makeHttpRequest(PathUrl, "POST", params);
+                            JSONArray values = json.getJSONArray("user");
+
+                            JSONObject details = values.getJSONObject(0);
+                            imageUri = details.getString("image");
+                            success = json.getInt("success");
+                            message = json.getString("message");
+                            //System.out.print(imageUri);
+                            // url="file://"+imageUri;
+                            //JSONObject json = jsonParser.makeHttpRequest(PathUrl, "GET",);
+                            //imageUri =PathUrl.details;
+                            //JSONObject json = jsonParser.makeHttpRequest(url_write_emergency, "POST", params);
+                            // check log cat fro response
+                            //Log.d("Create Response", json.toString());
+                        } catch (Exception e) {
+                            System.out.print(e);
+                        }
+                        return null;
+                    }
+
+                    /**
+                     * After completing background task Dismiss the progress dialog
+                     **/
+                    public void onPostExecute(String file_url) {
+                        if (success == 1) {
+                            try {
+                                ivImage = findViewById(R.id.profile);
+                                //Toast.makeText(EditProfile.this.getApplicationContext(), imageUri, Toast.LENGTH_LONG).show();
+                                //URL img = new URL(imageUri);
+                    /*InputStream is = new FileInputStream(mine);
+                    Drawable icon = new BitmapDrawable(is);
+                    ivImage.setImageDrawable(icon);*/
+                                //Toast.makeText(MyProfile.this.getApplicationContext(),imageUri, Toast.LENGTH_LONG).show();
+                                //imageUri=imageUri.replace("\\/","/");
+                                String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()/~'%";
+                                String imageurl = Uri.encode(imageUri, ALLOWED_URI_CHARS);
+                                System.out.println("Before " + imageUri);
+                                System.out.println("After Changing " + imageurl);
+                                Log.d("URL... = ", imageUri);
+                    /*Glide.with(MyProfile.this)
+                            .load(imageUri).apply(new RequestOptions().override(150,150))
+                            .into(ivImage);*/
+                                if (imageurl.isEmpty()) {
+                                    ivImage.setImageResource(R.drawable.whiteimageview);
+                                } else {
+                                    Picasso.with(EditProfile.this)
+                                            .load(imageurl)
+                                            .noFade().into(ivImage);
+                                }
+                                Toast.makeText(EditProfile.this.getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                System.out.print(e);
+                            }
+                        }
+                        //else
+                        //  Toast.makeText(MyProfile.this.getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();
+                    }
+    }
 }

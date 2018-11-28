@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     // url to create new product
     private static String url_login_user = "https://sahayyam.000webhostapp.com/login.php";
     private static String url_user_details = "https://sahayyam.000webhostapp.com/get_user_details.php";
-    String email,password,name,role1,role2,role3,contact,address;
+    String email,password,name,role1,role2,role3,contact,address,profileimage;
     int success = 0;
     String message = "";
 
@@ -220,6 +220,8 @@ public class LoginActivity extends AppCompatActivity {
                 role3 = details.getString("role3");
                 contact = details.getString("contact");
                 address = details.getString("address");
+                profileimage = details.getString("image");
+
                 // check log cat fro response
                 Log.d("Create Response", json.toString());
 
@@ -255,6 +257,7 @@ public class LoginActivity extends AppCompatActivity {
             prefs.edit().putString("roles",roles).commit();
             prefs.edit().putString("user_contact",contact).commit();
             prefs.edit().putString("user_address",address).commit();
+            prefs.edit().putString("profile_picture",profileimage).commit();
             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             setResult(Activity.RESULT_OK, intent);

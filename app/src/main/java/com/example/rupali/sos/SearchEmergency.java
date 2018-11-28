@@ -464,6 +464,7 @@ public class SearchEmergency extends Fragment {
                                 emergency.User_Email = json.getString("user_email");
                                 emergency.Emergency_Lat = Double.parseDouble(json.getString("emer_place_lat"));
                                 emergency.Emergency_Long = Double.parseDouble(json.getString("emer_place_long"));
+
                                 distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
                                 emergency.Emergency_Distance = distance;
                             /* image = jsonObject.getInt("emer_image");

@@ -126,6 +126,10 @@ public class UploadPhoto extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 //GetImageNameEditText = imageName.getText().toString();
+                if(imageView.getDrawable()==null){
+                    Toast.makeText(getApplicationContext(), "Please Select Image!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ImageUploadToServerFunction();
             }
         });
@@ -171,10 +175,10 @@ public class UploadPhoto extends AppCompatActivity{
                 // Dismiss the progress dialog after done uploading.
                 progressDialog.dismiss();
                 Toast.makeText(UploadPhoto.this,"Image Uploaded Successfully", Toast.LENGTH_LONG).show();
+                imageView.setImageDrawable(null);
                 // Printing uploading success message coming from server on android app.
                 //Toast.makeText(UploadPhoto.this,string1, Toast.LENGTH_LONG).show();
                 // Setting image as transparent after done uploading.
-                imageView.setImageResource(android.R.color.transparent);
             }
             @Override
             protected String doInBackground(Void... params) {

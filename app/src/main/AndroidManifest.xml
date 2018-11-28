@@ -111,16 +111,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".EditProfile"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MyPosts"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ProfileDetails"
             android:screenOrientation="portrait" />
         <activity
             android:name=".PostViewNDelete"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -128,10 +128,11 @@
 
         <activity
             android:name=".PostHistory"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ViewPostHistory"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".FullImage"></activity>
     </application>
 
 </manifest>

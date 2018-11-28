@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.squareup.picasso.Picasso;
 
 public class EmergencyListAdapter extends BaseAdapter
 {
@@ -103,6 +104,19 @@ public class EmergencyListAdapter extends BaseAdapter
 //        imageLoader.destroy();
 
         //viewItem.EmerImageView.setImageResource(emergency_list.get(position).Emergency_Image);
+
+        String image_url = emergency_list.get(position).Emergency_Image;
+        System.out.println(image_url);
+
+        if (image_url.isEmpty()) {
+            viewItem.EmerImageView.setImageResource(R.drawable.whiteimageview);
+        } else{
+            Picasso.with(parent.getContext())
+                    .load(image_url).resize(150,150)
+                    .noFade().into(viewItem.EmerImageView);
+        }
+
+
 
         viewItem.EmerDistanceView.setText(String.valueOf((int)Math.round(emergency_list.get(position).Emergency_Distance))+" KM");
 

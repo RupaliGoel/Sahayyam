@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class PostHistory extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public String email;
+
 
     EmergencyHistory emergencyHistory = new EmergencyHistory();
     AppealHistory appealHistory = new AppealHistory();
@@ -33,6 +36,7 @@ public class PostHistory extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("email");
+
 
         /*Bundle bundle2 = new Bundle();
         String myMessage = email;
@@ -72,11 +76,9 @@ public class PostHistory extends AppCompatActivity {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
-
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
     }
-
 }

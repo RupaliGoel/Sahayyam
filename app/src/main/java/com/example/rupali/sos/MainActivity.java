@@ -4,14 +4,21 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.NetworkOnMainThreadException;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -27,6 +34,13 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.ncapdevi.fragnav.FragNavController;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     //------------------------------code for bottom navigation tabs-----------------------------------
 
-    String user_name,user_email,toolbarMessage;
+    String user_name,user_email,toolbarMessage,profileimageurl;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
@@ -69,8 +83,16 @@ public class MainActivity extends AppCompatActivity {
         user_email = prefs.getString("user_email","guest@guest.com");
         user_name = prefs.getString("user_name","Guest");
         toolbarMessage = prefs.getString("AppName","App");
+        profileimageurl = prefs.getString("profile_picture",null);
 
-
+       /* ImageView imv = (ImageView)findViewById(R.id.nav_profile_image);
+        if (profileimageurl.isEmpty()) {
+            imv.setImageResource(R.drawable.profile);
+        } else {
+            Picasso.with(MainActivity.this)
+                    .load(profileimageurl).resize(150, 150)
+                    .noFade().into(imv);
+        }*/
         //------------------------------code for bottom navigation tabs-----------------------------------
         //FragNav
         //list of fragments
@@ -227,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
             //-----------------------------code for Toolbar---------------------------------------------
-
 
             AccountHeader headerResult = new AccountHeaderBuilder()
                     .withActivity(this)
@@ -425,6 +446,30 @@ public class MainActivity extends AppCompatActivity {
             //if not permisson granted so request permisson with request code
             CustomPermissions.Request_COURSE_LOCATION(MainActivity.this,4);
         }
+    }
+
+    public static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>I AM ON.");
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, url);
+            System.out.println("DRAWABLE IMAGE : "+d);
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Drawable getImageDrawable ( String url ) {
+        try {
+            //Log.d ( TAG, "Getting Drawable for StringUrl: " + url.toString ( ) );
+            return getImageDrawable ( url);
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            //Log.e(TAG,e.getMessage ( ),e);
+        }
+
+        return null;
     }
 
 }

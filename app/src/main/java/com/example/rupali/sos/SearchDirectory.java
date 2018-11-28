@@ -246,8 +246,6 @@ public class SearchDirectory extends AppCompatActivity {
 
                             jsonArray = new JSONArray(FinalJSonResult);
 
-                            int image;
-
                             DirectoryList = new ArrayList<User>();
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -259,6 +257,8 @@ public class SearchDirectory extends AppCompatActivity {
                                 user.User_Email = jsonObject.getString("user_email");
 
                                 user.User_Name = jsonObject.getString("user_name");
+                                String image = jsonObject.getString("user_image");
+                                user.User_Image = image;
 
                                 if(!((jsonObject.getString("user_role1")).equals("")) && !((jsonObject.getString("user_role2")).equals("")) && !((jsonObject.getString("user_role3")).equals(""))){
                                     user.User_Role = jsonObject.getString("user_role1") + ", " + jsonObject.getString("user_role2") + ", " + jsonObject.getString("user_role3");
@@ -303,8 +303,10 @@ public class SearchDirectory extends AppCompatActivity {
                                         role = clickedUser.User_Role;
                                         contact = clickedUser.User_Contact;
                                         address = clickedUser.User_Address;
+                                        String imageuri = clickedUser.User_Image;
 
                                         myIntent.putExtra("email",email);
+                                        myIntent.putExtra("Image",imageuri);
 
 //                                      myIntent.putExtra("Picture", byteArray);
                                         startActivity(myIntent);

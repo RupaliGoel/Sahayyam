@@ -259,6 +259,11 @@ public class InputEmergency extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(), "Enter Emergency Description!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                else if(ivImage.getDrawable()== null){
+                    Toast.makeText(getActivity().getApplicationContext(), "Select Image!", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
 
                 else
                     new writeEmergency().execute();
@@ -367,117 +372,6 @@ public class InputEmergency extends Fragment {
 
     }
 
-    public void ImageUploadToServerFunction(){
-        final String ConvertImage = Base64.encodeToString(byteArrayVar, Base64.DEFAULT);
-        class AsyncTaskUploadClass extends AsyncTask<Void,Void,String> {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                progressDialog = ProgressDialog.show(getActivity(),"Image is Uploading","Please Wait",false,false);
-            }
-            @Override
-            protected void onPostExecute(String string1) {
-                super.onPostExecute(string1);
-                // Dismiss the progress dialog after done uploading.
-                progressDialog.dismiss();
-                // Printing uploading success message coming from server on android app.
-                Toast.makeText(getActivity(),string1,Toast.LENGTH_LONG).show();
-                //Toast.makeText(getActivity(),"Done",Toast.LENGTH_LONG).show();
-                // Setting image as transparent after done uploading.
-               // ivImage.setImageResource(android.R.color.transparent);
-            }
-            @Override
-            protected String doInBackground(Void... params) {
-
-                ImageProcessClass imageProcessClass = new ImageProcessClass();
-
-                HashMap<String,String> HashMapParams = new HashMap<String,String>();
-
-                //HashMapParams.put(ImageName, GetImageNameEditText);
-
-                HashMapParams.put(ImagePath, ConvertImage);
-
-                HashMapParams.put("emer_id",String.valueOf(last_emer_id));
-
-                String FinalData = imageProcessClass.ImageHttpRequest(ServerUploadPath, HashMapParams);
-
-                return FinalData;
-            }
-        }
-        AsyncTaskUploadClass AsyncTaskUploadClassOBJ = new AsyncTaskUploadClass();
-
-        AsyncTaskUploadClassOBJ.execute();
-    }
-
-    public class ImageProcessClass{
-
-        public String ImageHttpRequest(String requestURL,HashMap<String, String> PData) {
-
-            StringBuilder stringBuilder = new StringBuilder();
-
-            try {
-
-                URL url;
-                HttpURLConnection httpURLConnectionObject ;
-                OutputStream OutPutStream;
-                BufferedWriter bufferedWriterObject ;
-                BufferedReader bufferedReaderObject ;
-                int RC ;
-
-                url = new URL(requestURL);
-
-                httpURLConnectionObject = (HttpURLConnection) url.openConnection();
-
-                httpURLConnectionObject.setReadTimeout(1900000);
-
-                httpURLConnectionObject.setConnectTimeout(1900000);
-
-                httpURLConnectionObject.setRequestMethod("POST");
-
-                httpURLConnectionObject.setDoInput(true);
-
-                httpURLConnectionObject.setDoOutput(true);
-
-                OutPutStream = httpURLConnectionObject.getOutputStream();
-
-                bufferedWriterObject = new BufferedWriter(
-                        new OutputStreamWriter(OutPutStream, "UTF-8"));
-                bufferedWriterObject.write(bufferedWriterDataFN(PData));
-                bufferedWriterObject.flush();
-                bufferedWriterObject.close();
-                OutPutStream.close();
-                RC = httpURLConnectionObject.getResponseCode();
-                if (RC == HttpsURLConnection.HTTP_OK) {
-                    bufferedReaderObject = new BufferedReader(new InputStreamReader(httpURLConnectionObject.getInputStream()));
-                    stringBuilder = new StringBuilder();
-                    String RC2;
-                    while ((RC2 = bufferedReaderObject.readLine()) != null){
-                        stringBuilder.append(RC2);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return stringBuilder.toString();
-        }
-        public String bufferedWriterDataFN(HashMap<String, String> HashMapParams) throws UnsupportedEncodingException {
-            StringBuilder stringBuilderObject;
-            stringBuilderObject = new StringBuilder();
-            for (Map.Entry<String, String> KEY : HashMapParams.entrySet()) {
-                if (check)
-                    check = false;
-                else
-                    stringBuilderObject.append("&");
-                stringBuilderObject.append(URLEncoder.encode(KEY.getKey(), "UTF-8"));
-                stringBuilderObject.append("=");
-                stringBuilderObject.append(URLEncoder.encode(KEY.getValue(), "UTF-8"));
-            }
-            return stringBuilderObject.toString();
-        }
-    }
-
-
-
     @SuppressWarnings("deprecation")
     public void onSelectFromGalleryResult(Intent data) {
         if (data != null) {
@@ -583,7 +477,7 @@ public class InputEmergency extends Fragment {
                 // check for success tag
                 try {
                     success = json.getInt(TAG_SUCCESS);
-                    last_emer_id = json.getInt("id");
+                    //last_emer_id = json.getInt("id");
                 } catch (JSONException e) {
                     e.printStackTrace();
 
@@ -601,8 +495,9 @@ public class InputEmergency extends Fragment {
          **/
         protected void onPostExecute(String file_url) {
             if(success==1) {
-                ImageUploadToServerFunction();
+               // ImageUploadToServerFunction();
                 Toast.makeText(getActivity().getApplicationContext(),"Saved Successfully.",Toast.LENGTH_LONG).show();
+                ivImage.setImageDrawable(null);
                 hiddenType.setVisibility(View.INVISIBLE);
                 placeedit = getView().findViewById(R.id.place);
                 placeedit.setText(currentAddressOfUser);
@@ -611,6 +506,7 @@ public class InputEmergency extends Fragment {
             }
             else
                 Toast.makeText(getActivity().getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
         }
     }
 

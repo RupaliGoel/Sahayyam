@@ -188,6 +188,11 @@ public class RaiseOnAppeal extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter Appeal Description!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                else if (ivImage.getDrawable()==null) {
+                    Toast.makeText(getApplicationContext(), "Select Image!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
 
                 else
                     new writeAppeal().execute();
@@ -401,9 +406,11 @@ public class RaiseOnAppeal extends AppCompatActivity {
         protected void onPostExecute(String file_url) {
             if(success==1) {
                 Toast.makeText(getApplicationContext(),"Saved Successfully.",Toast.LENGTH_LONG).show();
+
             }
             else
                 Toast.makeText(getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();
+            ivImage.setImageDrawable(null);
             RaiseOnAppeal.this.finish();
         }
     }

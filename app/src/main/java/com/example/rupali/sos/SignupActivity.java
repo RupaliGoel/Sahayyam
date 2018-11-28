@@ -105,6 +105,7 @@ public class SignupActivity extends AppCompatActivity {
         loadSpinnerData(URL);
 
         choose = findViewById(R.id.choose);
+        ivImage=(ImageView)findViewById(R.id.uploadedphoto);
         choose.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -195,6 +196,11 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this,"Please Select at least one Role.",Toast.LENGTH_LONG).show();
                     return;
                 }
+                if(ivImage.getDrawable()==null){
+                    Toast.makeText(SignupActivity.this,"Please Select Image",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
 
 
                 //postDataToSQLite();
@@ -366,7 +372,7 @@ public class SignupActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        ivImage=(ImageView)findViewById(R.id.uploadedphoto);
+
         ivImage.setImageBitmap(bm);
     }
 
@@ -519,7 +525,7 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Registration Failed" + ", "+ message,Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
-
+            ivImage.setImageDrawable(null);
         }
     }
 

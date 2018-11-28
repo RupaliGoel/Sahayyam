@@ -19,8 +19,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -38,6 +41,8 @@ public class ProfileDetails extends AppCompatActivity {
     String email,name,role1,role2,role3,contact,address;
     Toolbar page_name;
     ImageButton emailbtn,call,direction;
+    ImageView imageView;
+    String imageUrl;
     Button history;
     View progressOverlay;
     TextView tvName,tvContact,tvEmail,tvRole,tvAddress;
@@ -50,10 +55,16 @@ public class ProfileDetails extends AppCompatActivity {
         progressOverlay = findViewById(R.id.progress_overlay);
         progressOverlay.bringToFront();
 
-
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("email");
-
+        /*imageView = findViewById(R.id.image);
+        if (imageUrl.isEmpty()) {
+            imageView.setImageResource(R.drawable.profile);
+        } else {
+            Picasso.with(ProfileDetails.this)
+                    .load(imageUrl).resize(150, 150)
+                    .noFade().into(imageView);
+        }*/
         new GetDetails().execute();
     }
 
@@ -77,8 +88,6 @@ public class ProfileDetails extends AppCompatActivity {
          * user details
          */
         protected String doInBackground(String... args) {
-
-
             try {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -96,6 +105,7 @@ public class ProfileDetails extends AppCompatActivity {
                 role3 = details.getString("role3");
                 contact = details.getString("contact");
                 address = details.getString("address");
+                imageUrl = details.getString("image");
                 // check log cat fro response
                 Log.d("Create Response", json.toString());
 
@@ -107,6 +117,7 @@ public class ProfileDetails extends AppCompatActivity {
 
 
         protected void onPostExecute(String file_url) {
+            //Toast.makeText(ProfileDetails.this,imageUrl,Toast.LENGTH_LONG).show();
             // dismiss the progressbar once done
             tvName = findViewById(R.id.name);
             tvName.setText(name);
@@ -124,6 +135,24 @@ public class ProfileDetails extends AppCompatActivity {
             tvContact.setText(contact);
             tvEmail = findViewById(R.id.email);
             tvEmail.setText(email);
+            imageView = findViewById(R.id.image);
+            if (imageUrl.isEmpty()) {
+                imageView.setImageResource(R.drawable.whiteimageview);
+            } else {
+                Picasso.with(ProfileDetails.this)
+                        .load(imageUrl).resize(150, 150)
+                        .noFade().into(imageView);
+            }
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ProfileDetails.this,FullImage.class);
+                    if(!imageUrl.equals("")) {
+                        intent.putExtra("image", imageUrl);
+                        startActivity(intent);
+                    }
+                }
+            });
             tvAddress = findViewById(R.id.address);
             tvAddress.setText(address);
             emailbtn = findViewById(R.id.mail);
@@ -133,7 +162,6 @@ public class ProfileDetails extends AppCompatActivity {
                     sendEmail(ProfileDetails.this, email,"","",null);
                 }
             });
-
             // Hide it (with animation):
             AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
 

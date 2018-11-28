@@ -48,7 +48,7 @@ public class AppealHistory extends Fragment {
 
     JSONParser jsonParser = new JSONParser();
     private static String url_appeal_details = "https://sahayyam.000webhostapp.com/get_my_appeals.php";
-    String email,desc,type,address;
+    String email,desc,type,address,image;
     Double lat,lon;
     int success = 0;
     View progressOverlay;
@@ -136,6 +136,7 @@ public class AppealHistory extends Fragment {
                             appeal.Appeal_Type = json.getString("appeal_type");
                             appeal.Appeal_Desc = json.getString("appeal_desc");
                             appeal.User_email = json.getString("user_email");
+                            appeal.Appeal_Image = json.getString("user_image");
                             email = appeal.User_email;
                             lat = Double.parseDouble(json.getString("user_address_lat"));
                             lon = Double.parseDouble(json.getString("user_address_long"));
@@ -186,12 +187,13 @@ public class AppealHistory extends Fragment {
                             type = app.Appeal_Type;
                             desc = app.Appeal_Desc;
                             email = app.User_email;
+                            image = app.Appeal_Image;
                             int appeal_id = app.Appeal_Id;
                             myIntent.putExtra("Id",appeal_id);
                             myIntent.putExtra("Title",type);
                             myIntent.putExtra("Type","appeal");
                             myIntent.putExtra("Content", desc);
-//                                      myIntent.putExtra("Picture", byteArray);
+                            myIntent.putExtra("Picture",image);
                             startActivity(myIntent);
                         }
                         catch (Exception e){

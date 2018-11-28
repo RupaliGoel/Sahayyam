@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class AppealListAdapter extends BaseAdapter
 {
     Context context;
@@ -63,8 +65,15 @@ public class AppealListAdapter extends BaseAdapter
 
         viewItem.AppealTextView.setText(appeal_list.get(position).Appeal_Desc);
 
-        viewItem.AppealImageView.setImageResource(appeal_list.get(position).Appeal_Image);
+        String image_url = appeal_list.get(position).Appeal_Image;
 
+        if (image_url.isEmpty()) {
+            viewItem.AppealImageView.setImageResource(R.drawable.whiteimageview);
+        } else{
+            Picasso.with(parent.getContext())
+                    .load(image_url)
+                    .noFade().into(viewItem.AppealImageView);
+        }
         return convertView;
     }
 }

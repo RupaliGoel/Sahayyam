@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class DirectoryListAdapter extends BaseAdapter
@@ -65,7 +67,16 @@ public class DirectoryListAdapter extends BaseAdapter
 
         viewItem.DirectoryTextView.setText(user_list.get(position).User_Name);
 
-        viewItem.DirectorylImageView.setImageResource(user_list.get(position).User_Image);
+        String image_url = user_list.get(position).User_Image;
+        System.out.println(image_url);
+
+        if (image_url.isEmpty()) {
+            viewItem.DirectorylImageView.setImageResource(R.drawable.whiteimageview);
+        } else{
+            Picasso.with(parent.getContext())
+                    .load(image_url)
+                    .noFade().into(viewItem.DirectorylImageView);
+        }
 
         viewItem.DirectoryDistanceView.setText((int)Math.round(user_list.get(position).User_Distance)+" KM");
 
@@ -79,5 +90,3 @@ class DirectoryViewItem
     ImageView DirectorylImageView;
     TextView DirectoryDistanceView;
 }
-
-
