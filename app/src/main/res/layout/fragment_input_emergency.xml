@@ -189,8 +189,6 @@
                     android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"/>
-
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Emergency Description"
@@ -207,7 +205,8 @@
                     android:overScrollMode="always"
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
-                    android:lines="5"
+                    android:lines="6"
+                    android:maxLength="1000"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:scrollHorizontally="false"
                     android:padding="5dip"

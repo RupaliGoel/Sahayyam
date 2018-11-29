@@ -167,6 +167,18 @@ public class PostViewNDelete extends AppCompatActivity {
 
             dialog.setMessage(message);
             dialog.dismiss();
+
+            Intent returnIntent = new Intent();
+            if(success == 1){
+
+                setResult(RESULT_OK, returnIntent);
+
+            }
+            else{
+
+                setResult(RESULT_CANCELED, returnIntent);
+
+            }
             PostViewNDelete.this.finish();
         }
     }

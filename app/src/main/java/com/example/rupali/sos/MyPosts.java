@@ -75,4 +75,6 @@ public class MyPosts extends AppCompatActivity {
     public void onBackPressed(){
         MyPosts.this.finish();
     }
+
+
 }

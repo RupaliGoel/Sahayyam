@@ -58,6 +58,7 @@ public class DirectoryListAdapter extends BaseAdapter
             viewItem.DirectorylImageView = convertView.findViewById(R.id.ImageView);
             viewItem.DirectoryTextView = convertView.findViewById(R.id.TextView);
             viewItem.DirectoryDistanceView = convertView.findViewById(R.id.DistanceTextView);
+            viewItem.DirectoryRoleView = convertView.findViewById(R.id.TextView2);
             convertView.setTag(viewItem);
         }
         else
@@ -78,6 +79,8 @@ public class DirectoryListAdapter extends BaseAdapter
                     .noFade().into(viewItem.DirectorylImageView);
         }
 
+        viewItem.DirectoryRoleView.setText(user_list.get(position).User_Role);
+
         viewItem.DirectoryDistanceView.setText((int)Math.round(user_list.get(position).User_Distance)+" KM");
 
         return convertView;
@@ -89,4 +92,5 @@ class DirectoryViewItem
     TextView DirectoryTextView;
     ImageView DirectorylImageView;
     TextView DirectoryDistanceView;
+    TextView DirectoryRoleView;
 }

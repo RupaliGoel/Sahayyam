@@ -262,7 +262,7 @@ public class RaiseOnAppeal extends AppCompatActivity {
         builder.show();
     }
 
-    static final int REQUEST_CAMERA = 1;
+    static final int REQUEST_CAMERA = 2;
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);

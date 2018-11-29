@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/TextView"
         android:layout_width="354dp"
-        android:layout_height="80dp"
+        android:layout_height="20dp"
         android:layout_toStartOf="@+id/ImageView"
         android:layout_alignParentStart="true"
         android:layout_marginStart="22dp"
@@ -29,11 +29,24 @@
         android:textSize="16sp"/>
 
     <TextView
+        android:id="@+id/TextView2"
+        android:layout_width="354dp"
+        android:layout_height="60dp"
+        android:layout_toStartOf="@+id/ImageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="22dp"
+        android:layout_below="@+id/TextView"
+        android:layout_toEndOf="@+id/TextView"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="italic"
+        android:textSize="16sp"/>
+
+    <TextView
         android:id="@+id/DistanceTextView"
         android:layout_width="354dp"
         android:layout_height="20dp"
-        android:layout_below="@+id/TextView"
-        android:layout_toEndOf="@+id/TextView"
+        android:layout_below="@+id/TextView2"
+        android:layout_toEndOf="@+id/TextView2"
         android:layout_alignParentLeft="true"
         android:layout_marginStart="22dp"
         android:text=""
