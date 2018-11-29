@@ -179,25 +179,26 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/address"
-        android:layout_toEndOf="@+id/address"
-        android:layout_below="@+id/address"
-        android:background="@color/colorPrimary"
+        android:layout_marginLeft="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/address"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@color/black"
         android:src="@drawable/ic_direction"
-        android:scaleType="fitCenter"
-        android:layout_marginRight="10dp"/>
+        android:scaleType="fitCenter"/>
+
     <Button
         android:id="@+id/historyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/address"
+        android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:text="Posts"
+        android:layout_marginBottom="50dp"
         android:scaleType="fitCenter"
         android:fontFamily="sans-serif"
         android:textSize="18sp"/>

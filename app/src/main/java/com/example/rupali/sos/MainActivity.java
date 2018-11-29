@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
     Bundle SavedInstanceState;
     Boolean Islogin;
     TextView appnametv;
-    Bitmap MyImage = null;
-    Drawable MyImageDrawable = null;
     //-----------------------------------
 
     //------------------------------code for bottom navigation tabs-----------------------------------
@@ -91,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
         user_name = prefs.getString("user_name","Guest");
         toolbarMessage = prefs.getString("AppName","App");
         profileimageurl = prefs.getString("profile_picture",null);
-
-        new LoadImage().execute();
 
        /* ImageView imv = (ImageView)findViewById(R.id.nav_profile_image);
         if (profileimageurl.isEmpty()) {
@@ -211,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void buildNavigationDrawer() {
         if (Islogin) {   // condition true means user is logged in
-            new LoadImage().execute();
+
             new DrawerBuilder().withActivity(this).build();
 
             DrawerImageLoader.init(new AbstractDrawerImageLoader() {
@@ -488,30 +484,6 @@ public class MainActivity extends AppCompatActivity {
         {
             //if not permisson granted so request permisson with request code
             CustomPermissions.Request_COURSE_LOCATION(MainActivity.this,4);
-        }
-    }
-
-
-
-    private class LoadImage extends AsyncTask<String, String, String> {
-        protected String doInBackground(String... params) {
-            try {
-                URL url = new URL(profileimageurl);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                MyImage = BitmapFactory.decodeStream(input);
-                Log.d("BITMAP","MyImage Bitmap is "+MyImage);
-                return null;
-            } catch(IOException e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String file_url) {
-            //do what you want with your bitmap result on the UI thread
-            MyImageDrawable = new BitmapDrawable(MainActivity.this.getResources(), MyImage);
         }
     }
 

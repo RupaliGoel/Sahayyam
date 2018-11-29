@@ -36,6 +36,11 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
@@ -60,7 +65,7 @@ public class EditProfile extends AppCompatActivity {
     Spinner role1, role2, role3;
     Button update, addRole;
     String imageUri;
-    ImageButton choose;
+    ImageButton choose, placepickerbtn;
     ImageView ivImage;
     String userChoosenTask;
     String userName,userRole1,userRole2,userRole3,userContact,userAddress, userEmail,imageurl;
@@ -75,6 +80,7 @@ public class EditProfile extends AppCompatActivity {
     ArrayList<String> roleTypes;
     ProgressDialog dialog;
     String[] selected_options = new String[3];
+    int PLACE_PICKER_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +143,21 @@ public class EditProfile extends AppCompatActivity {
 
                 if(spinVerify == true && verifyEditText == true){
                     new EditUser().execute();
+                }
+            }
+        });
+
+        placepickerbtn = findViewById(R.id.placepickerbtn);
+        placepickerbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(EditProfile.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -336,6 +357,11 @@ public class EditProfile extends AppCompatActivity {
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
+            else if (requestCode == PLACE_PICKER_REQUEST) {
+                Place place = PlacePicker.getPlace(data, EditProfile.this);
+                String toastMsg = String.format("%s", place.getAddress());
+                address.setText(toastMsg);
+            }
         }
     }
 
@@ -514,6 +540,9 @@ public class EditProfile extends AppCompatActivity {
                     success = json.getInt("success");
                     message = json.getString("message");
                     imageurl = json.getString("imageurl");
+                    if(imageurl.equals("")){
+                        imageurl = null;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
 

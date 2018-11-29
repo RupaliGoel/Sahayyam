@@ -1,20 +1,21 @@
 package com.example.rupali.sos;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,11 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 public class ProfileDetails extends AppCompatActivity {
 
@@ -46,6 +52,12 @@ public class ProfileDetails extends AppCompatActivity {
     Button history;
     View progressOverlay;
     TextView tvName,tvContact,tvEmail,tvRole,tvAddress;
+
+    double searchlat;
+    double searchlong;
+    String CurrentAddress ;
+    double lat1,long1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +117,7 @@ public class ProfileDetails extends AppCompatActivity {
                 role3 = details.getString("role3");
                 contact = details.getString("contact");
                 address = details.getString("address");
+                convertAddress(address);
                 imageUrl = details.getString("image");
                 // check log cat fro response
                 Log.d("Create Response", json.toString());
@@ -113,6 +126,36 @@ public class ProfileDetails extends AppCompatActivity {
                 System.out.print(e);
             }
             return null;
+        }
+
+        public void convertAddress(String address) {
+            Geocoder geocoder = new Geocoder(ProfileDetails.this, Locale.getDefault());
+            if (address != null && !address.isEmpty()) {
+                try {
+                    List<Address> addressList = geocoder.getFromLocationName(address, 1);
+                    if (addressList != null && addressList.size() > 0) {
+                        searchlat = addressList.get(0).getLatitude();
+                        searchlong = addressList.get(0).getLongitude();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } // end catch
+            } // end if
+        }
+
+        public void convertAddress(String address,int a) {
+            Geocoder geocoder = new Geocoder(ProfileDetails.this, Locale.getDefault());
+            if (address != null && !address.isEmpty()) {
+                try {
+                    List<Address> addressList = geocoder.getFromLocationName(address, 1);
+                    if (addressList != null && addressList.size() > 0) {
+                        lat1 = addressList.get(0).getLatitude();
+                        long1 = addressList.get(0).getLongitude();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } // end catch
+            } // end if
         }
 
 
@@ -184,6 +227,25 @@ public class ProfileDetails extends AppCompatActivity {
                     Intent intent = new Intent(ProfileDetails.this, PostHistory.class);
                     intent.putExtra("email",email);
                     startActivity(intent);
+                }
+            });
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ProfileDetails.this);
+            CurrentAddress = prefs.getString("user_current_address","");
+            convertAddress(CurrentAddress,1);
+
+
+            direction = findViewById(R.id.imageButton);
+            direction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String lat=Double.toString(searchlat);
+                    String lon=Double.toString(searchlong);
+                    String lat2=Double.toString(lat1);
+                    String long2=Double.toString(long1);
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse("http://maps.google.com/maps?saddr="+lat2+","+long2+"&daddr="+lat+","+lon));startActivity(intent);
                 }
             });
 
