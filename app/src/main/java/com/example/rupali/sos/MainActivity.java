@@ -8,19 +8,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.NetworkOnMainThreadException;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.annotation.IdRes;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.IdRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -31,6 +33,8 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.ncapdevi.fragnav.FragNavController;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -39,10 +43,11 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     Bundle SavedInstanceState;
     Boolean Islogin;
     TextView appnametv;
+    Bitmap MyImage = null;
+    Drawable MyImageDrawable = null;
     //-----------------------------------
 
     //------------------------------code for bottom navigation tabs-----------------------------------
@@ -84,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         user_name = prefs.getString("user_name","Guest");
         toolbarMessage = prefs.getString("AppName","App");
         profileimageurl = prefs.getString("profile_picture",null);
+
+        new LoadImage().execute();
 
        /* ImageView imv = (ImageView)findViewById(R.id.nav_profile_image);
         if (profileimageurl.isEmpty()) {
@@ -202,7 +211,40 @@ public class MainActivity extends AppCompatActivity {
 
     public void buildNavigationDrawer() {
         if (Islogin) {   // condition true means user is logged in
+            new LoadImage().execute();
             new DrawerBuilder().withActivity(this).build();
+
+            DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+                @Override
+                public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                    if(profileimageurl.equals(""))
+                    {
+                        imageView.setImageResource(R.drawable.profile);
+                    }
+                    else{
+                        Picasso.with(MainActivity.this)
+                                .load(profileimageurl).resize(150,150)
+                                .noFade().into(imageView);
+                    }
+                }
+
+                @Override
+                public void cancel(ImageView imageView) {
+                    Picasso.with(MainActivity.this).cancelRequest(imageView);
+                }
+
+    /*
+    @Override
+    public Drawable placeholder(Context ctx) {
+        return super.placeholder(ctx);
+    }
+
+    @Override
+    public Drawable placeholder(Context ctx, String tag) {
+        return super.placeholder(ctx, tag);
+    }
+    */
+            });
 
             //primary items
             PrimaryDrawerItem primary_item1 = new PrimaryDrawerItem()
@@ -254,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                     .withActivity(this)
                     .withHeaderBackground(R.color.md_grey_600)
                     .addProfiles(
-                            new ProfileDrawerItem().withName(user_name).withEmail(user_email).withIcon(getResources().getDrawable(R.drawable.profile))
+                                new ProfileDrawerItem().withName(user_name).withEmail(user_email).withIcon(profileimageurl)
                     )
                     .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                         @Override
@@ -267,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     })
                     .build();
+
             new DrawerBuilder()
                     .withAccountHeader(headerResult)
                     .withActivity(this)
@@ -448,28 +491,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static Drawable LoadImageFromWebOperations(String url) {
-        try {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>I AM ON.");
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, url);
-            System.out.println("DRAWABLE IMAGE : "+d);
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
-    public static Drawable getImageDrawable ( String url ) {
-        try {
-            //Log.d ( TAG, "Getting Drawable for StringUrl: " + url.toString ( ) );
-            return getImageDrawable ( url);
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            //Log.e(TAG,e.getMessage ( ),e);
+
+    private class LoadImage extends AsyncTask<String, String, String> {
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL(profileimageurl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                MyImage = BitmapFactory.decodeStream(input);
+                Log.d("BITMAP","MyImage Bitmap is "+MyImage);
+                return null;
+            } catch(IOException e) {
+                return null;
+            }
         }
 
-        return null;
+        protected void onPostExecute(String file_url) {
+            //do what you want with your bitmap result on the UI thread
+            MyImageDrawable = new BitmapDrawable(MainActivity.this.getResources(), MyImage);
+        }
     }
 
 }

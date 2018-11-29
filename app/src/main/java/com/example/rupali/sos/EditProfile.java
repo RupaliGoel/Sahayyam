@@ -2,7 +2,6 @@ package com.example.rupali.sos;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,14 +10,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -68,7 +63,7 @@ public class EditProfile extends AppCompatActivity {
     ImageButton choose;
     ImageView ivImage;
     String userChoosenTask;
-    String userName,userRole1,userRole2,userRole3,userContact,userAddress, userEmail;
+    String userName,userRole1,userRole2,userRole3,userContact,userAddress, userEmail,imageurl;
 
     int success;
     String message;
@@ -518,6 +513,7 @@ public class EditProfile extends AppCompatActivity {
                 try {
                     success = json.getInt("success");
                     message = json.getString("message");
+                    imageurl = json.getString("imageurl");
                 } catch (JSONException e) {
                     e.printStackTrace();
 
@@ -549,6 +545,7 @@ public class EditProfile extends AppCompatActivity {
                 editor.putString("user_role3",role3.getSelectedItem().toString().trim()).commit();
                 editor.putString("user_contact",contact.getText().toString().trim()).commit();
                 editor.putString("user_address",address.getText().toString().trim()).commit();
+                editor.putString("profile_picture",imageurl).commit();
 
                 String Role1 = role1.getSelectedItem().toString();
                 String Role2 = role2.getSelectedItem().toString();
@@ -645,7 +642,7 @@ public class EditProfile extends AppCompatActivity {
                                             .load(imageurl)
                                             .noFade().into(ivImage);
                                 }
-                                Toast.makeText(EditProfile.this.getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(EditProfile.this.getApplicationContext(), message, Toast.LENGTH_LONG).show();
                             } catch (Exception e) {
                                 System.out.print(e);
                             }
