@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.location.Address;
@@ -12,6 +13,7 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +54,9 @@ public class ProfileDetails extends AppCompatActivity {
 
     double searchlat;
     double searchlong;
+    String CurrentAddress ;
+    double lat1,long1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +142,21 @@ public class ProfileDetails extends AppCompatActivity {
             } // end if
         }
 
+        public void convertAddress(String address,int a) {
+            Geocoder geocoder = new Geocoder(ProfileDetails.this, Locale.getDefault());
+            if (address != null && !address.isEmpty()) {
+                try {
+                    List<Address> addressList = geocoder.getFromLocationName(address, 1);
+                    if (addressList != null && addressList.size() > 0) {
+                        lat1 = addressList.get(0).getLatitude();
+                        long1 = addressList.get(0).getLongitude();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } // end catch
+            } // end if
+        }
+
 
         protected void onPostExecute(String file_url) {
             //Toast.makeText(ProfileDetails.this,imageUrl,Toast.LENGTH_LONG).show();
@@ -209,6 +229,11 @@ public class ProfileDetails extends AppCompatActivity {
                 }
             });
 
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ProfileDetails.this);
+            CurrentAddress = prefs.getString("user_current_address","");
+            convertAddress(CurrentAddress,1);
+
+
             direction = findViewById(R.id.imageButton);
             direction.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -216,8 +241,10 @@ public class ProfileDetails extends AppCompatActivity {
 
                     String lat=Double.toString(searchlat);
                     String lon=Double.toString(searchlong);
+                    String lat2=Double.toString(lat1);
+                    String long2=Double.toString(long1);
                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                            Uri.parse("http://maps.google.com/maps?daddr="+lat+","+lon));startActivity(intent);
+                            Uri.parse("http://maps.google.com/maps?saddr="+lat2+","+long2+"&daddr="+lat+","+lon));startActivity(intent);
                 }
             });
 
