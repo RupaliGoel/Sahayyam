@@ -176,6 +176,19 @@
         android:padding="5dip"
         android:layout_margin="5dp"
         android:layout_marginLeft="120dp"/>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/address"
+        android:layout_toEndOf="@+id/address"
+        android:layout_below="@+id/address"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_direction"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="10dp"/>
     <Button
         android:id="@+id/historyButton"
         android:layout_width="wrap_content"
