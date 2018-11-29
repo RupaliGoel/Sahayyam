@@ -36,6 +36,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 
 public class ManageEmergency extends Fragment {
 
@@ -215,7 +218,7 @@ public class ManageEmergency extends Fragment {
                             myIntent.putExtra("Type","emergency");
                             myIntent.putExtra("Content", desc);
                             myIntent.putExtra("Picture",image);
-                            startActivity(myIntent);
+                            startActivityForResult(myIntent,1);
                         }
                         catch (Exception e){
                             e.printStackTrace();
@@ -322,6 +325,24 @@ public class ManageEmergency extends Fragment {
             } // end catch
         } // end if
     } // end convertAddress
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+
+            if(resultCode == RESULT_OK){
+                //Update List
+                progressOverlay.bringToFront();
+
+                // Show progress overlay (with animation):
+                AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+                new GetEmergency().execute();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Do nothing?
+            }
+        }
+    }
 
 
 }

@@ -56,6 +56,7 @@ public class AppealListAdapter extends BaseAdapter
 
             viewItem.AppealImageView = convertView.findViewById(R.id.ImageView);
             viewItem.AppealTextView = convertView.findViewById(R.id.TextView);
+            viewItem.AppealDescView = convertView.findViewById(R.id.TextView2);
             convertView.setTag(viewItem);
         }
         else
@@ -63,7 +64,7 @@ public class AppealListAdapter extends BaseAdapter
             viewItem = (AppealViewItem) convertView.getTag();
         }
 
-        viewItem.AppealTextView.setText(appeal_list.get(position).Appeal_Desc);
+        viewItem.AppealTextView.setText(appeal_list.get(position).Appeal_Type);
 
         String image_url = appeal_list.get(position).Appeal_Image;
 
@@ -74,6 +75,9 @@ public class AppealListAdapter extends BaseAdapter
                     .load(image_url)
                     .noFade().into(viewItem.AppealImageView);
         }
+
+        viewItem.AppealDescView.setText(appeal_list.get(position).Appeal_Desc);
+
         return convertView;
     }
 }
@@ -82,6 +86,7 @@ class AppealViewItem
 {
     TextView AppealTextView;
     ImageView AppealImageView;
+    TextView AppealDescView;
 }
 
 

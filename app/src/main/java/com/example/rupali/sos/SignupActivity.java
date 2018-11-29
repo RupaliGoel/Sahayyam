@@ -379,7 +379,7 @@ public class SignupActivity extends AppCompatActivity {
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis() + ".jpg");
         FileOutputStream fo;
@@ -456,7 +456,7 @@ public class SignupActivity extends AppCompatActivity {
                 ivImage.buildDrawingCache();
                 Bitmap bitmap = ivImage.getDrawingCache();
                 ByteArrayOutputStream stream=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG,90,stream);
+                bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
                 byte[] image = stream.toByteArray();
                 String img_str = Base64.encodeToString(image,0);
                 params.add(new BasicNameValuePair("user_image",img_str));

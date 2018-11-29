@@ -66,9 +66,11 @@ public class EmergencyListAdapter extends BaseAdapter
 
             convertView = layoutInfiater.inflate(R.layout.custom_list_layout, null);
 
-            viewItem.EmerImageView = (ImageView)convertView.findViewById(R.id.ImageView);
+            viewItem.EmerImageView = convertView.findViewById(R.id.ImageView);
             viewItem.EmerNameTextView = convertView.findViewById(R.id.TextView);
             viewItem.EmerDistanceView = convertView.findViewById(R.id.DistanceTextView);
+            viewItem.EmerDescTextView = convertView.findViewById(R.id.TextView2);
+
             convertView.setTag(viewItem);
         }
         else
@@ -77,33 +79,6 @@ public class EmergencyListAdapter extends BaseAdapter
         }
 
         viewItem.EmerNameTextView.setText(emergency_list.get(position).Emergency_Name);
-
-        /*imageLoader.loadImage(emergency_list.get(position).Emergency_Image, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                // Do whatever you want with Bitmap
-                System.out.print("LOADED IMAGE : "+loadedImage);
-
-
-            }
-        });*/
-
-        /*ImageSize targetSize = new ImageSize(100, 100); // result Bitmap will be fit to this size
-        imageLoader.loadImage(emergency_list.get(position).Emergency_Name, targetSize, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                // Do whatever you want with Bitmap
-                System.out.println("\nBITMAP : "+loadedImage);
-                setImage(loadedImage);
-            }
-        });*/
-
-        /*if(!emergency_list.get(position).Emergency_Image.equals(""))
-            imageLoader.displayImage(emergency_list.get(position).Emergency_Image, viewItem.EmerImageView);*/
-
-//        imageLoader.destroy();
-
-        //viewItem.EmerImageView.setImageResource(emergency_list.get(position).Emergency_Image);
 
         String image_url = emergency_list.get(position).Emergency_Image;
         System.out.println(image_url);
@@ -116,10 +91,8 @@ public class EmergencyListAdapter extends BaseAdapter
                     .noFade().into(viewItem.EmerImageView);
         }
 
-
-
         viewItem.EmerDistanceView.setText(String.valueOf((int)Math.round(emergency_list.get(position).Emergency_Distance))+" KM");
-
+        viewItem.EmerDescTextView.setText(emergency_list.get(position).Emergency_Desc);
         return convertView;
     }
 
@@ -133,5 +106,6 @@ class ViewItem
     TextView EmerNameTextView;
     ImageView EmerImageView;
     TextView EmerDistanceView;
+    TextView EmerDescTextView;
 }
 
