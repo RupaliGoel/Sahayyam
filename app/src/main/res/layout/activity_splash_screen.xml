@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:fontFamily="sans-serif"
         android:layout_below="@+id/tv_owner" />
@@ -78,8 +78,7 @@
         android:paddingTop="20dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:fontFamily="sans-serif"
         android:layout_above="@+id/tv_organisation" />
         <!--android:text="Neeraj Gupta" />-->
