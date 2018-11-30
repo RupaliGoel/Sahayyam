@@ -78,7 +78,7 @@ public class EmergencyListAdapter extends BaseAdapter
             viewItem = (ViewItem) convertView.getTag();
         }
 
-        viewItem.EmerNameTextView.setText(emergency_list.get(position).Emergency_Name);
+        viewItem.EmerNameTextView.setText(emergency_list.get(position).Emergency_Id+". "+emergency_list.get(position).Emergency_Name);
 
         String image_url = emergency_list.get(position).Emergency_Image;
         System.out.println(image_url);
@@ -92,7 +92,7 @@ public class EmergencyListAdapter extends BaseAdapter
         }
 
         viewItem.EmerDistanceView.setText(String.valueOf((int)Math.round(emergency_list.get(position).Emergency_Distance))+" KM");
-        viewItem.EmerDescTextView.setText(emergency_list.get(position).Emergency_Desc);
+        viewItem.EmerDescTextView.setText(emergency_list.get(position).Emergency_Address);
         return convertView;
     }
 

@@ -138,13 +138,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMenuTabReSelected(@IdRes int menuItemId) {
                 if (menuItemId == R.id.bottomBarItemOne) {
-                    fragNavController.pop();
-                    fragNavController.clearStack();
+                    fragNavController.switchTab(TAB_SEARCH);
+                }
+                if (menuItemId == R.id.bottomBarItemSecond) {
+                    fragNavController.switchTab(TAB_DECLARE);
+                }
+                if (menuItemId == R.id.bottomBarItemThird) {
+                    fragNavController.switchTab(TAB_HOME);
                 }
             }
         });
 
-        mBottomBar.mapColorForTab(0, getColor(R.color.tab1));        mBottomBar.mapColorForTab(1, getColor(R.color.tab2));
+        mBottomBar.mapColorForTab(0, getColor(R.color.tab1));
+        mBottomBar.mapColorForTab(1, getColor(R.color.tab2));
         mBottomBar.mapColorForTab(2, getColor(R.color.tab3));
 
         //------------------------------code for bottom navigation tabs-----------------------------------
