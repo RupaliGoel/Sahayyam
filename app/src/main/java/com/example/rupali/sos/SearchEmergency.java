@@ -58,7 +58,6 @@ public class SearchEmergency extends Fragment {
     public SearchEmergency() {
         // Required empty public constructor
     }
-
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
@@ -237,74 +236,74 @@ public class SearchEmergency extends Fragment {
 
         } else {
 
-                try {
+            try {
 
-                    Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-                    Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                    Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+                Location location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
-                    if (location != null) {
-                        latti = location.getLatitude();
-                        longi = location.getLongitude();
-                        lattitude = String.valueOf(latti);
-                        longitude = String.valueOf(longi);
-                        String address = getCompleteAddressString(latti,longi);
-                        addressOfUser = address;
-                        locationedit.setText(address);
+                if (location != null) {
+                    latti = location.getLatitude();
+                    longi = location.getLongitude();
+                    lattitude = String.valueOf(latti);
+                    longitude = String.valueOf(longi);
+                    String address = getCompleteAddressString(latti,longi);
+                    addressOfUser = address;
+                    locationedit.setText(address);
 
-                        searchlat = Double.parseDouble(lattitude);
-                        searchlong = Double.parseDouble(longitude);
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("lat",lattitude).commit();
-                        editor.putString("long",longitude).commit();
-                        editor.putString("user_current_address",addressOfUser).commit();
+                    searchlat = Double.parseDouble(lattitude);
+                    searchlong = Double.parseDouble(longitude);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("lat",lattitude).commit();
+                    editor.putString("long",longitude).commit();
+                    editor.putString("user_current_address",addressOfUser).commit();
 
-                    } else  if (location1 != null) {
-                        latti = location1.getLatitude();
-                        longi = location1.getLongitude();
-                        lattitude = String.valueOf(latti);
-                        longitude = String.valueOf(longi);
-                        String address = getCompleteAddressString(latti,longi);
-                        addressOfUser = address;
-                        locationedit.setText(address);
+                } else  if (location1 != null) {
+                    latti = location1.getLatitude();
+                    longi = location1.getLongitude();
+                    lattitude = String.valueOf(latti);
+                    longitude = String.valueOf(longi);
+                    String address = getCompleteAddressString(latti,longi);
+                    addressOfUser = address;
+                    locationedit.setText(address);
 
-                        searchlat = Double.parseDouble(lattitude);
-                        searchlong = Double.parseDouble(longitude);
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("lat",lattitude).commit();
-                        editor.putString("long",longitude).commit();
-                        editor.putString("user_current_address",addressOfUser).commit();
+                    searchlat = Double.parseDouble(lattitude);
+                    searchlong = Double.parseDouble(longitude);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("lat",lattitude).commit();
+                    editor.putString("long",longitude).commit();
+                    editor.putString("user_current_address",addressOfUser).commit();
 
-                    } else  if (location2 != null) {
-                        latti = location2.getLatitude();
-                        longi = location2.getLongitude();
-                        lattitude = String.valueOf(latti);
-                        longitude = String.valueOf(longi);
-                        String address = getCompleteAddressString(latti,longi);
-                        addressOfUser = address;
-                        locationedit.setText(address);
+                } else  if (location2 != null) {
+                    latti = location2.getLatitude();
+                    longi = location2.getLongitude();
+                    lattitude = String.valueOf(latti);
+                    longitude = String.valueOf(longi);
+                    String address = getCompleteAddressString(latti,longi);
+                    addressOfUser = address;
+                    locationedit.setText(address);
 
-                        searchlat = Double.parseDouble(lattitude);
-                        searchlong = Double.parseDouble(longitude);
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("lat",lattitude).commit();
-                        editor.putString("long",longitude).commit();
-                        editor.putString("user_current_address",addressOfUser).commit();
+                    searchlat = Double.parseDouble(lattitude);
+                    searchlong = Double.parseDouble(longitude);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("lat",lattitude).commit();
+                    editor.putString("long",longitude).commit();
+                    editor.putString("user_current_address",addressOfUser).commit();
 
-                    }else{
+                }else{
 
-                        Toast.makeText(getActivity().getApplicationContext(),"Unable to Trace your location",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(),"Unable to Trace your location",Toast.LENGTH_SHORT).show();
 
-                    }
                 }
-                catch (SecurityException e){
-                    e.printStackTrace();
-                }
+            }
+            catch (SecurityException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -385,11 +384,14 @@ public class SearchEmergency extends Fragment {
                                 JSONObject json = jsonArray.getJSONObject(i);
                                 Emergency emergency = new Emergency();
 
+                                emergency.Emergency_Id = json.getInt("emer_id");
                                 emergency.Emergency_Name = json.getString("emer_title");
                                 emergency.Emergency_Desc = json.getString("emer_desc");
                                 emergency.User_Email = json.getString("user_email");
                                 emergency.Emergency_Lat = Double.parseDouble(json.getString("emer_place_lat"));
                                 emergency.Emergency_Long = Double.parseDouble(json.getString("emer_place_long"));
+
+                                emergency.Emergency_Address = getCompleteAddressString(emergency.Emergency_Lat,emergency.Emergency_Long);
 
                                 if(!((locationedit.getText().toString()).equals(""))){
                                     distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
@@ -437,7 +439,7 @@ public class SearchEmergency extends Fragment {
                                 emergency.User_Email = json.getString("user_email");
                                 emergency.Emergency_Lat = Double.parseDouble(json.getString("emer_place_lat"));
                                 emergency.Emergency_Long = Double.parseDouble(json.getString("emer_place_long"));
-
+                                emergency.Emergency_Address = getCompleteAddressString(emergency.Emergency_Lat,emergency.Emergency_Long);
                                 distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
                                 emergency.Emergency_Distance = distance;
                             /* image = jsonObject.getInt("emer_image");
@@ -561,5 +563,6 @@ public class SearchEmergency extends Fragment {
             } // end catch
         } // end if
     } // end convertAddress
+
 
 }
