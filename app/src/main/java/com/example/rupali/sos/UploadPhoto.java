@@ -55,7 +55,7 @@ import org.apache.http.message.BasicNameValuePair;
 public class UploadPhoto extends AppCompatActivity{
     Bitmap bitmap;
     boolean check = true;
-    String message,userEmail;
+    String message,email;
     int success;
     String userChoosenTask, currentAddressOfUser;
     Button SelectImageGallery, UploadImageServer,ViewUploads;
@@ -63,7 +63,7 @@ public class UploadPhoto extends AppCompatActivity{
     ImageView ivImage;
     ProgressDialog progressDialog ;
     JSONParser jsonParser = new JSONParser();
-    String ServerUploadPath ="https://sahayyam.000webhostapp.com/uploadphoto.php" ;
+    String ServerUploadPath ="https://sahayyam.000webhostapp.com/uploadmultiple.php" ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,14 +207,14 @@ public class UploadPhoto extends AppCompatActivity{
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-                params.add(new BasicNameValuePair("email", userEmail));
+                params.add(new BasicNameValuePair("email", email));
                 ivImage.buildDrawingCache();
                 Bitmap bitmap = ivImage.getDrawingCache();
                 ByteArrayOutputStream stream=new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG,90,stream);
                 byte[] image = stream.toByteArray();
                 String img_str = Base64.encodeToString(image,0);
-                params.add(new BasicNameValuePair("emer_image",img_str));
+                params.add(new BasicNameValuePair("image",img_str));
                 // getting JSON Object
                 // Note that create user url accepts POST method
                 JSONObject json = jsonParser.makeHttpRequest(ServerUploadPath, "POST", params);

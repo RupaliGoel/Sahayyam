@@ -58,7 +58,6 @@ public class SearchEmergency extends Fragment {
     public SearchEmergency() {
         // Required empty public constructor
     }
-
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
@@ -385,11 +384,14 @@ public class SearchEmergency extends Fragment {
                                 JSONObject json = jsonArray.getJSONObject(i);
                                 Emergency emergency = new Emergency();
 
+                                emergency.Emergency_Id = json.getInt("emer_id");
                                 emergency.Emergency_Name = json.getString("emer_title");
                                 emergency.Emergency_Desc = json.getString("emer_desc");
                                 emergency.User_Email = json.getString("user_email");
                                 emergency.Emergency_Lat = Double.parseDouble(json.getString("emer_place_lat"));
                                 emergency.Emergency_Long = Double.parseDouble(json.getString("emer_place_long"));
+
+                                emergency.Emergency_Address = getCompleteAddressString(emergency.Emergency_Lat,emergency.Emergency_Long);
 
                                 if(!((locationedit.getText().toString()).equals(""))){
                                     distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
@@ -437,7 +439,7 @@ public class SearchEmergency extends Fragment {
                                 emergency.User_Email = json.getString("user_email");
                                 emergency.Emergency_Lat = Double.parseDouble(json.getString("emer_place_lat"));
                                 emergency.Emergency_Long = Double.parseDouble(json.getString("emer_place_long"));
-
+                                emergency.Emergency_Address = getCompleteAddressString(emergency.Emergency_Lat,emergency.Emergency_Long);
                                 distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
                                 emergency.Emergency_Distance = distance;
                             /* image = jsonObject.getInt("emer_image");
@@ -561,5 +563,6 @@ public class SearchEmergency extends Fragment {
             } // end catch
         } // end if
     } // end convertAddress
+
 
 }

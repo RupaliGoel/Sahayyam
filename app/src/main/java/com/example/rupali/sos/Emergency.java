@@ -9,6 +9,7 @@ public class Emergency {
     public double Emergency_Lat;
     public double Emergency_Long;
     public double Emergency_Distance;
+    public String Emergency_Address;
 
     public double getEmergency_Distance(){
         return Emergency_Distance;

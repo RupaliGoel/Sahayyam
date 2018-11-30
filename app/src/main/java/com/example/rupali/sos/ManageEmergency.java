@@ -146,6 +146,7 @@ public class ManageEmergency extends Fragment {
                             lon = Double.parseDouble(json.getString("emer_place_long"));
                             emergency.Emergency_Lat = lat;
                             emergency.Emergency_Long = lon;
+                            emergency.Emergency_Address = getCompleteAddressString(emergency.Emergency_Lat,emergency.Emergency_Long);
                             distance = getDistance(searchlat, searchlong, emergency.Emergency_Lat, emergency.Emergency_Long);
                             emergency.Emergency_Distance = distance;
                             //address = getAddress(getActivity().getApplicationContext(),lat,lon);
