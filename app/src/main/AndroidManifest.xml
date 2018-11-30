@@ -132,7 +132,8 @@
         <activity
             android:name=".ViewPostHistory"
             android:screenOrientation="portrait" />
-        <activity android:name=".FullImage"></activity>
+        <activity android:name=".FullImage" />
+        <activity android:name=".ViewUploads"></activity>
     </application>
 
 </manifest>
