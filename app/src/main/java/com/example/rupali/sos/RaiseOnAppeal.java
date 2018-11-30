@@ -89,6 +89,11 @@ public class RaiseOnAppeal extends AppCompatActivity {
 
     int success;
 
+
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
     JSONParser jsonParser = new JSONParser();
     // url to create new product
     private static String url_write_appeal = "https://sahayyam.000webhostapp.com/write_appeal.php";
@@ -149,6 +154,18 @@ public class RaiseOnAppeal extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean Islogin = prefs.getBoolean("Islogin", false);
+
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         if (!Islogin) {   // condition true means user is not logged in
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);

@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -70,6 +71,10 @@ public class EditProfile extends AppCompatActivity {
     String userChoosenTask;
     String userName,userRole1,userRole2,userRole3,userContact,userAddress, userEmail;
 
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
     int success;
     String message;
     JSONParser jsonParser = new JSONParser();
@@ -116,6 +121,17 @@ public class EditProfile extends AppCompatActivity {
         userContact = prefs.getString("user_contact","");
         userAddress = prefs.getString("user_address", "");
         userEmail = prefs.getString("user_email", "");
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         new getImage().execute();
 

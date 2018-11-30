@@ -78,6 +78,11 @@ public class SearchAppeal extends AppCompatActivity {
     String chosenType ;
     ArrayList<String> appealTypes;
 
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
+
     private static String url_appeal_details = "https://sahayyam.000webhostapp.com/get_appeals.php";
     String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
     String email,desc,type,address;
@@ -123,6 +128,16 @@ public class SearchAppeal extends AppCompatActivity {
         nameOfUser = prefs.getString("user_name", "Guest");
         roleOfUser = prefs.getString("user_role", "Not Found");
         contactOfUser = prefs.getString("user_contact", "Not Found");
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         setTitle(null);
         search_app = (Toolbar) findViewById(R.id.search_dir);

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-    tools:context=".ProfileDetails">
+    tools:context=".EditProfile">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layout">
+
+
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
 
     <!-- Progress bar overlay; shown while page is in progress -->
     <include layout="@layout/progress_overlay"
@@ -17,6 +27,7 @@
         android:id="@+id/page_name"
         android:minHeight="?android:attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        android:layout_below="@+id/toolbar"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="30dp">
@@ -182,18 +193,16 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/address"
-        android:layout_toEndOf="@+id/address"
         android:layout_below="@+id/address"
         android:background="@color/colorPrimary"
         android:src="@drawable/ic_direction"
         android:scaleType="fitCenter"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginLeft="10dp"/>
     <Button
         android:id="@+id/historyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/address"
+        android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:textColor="@color/white"
@@ -203,3 +212,5 @@
         android:textSize="18sp"/>
 
 </RelativeLayout>
+
+</ScrollView>

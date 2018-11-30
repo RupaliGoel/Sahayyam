@@ -57,6 +57,10 @@ public class ProfileDetails extends AppCompatActivity {
     String CurrentAddress ;
     double lat1,long1;
 
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,6 +236,17 @@ public class ProfileDetails extends AppCompatActivity {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ProfileDetails.this);
             CurrentAddress = prefs.getString("user_current_address","");
             convertAddress(CurrentAddress,1);
+
+            toolbarMessage = prefs.getString("AppName","App");
+
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            appnametv = (TextView)findViewById(R.id.appname);
+            appnametv.setText(toolbarMessage);
+            setSupportActionBar(toolbar);
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeButtonEnabled(false);
 
 
             direction = findViewById(R.id.imageButton);

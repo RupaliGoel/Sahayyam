@@ -72,12 +72,14 @@ public class SearchDirectory extends AppCompatActivity {
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
     String addressOfUser, nameOfUser, roleOfUser, contactOfUser, emailOfUser;
-    String currentAddressOfUser, changeaddress;
+    String currentAddressOfUser, changeaddress,toolbarMessage;
     ListView DirectoryListView;
     JSONArray jsonArray = null;
     JSONObject jsonObject;
     User user;
     double searchlat,searchlong,lati,longi;
+    Toolbar toolbar;
+    TextView appnametv;
 
     private static String url_details = "https://sahayyam.000webhostapp.com/get_users_by_role.php";
     String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
@@ -127,6 +129,8 @@ public class SearchDirectory extends AppCompatActivity {
         roleOfUser = prefs.getString("user_role", "Not Found");
         contactOfUser = prefs.getString("user_contact", "Not Found");
 
+        toolbarMessage = prefs.getString("AppName","App");
+
         setTitle(null);
         search_dir = (Toolbar) findViewById(R.id.search_dir);
         setSupportActionBar(search_dir);
@@ -139,6 +143,10 @@ public class SearchDirectory extends AppCompatActivity {
         spinner = findViewById(R.id.role);
         //-------------------------------toolbar, location textbox & button-----------------------------------
         DirectoryListView = findViewById(R.id.DirectoryListView);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
 
         placepickerbtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,7 +1,9 @@
 package com.example.rupali.sos;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -18,9 +20,14 @@ public class AppealPost extends AppCompatActivity {
     ImageView imagePost;
     Toolbar page_name;
     String email;
+
     Button details;
     String imageURI;
     ImageLoader imageLoader = ImageLoader.getInstance();
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
 
 
     @Override
@@ -34,6 +41,19 @@ public class AppealPost extends AppCompatActivity {
         setSupportActionBar(page_name);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         Bundle bundle = getIntent().getExtras();
         String type = bundle.getString("Type");

@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SearchDirectory">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
 
     <!-- Progress bar overlay; shown while login is in progress -->
     <include layout="@layout/progress_overlay"
@@ -15,6 +23,7 @@
         android:id="@+id/search_dir"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:layout_below="@+id/toolbar"
         android:background="@color/tab1"
         android:fitsSystemWindows="true"
         android:minHeight="?android:attr/actionBarSize">

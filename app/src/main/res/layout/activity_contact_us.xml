@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ContactUs">
 
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/page_name"
         android:minHeight="?android:attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="30dp">
         <TextView
