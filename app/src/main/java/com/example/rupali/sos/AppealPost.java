@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,11 +12,14 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 public class AppealPost extends AppCompatActivity {
 
     TextView typePost, descriptionPost;
     ImageView imagePost;
-    Toolbar page_name;
+    android.widget.Toolbar page_name;
     String email;
 
     Button details;
@@ -37,16 +38,16 @@ public class AppealPost extends AppCompatActivity {
         imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
 
 
-        page_name = findViewById(R.id.page_name);
-        setSupportActionBar(page_name);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        page_name =findViewById(R.id.page_name);
+       // setSupportActionBar(page_name);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         toolbarMessage = prefs.getString("AppName","App");
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         appnametv = (TextView)findViewById(R.id.appname);
         appnametv.setText(toolbarMessage);
         setSupportActionBar(toolbar);

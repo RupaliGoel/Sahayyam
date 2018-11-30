@@ -9,11 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +22,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 public class ContactUs extends AppCompatActivity {
 
-    Toolbar page_name;
+    android.widget.Toolbar page_name;
     TextView name1,name2,name3,name4;
     TextView mail1,mail2,mail3,mail4;
     ImageButton bt1,bt2,bt3,bt4;
@@ -43,10 +43,10 @@ public class ContactUs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
 
-        page_name = (Toolbar) findViewById(R.id.page_name);
-        setSupportActionBar(page_name);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        page_name = findViewById(R.id.page_name);
+        //setSupportActionBar(page_name);
+       // getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 
 

@@ -2,7 +2,6 @@ package com.example.rupali.sos;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,15 +10,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +39,11 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
@@ -66,10 +68,12 @@ public class EditProfile extends AppCompatActivity {
     Spinner role1, role2, role3;
     Button update, addRole;
     String imageUri;
-    ImageButton choose;
+    ImageButton choose, placepickerbtn;
     ImageView ivImage;
     String userChoosenTask;
-    String userName,userRole1,userRole2,userRole3,userContact,userAddress, userEmail;
+    String userName,userRole1,userRole2,userRole3,userContact,userAddress, userEmail,imageurl;
+
+
 
     String toolbarMessage;
     Toolbar toolbar;
@@ -85,6 +89,7 @@ public class EditProfile extends AppCompatActivity {
     ArrayList<String> roleTypes;
     ProgressDialog dialog;
     String[] selected_options = new String[3];
+    int PLACE_PICKER_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +163,21 @@ public class EditProfile extends AppCompatActivity {
 
                 if(spinVerify == true && verifyEditText == true){
                     new EditUser().execute();
+                }
+            }
+        });
+
+        placepickerbtn = findViewById(R.id.placepickerbtn);
+        placepickerbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(EditProfile.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -357,6 +377,11 @@ public class EditProfile extends AppCompatActivity {
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
+            else if (requestCode == PLACE_PICKER_REQUEST) {
+                Place place = PlacePicker.getPlace(data, EditProfile.this);
+                String toastMsg = String.format("%s", place.getAddress());
+                address.setText(toastMsg);
+            }
         }
     }
 
@@ -534,6 +559,10 @@ public class EditProfile extends AppCompatActivity {
                 try {
                     success = json.getInt("success");
                     message = json.getString("message");
+                    imageurl = json.getString("imageurl");
+                    if(imageurl.equals("")){
+                        imageurl = null;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
 
@@ -565,6 +594,7 @@ public class EditProfile extends AppCompatActivity {
                 editor.putString("user_role3",role3.getSelectedItem().toString().trim()).commit();
                 editor.putString("user_contact",contact.getText().toString().trim()).commit();
                 editor.putString("user_address",address.getText().toString().trim()).commit();
+                editor.putString("profile_picture",imageurl).commit();
 
                 String Role1 = role1.getSelectedItem().toString();
                 String Role2 = role2.getSelectedItem().toString();
@@ -595,79 +625,79 @@ public class EditProfile extends AppCompatActivity {
     }
 
     public class getImage extends AsyncTask<String, String, String> {
-                    /**
-                     * Before starting background thread Show Progress Dialog
-                     */
-                    @Override
-                    public void onPreExecute() {
-                        super.onPreExecute();
-                    }
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        public void onPreExecute() {
+            super.onPreExecute();
+        }
 
-                    /**
-                     * Creating user
-                     */
-                    public String doInBackground(String... args) {
-                        try {
-                            List<NameValuePair> params = new ArrayList<NameValuePair>();
-                            params.add(new BasicNameValuePair("email", userEmail));
-                            // getting JSON Object
-                            // Note that create user url accepts POST method
-                            JSONObject json = jsonParser.makeHttpRequest(PathUrl, "POST", params);
-                            JSONArray values = json.getJSONArray("user");
+        /**
+         * Creating user
+         */
+        public String doInBackground(String... args) {
+            try {
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("email", userEmail));
+                // getting JSON Object
+                // Note that create user url accepts POST method
+                JSONObject json = jsonParser.makeHttpRequest(PathUrl, "POST", params);
+                JSONArray values = json.getJSONArray("user");
 
-                            JSONObject details = values.getJSONObject(0);
-                            imageUri = details.getString("image");
-                            success = json.getInt("success");
-                            message = json.getString("message");
-                            //System.out.print(imageUri);
-                            // url="file://"+imageUri;
-                            //JSONObject json = jsonParser.makeHttpRequest(PathUrl, "GET",);
-                            //imageUri =PathUrl.details;
-                            //JSONObject json = jsonParser.makeHttpRequest(url_write_emergency, "POST", params);
-                            // check log cat fro response
-                            //Log.d("Create Response", json.toString());
-                        } catch (Exception e) {
-                            System.out.print(e);
-                        }
-                        return null;
-                    }
+                JSONObject details = values.getJSONObject(0);
+                imageUri = details.getString("image");
+                success = json.getInt("success");
+                message = json.getString("message");
+                //System.out.print(imageUri);
+                // url="file://"+imageUri;
+                //JSONObject json = jsonParser.makeHttpRequest(PathUrl, "GET",);
+                //imageUri =PathUrl.details;
+                //JSONObject json = jsonParser.makeHttpRequest(url_write_emergency, "POST", params);
+                // check log cat fro response
+                //Log.d("Create Response", json.toString());
+            } catch (Exception e) {
+                System.out.print(e);
+            }
+            return null;
+        }
 
-                    /**
-                     * After completing background task Dismiss the progress dialog
-                     **/
-                    public void onPostExecute(String file_url) {
-                        if (success == 1) {
-                            try {
-                                ivImage = findViewById(R.id.profile);
-                                //Toast.makeText(EditProfile.this.getApplicationContext(), imageUri, Toast.LENGTH_LONG).show();
-                                //URL img = new URL(imageUri);
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        public void onPostExecute(String file_url) {
+            if (success == 1) {
+                try {
+                    ivImage = findViewById(R.id.profile);
+                    //Toast.makeText(EditProfile.this.getApplicationContext(), imageUri, Toast.LENGTH_LONG).show();
+                    //URL img = new URL(imageUri);
                     /*InputStream is = new FileInputStream(mine);
                     Drawable icon = new BitmapDrawable(is);
                     ivImage.setImageDrawable(icon);*/
-                                //Toast.makeText(MyProfile.this.getApplicationContext(),imageUri, Toast.LENGTH_LONG).show();
-                                //imageUri=imageUri.replace("\\/","/");
-                                String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()/~'%";
-                                String imageurl = Uri.encode(imageUri, ALLOWED_URI_CHARS);
-                                System.out.println("Before " + imageUri);
-                                System.out.println("After Changing " + imageurl);
-                                Log.d("URL... = ", imageUri);
+                    //Toast.makeText(MyProfile.this.getApplicationContext(),imageUri, Toast.LENGTH_LONG).show();
+                    //imageUri=imageUri.replace("\\/","/");
+                    String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()/~'%";
+                    String imageurl = Uri.encode(imageUri, ALLOWED_URI_CHARS);
+                    System.out.println("Before " + imageUri);
+                    System.out.println("After Changing " + imageurl);
+                    Log.d("URL... = ", imageUri);
                     /*Glide.with(MyProfile.this)
                             .load(imageUri).apply(new RequestOptions().override(150,150))
                             .into(ivImage);*/
-                                if (imageurl.isEmpty()) {
-                                    ivImage.setImageResource(R.drawable.whiteimageview);
-                                } else {
-                                    Picasso.with(EditProfile.this)
-                                            .load(imageurl)
-                                            .noFade().into(ivImage);
-                                }
-                                Toast.makeText(EditProfile.this.getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                            } catch (Exception e) {
-                                System.out.print(e);
-                            }
-                        }
-                        //else
-                        //  Toast.makeText(MyProfile.this.getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();
+                    if (imageurl.isEmpty()) {
+                        ivImage.setImageResource(R.drawable.whiteimageview);
+                    } else {
+                        Picasso.with(EditProfile.this)
+                                .load(imageurl)
+                                .noFade().into(ivImage);
                     }
+                    //Toast.makeText(EditProfile.this.getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    System.out.print(e);
+                }
+            }
+            //else
+            //  Toast.makeText(MyProfile.this.getApplicationContext(),"Failed.",Toast.LENGTH_LONG).show();
+        }
     }
 }

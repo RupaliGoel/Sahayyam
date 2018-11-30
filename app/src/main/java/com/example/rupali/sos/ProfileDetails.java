@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +38,6 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 public class ProfileDetails extends AppCompatActivity {
@@ -58,8 +58,10 @@ public class ProfileDetails extends AppCompatActivity {
     String CurrentAddress ;
     double lat1,long1;
 
+
+
     String toolbarMessage;
-    Toolbar toolbar;
+    androidx.appcompat.widget.Toolbar toolbar;
     TextView appnametv;
 
 
@@ -240,7 +242,7 @@ public class ProfileDetails extends AppCompatActivity {
 
             toolbarMessage = prefs.getString("AppName","App");
 
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            toolbar = findViewById(R.id.toolbar);
             appnametv = (TextView)findViewById(R.id.appname);
             appnametv.setText(toolbarMessage);
             setSupportActionBar(toolbar);
