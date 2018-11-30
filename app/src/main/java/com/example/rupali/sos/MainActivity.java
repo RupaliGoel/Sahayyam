@@ -249,10 +249,10 @@ public class MainActivity extends AppCompatActivity {
             });
 
             //primary items
-            PrimaryDrawerItem primary_item1 = new PrimaryDrawerItem()
+            /*PrimaryDrawerItem primary_item1 = new PrimaryDrawerItem()
                     .withIdentifier(2)
                     .withName(R.string.drawer_item_upload_photo)
-                    .withIcon(R.drawable.ic_upload_photo);
+                    .withIcon(R.drawable.ic_upload_photo);*/
             PrimaryDrawerItem primary_item2 = new PrimaryDrawerItem()
                     .withIdentifier(3)
                     .withName(R.string.drawer_item_my_posts)
@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
                     .withFullscreen(true)
                     .withSavedInstance(SavedInstanceState)
                     .addDrawerItems(
-                            primary_item1,
+                            /*primary_item1,*/
                             primary_item2,
                             primary_item3,
                             primary_item4,
@@ -336,9 +336,9 @@ public class MainActivity extends AppCompatActivity {
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                             if (drawerItem != null) {
                                 Intent intent = null;
-                                if (drawerItem.getIdentifier() == 2) {
+                                /*if (drawerItem.getIdentifier() == 2) {
                                     intent = new Intent(MainActivity.this, UploadPhoto.class);
-                                } else if (drawerItem.getIdentifier() == 3) {
+                                } else */if (drawerItem.getIdentifier() == 3) {
                                     intent = new Intent(MainActivity.this, MyPosts.class);
                                 } else if (drawerItem.getIdentifier() == 4) {
                                     intent = new Intent(MainActivity.this, WriteReview.class);
