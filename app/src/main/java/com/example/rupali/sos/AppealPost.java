@@ -1,9 +1,9 @@
 package com.example.rupali.sos;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,15 +12,23 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 public class AppealPost extends AppCompatActivity {
 
     TextView typePost, descriptionPost;
     ImageView imagePost;
-    Toolbar page_name;
+    android.widget.Toolbar page_name;
     String email;
+
     Button details;
     String imageURI;
     ImageLoader imageLoader = ImageLoader.getInstance();
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
 
 
     @Override
@@ -30,10 +38,23 @@ public class AppealPost extends AppCompatActivity {
         imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
 
 
-        page_name = findViewById(R.id.page_name);
-        setSupportActionBar(page_name);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        page_name =findViewById(R.id.page_name);
+       // setSupportActionBar(page_name);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         Bundle bundle = getIntent().getExtras();
         String type = bundle.getString("Type");

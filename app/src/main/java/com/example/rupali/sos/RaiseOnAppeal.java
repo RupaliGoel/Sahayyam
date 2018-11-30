@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -68,6 +69,11 @@ public class RaiseOnAppeal extends AppCompatActivity {
     String title_appeal ;
 
     int success;
+
+
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
 
     JSONParser jsonParser = new JSONParser();
     // url to create new product
@@ -129,6 +135,18 @@ public class RaiseOnAppeal extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean Islogin = prefs.getBoolean("Islogin", false);
+
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         if (!Islogin) {   // condition true means user is not logged in
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);

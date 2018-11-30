@@ -6,6 +6,11 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
     <!-- Progress bar overlay; shown while login is in progress -->
     <include layout="@layout/progress_overlay"
         android:layout_width="match_parent"
@@ -16,6 +21,7 @@
         android:minHeight="?android:attr/actionBarSize"
         android:background="@color/tab3"
         android:fitsSystemWindows="true"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="30dp">
         <TextView

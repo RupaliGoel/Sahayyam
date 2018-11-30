@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -56,6 +57,11 @@ public class SearchAppeal extends AppCompatActivity {
     Spinner spinner;
     String chosenType ;
     ArrayList<String> appealTypes;
+
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
 
     private static String url_appeal_details = "https://sahayyam.000webhostapp.com/get_appeals.php";
     String URL="https://sahayyam.000webhostapp.com/get_spinners.php";
@@ -102,6 +108,16 @@ public class SearchAppeal extends AppCompatActivity {
         nameOfUser = prefs.getString("user_name", "Guest");
         roleOfUser = prefs.getString("user_role", "Not Found");
         contactOfUser = prefs.getString("user_contact", "Not Found");
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         setTitle(null);
         search_app = (Toolbar) findViewById(R.id.search_dir);

@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +38,6 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 public class ProfileDetails extends AppCompatActivity {
@@ -57,6 +57,12 @@ public class ProfileDetails extends AppCompatActivity {
     double searchlong;
     String CurrentAddress ;
     double lat1,long1;
+
+
+
+    String toolbarMessage;
+    androidx.appcompat.widget.Toolbar toolbar;
+    TextView appnametv;
 
 
     @Override
@@ -233,6 +239,17 @@ public class ProfileDetails extends AppCompatActivity {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ProfileDetails.this);
             CurrentAddress = prefs.getString("user_current_address","");
             convertAddress(CurrentAddress,1);
+
+            toolbarMessage = prefs.getString("AppName","App");
+
+            toolbar = findViewById(R.id.toolbar);
+            appnametv = (TextView)findViewById(R.id.appname);
+            appnametv.setText(toolbarMessage);
+            setSupportActionBar(toolbar);
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeButtonEnabled(false);
 
 
             direction = findViewById(R.id.imageButton);

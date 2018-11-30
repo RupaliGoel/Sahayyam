@@ -11,10 +11,17 @@
         android:layout_height="match_parent"
         android:id="@+id/layout">
 
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+
         <ImageView
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:layout_below="@+id/toolbar"
             android:background="@color/md_grey_600"
             android:scaleType="centerCrop"/>
 

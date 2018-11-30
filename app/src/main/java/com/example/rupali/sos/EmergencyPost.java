@@ -38,6 +38,11 @@ public class EmergencyPost extends AppCompatActivity {
     String CurrentAddress ;
     double searchlat,searchlong;
 
+
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
     ImageLoader imageLoader = ImageLoader.getInstance();
 
 
@@ -66,6 +71,19 @@ public class EmergencyPost extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(EmergencyPost.this);
         CurrentAddress = prefs.getString("user_current_address","");
         convertAddress(CurrentAddress);
+
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+
 
        direction = findViewById(R.id.imageButton);
         direction.setOnClickListener(new View.OnClickListener() {

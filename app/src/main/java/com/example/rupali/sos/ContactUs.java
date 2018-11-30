@@ -4,16 +4,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import android.preference.PreferenceManager;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
-
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,22 +22,46 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 public class ContactUs extends AppCompatActivity {
 
-    Toolbar page_name;
+    android.widget.Toolbar page_name;
     TextView name1,name2,name3,name4;
     TextView mail1,mail2,mail3,mail4;
     ImageButton bt1,bt2,bt3,bt4;
+
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
 
-        page_name = (Toolbar) findViewById(R.id.page_name);
-        setSupportActionBar(page_name);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        page_name = findViewById(R.id.page_name);
+        //setSupportActionBar(page_name);
+       // getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         name1 = findViewById(R.id.person_name1);
         name2 = findViewById(R.id.person_name2);
