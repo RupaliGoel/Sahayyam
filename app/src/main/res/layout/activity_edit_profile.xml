@@ -34,16 +34,13 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:clickable="true"
-                app:civ_border_width="3dp"
-                app:civ_border_color="#FFFFFFFF"
+                app:civ_border_color="#000000"
                 android:id="@+id/profile"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="-130dp"
-                android:elevation="5dp"
-                android:padding="20dp"
-                android:src="@drawable/profile"
+                android:src="@drawable/whiteimageview"
                 android:layout_gravity="bottom|center_horizontal" />
 
             <ImageButton
@@ -52,7 +49,7 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/colorPrimary"
+                android:background="@android:color/transparent"
                 android:elevation="5dp"
                 android:src="@drawable/ic_edit"
                 android:scaleType="fitCenter"
@@ -98,7 +95,7 @@
                 <!--android:textSize="18sp"-->
                 <!--android:fontFamily="sans-serif"-->
                 <!--android:layout_marginTop="8dp" />-->
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -118,7 +115,7 @@
                 android:textSize="18sp"
                 android:fontFamily="sans-serif"/>
 
-         </android.support.design.widget.TextInputLayout>
+         </com.google.android.material.textfield.TextInputLayout>
 
         </RelativeLayout>
 
@@ -174,7 +171,7 @@
                 <!--android:textSize="18sp"-->
                 <!--android:fontFamily="sans-serif"-->
                 <!--android:layout_marginTop="8dp" />-->
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -195,7 +192,7 @@
                 android:layout_marginTop="8dp" />
 
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
         </RelativeLayout>
 
         <RelativeLayout
@@ -224,9 +221,10 @@
                 <!--android:fontFamily="sans-serif"-->
                 <!--android:layout_marginLeft="5dp"-->
                 <!--android:layout_marginTop="8dp" />-->
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/placepickerbtn">
 
 
             <EditText
@@ -243,7 +241,16 @@
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/placepickerbtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_dialog_map"
+                android:layout_alignParentRight="true"
+                android:background="@color/black"
+                android:layout_gravity="right"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -273,7 +280,7 @@
                 <!--android:layout_marginLeft="5dp"-->
                 <!--android:layout_marginTop="8dp" />-->
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -293,7 +300,7 @@
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="8dp" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
         </RelativeLayout>
 
@@ -324,7 +331,7 @@
                 <!--android:layout_marginLeft="5dp"-->
                 <!--android:layout_marginTop="8dp" />-->
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -344,7 +351,7 @@
                 android:layout_marginTop="8dp" />
 
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
         </RelativeLayout>
 
         <RelativeLayout

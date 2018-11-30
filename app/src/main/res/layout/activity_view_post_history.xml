@@ -7,7 +7,7 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/page_name"
         android:minHeight="?android:attr/actionBarSize"
         android:background="@color/colorPrimary"
@@ -23,7 +23,7 @@
             android:textStyle="bold"
             android:fontFamily="sans-serif"
             android:layout_gravity="center"/>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/details"

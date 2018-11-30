@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/page_name"
         android:minHeight="?android:attr/actionBarSize"
         android:background="@color/tab3"
@@ -21,7 +21,7 @@
             android:textSize="22dp"
             android:textStyle="bold"
             android:layout_gravity="center"/>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <GridLayout
         android:layout_width="wrap_content"
