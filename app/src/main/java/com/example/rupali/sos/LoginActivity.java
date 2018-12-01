@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -42,6 +45,12 @@ public class LoginActivity extends AppCompatActivity {
     String email,password,name,role1,role2,role3,contact,address,profileimage;
     int success = 0;
     String message = "";
+
+
+
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -257,6 +266,17 @@ public class LoginActivity extends AppCompatActivity {
             prefs.edit().putString("user_contact",contact).commit();
             prefs.edit().putString("user_address",address).commit();
             prefs.edit().putString("profile_picture",profileimage).commit();
+
+            toolbarMessage = prefs.getString("AppName","App");
+
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            appnametv = (TextView)findViewById(R.id.appname);
+            appnametv.setText(toolbarMessage);
+            setSupportActionBar(toolbar);
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeButtonEnabled(false);
             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             setResult(Activity.RESULT_OK, intent);
