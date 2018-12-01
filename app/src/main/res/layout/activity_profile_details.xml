@@ -205,7 +205,7 @@
             android:layout_centerHorizontal="true"
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
-            android:text="Posts"
+            android:text="History"
             android:scaleType="fitCenter"
             android:fontFamily="sans-serif"
             android:textSize="18sp"/>
