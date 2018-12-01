@@ -124,7 +124,7 @@ public class SearchAppeal extends AppCompatActivity {
         setSupportActionBar(search_app);
 
         textbox = findViewById(R.id.textSearch);
-        audio_mode = findViewById(R.id.audioModeButton);
+        //audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);
 
         spinner = findViewById(R.id.apptype);

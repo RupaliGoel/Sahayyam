@@ -34,15 +34,15 @@
             android:textSize="22dp"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/audioModeButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:layout_alignParentEnd="true"
-            app:srcCompat="@drawable/ic_microphone" />
+        <!--<ImageButton-->
+            <!--android:id="@+id/audioModeButton"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:gravity="center"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--app:srcCompat="@drawable/ic_microphone" />-->
     </androidx.appcompat.widget.Toolbar>
 
 
