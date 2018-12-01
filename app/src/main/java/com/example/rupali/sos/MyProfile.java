@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -35,6 +37,12 @@ public class MyProfile extends AppCompatActivity {
     String PathUrl = "https://sahayyam.000webhostapp.com/getimage.php";
     Bitmap bm;
 
+
+
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
+
     //ImageLoader imageLoader = ImageLoader.getInstance();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,18 @@ public class MyProfile extends AppCompatActivity {
         contact = prefs.getString("user_contact", "**********");
         email = prefs.getString("user_email", "guest@guest.com");
         address = prefs.getString("user_address", "***");
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+
         final boolean isLogin = prefs.getBoolean("Islogin", false);
         TextView textName = findViewById(R.id.name);
         TextView textRole = findViewById(R.id.role);
