@@ -1,7 +1,11 @@
 package com.example.rupali.sos;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
@@ -20,6 +24,12 @@ public class MyPosts extends AppCompatActivity {
     private ViewPager viewPager;
 
 
+
+    String toolbarMessage;
+    Toolbar toolbar1;
+    TextView appnametv;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +40,19 @@ public class MyPosts extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar1 = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar1);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
 
     }
 
