@@ -61,6 +61,19 @@ public class LoginActivity extends AppCompatActivity {
         // set the view now
         setContentView(R.layout.activity_login);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+
         initViews();
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,16 +280,7 @@ public class LoginActivity extends AppCompatActivity {
             prefs.edit().putString("user_address",address).commit();
             prefs.edit().putString("profile_picture",profileimage).commit();
 
-            toolbarMessage = prefs.getString("AppName","App");
 
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
-            appnametv = (TextView)findViewById(R.id.appname);
-            appnametv.setText(toolbarMessage);
-            setSupportActionBar(toolbar);
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setHomeButtonEnabled(false);
             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             setResult(Activity.RESULT_OK, intent);
