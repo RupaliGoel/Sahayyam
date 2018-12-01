@@ -69,7 +69,7 @@
         android:layout_below="@+id/search_appeal"
         android:layout_marginTop="5dp"/>
 
-    <com.example.rupali.sos.ClearableEditText
+    <EditText
         android:id="@+id/textSearch"
         android:layout_below="@+id/apptype"
         android:layout_alignParentLeft="true"
@@ -84,7 +84,7 @@
 
     <Button
         android:id="@+id/GoButton"
-        android:layout_width="60dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
         android:layout_alignParentRight="true"
@@ -92,6 +92,8 @@
         android:layout_marginLeft="5dp"
         android:layout_above="@+id/EmergencyListView"
         android:text="Go"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
         android:textColor="@color/white"
         android:textAllCaps="false" />
 
