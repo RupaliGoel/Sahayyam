@@ -51,10 +51,9 @@
         android:drawableLeft="@drawable/ic_location"
         android:layout_toLeftOf="@+id/LocationButton"
         android:padding="5dip"
-        android:background="@drawable/edit_text_style"
         />
 
-    <com.example.rupali.sos.ClearableEditText
+    <EditText
         android:id="@+id/textSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

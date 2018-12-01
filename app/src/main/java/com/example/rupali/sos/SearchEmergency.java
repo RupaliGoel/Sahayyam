@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -72,7 +73,7 @@ public class SearchEmergency extends Fragment {
     //-------------------------------listview---------------------------------------------------
 
     ListView EmergencyListView = null;
-    ClearableEditText searchByText;
+    EditText searchByText;
     JSONArray jsonArray = null;
     JSONObject jsonObject;
 
