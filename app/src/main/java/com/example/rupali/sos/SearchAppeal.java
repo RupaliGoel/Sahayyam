@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -73,7 +74,7 @@ public class SearchAppeal extends AppCompatActivity {
     private static final String TAG_SUCCESS = "success";
 
     //-------------------------------toolbar, location textbox & button-----------------------------------
-    ClearableEditText textbox;
+    EditText textbox;
     ImageButton audio_mode;
     Button go;
     private androidx.appcompat.widget.Toolbar search_app;
@@ -124,7 +125,7 @@ public class SearchAppeal extends AppCompatActivity {
         setSupportActionBar(search_app);
 
         textbox = findViewById(R.id.textSearch);
-        audio_mode = findViewById(R.id.audioModeButton);
+        //audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);
 
         spinner = findViewById(R.id.apptype);

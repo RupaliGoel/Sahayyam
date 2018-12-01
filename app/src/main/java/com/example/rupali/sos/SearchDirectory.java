@@ -120,7 +120,7 @@ public class SearchDirectory extends AppCompatActivity {
         locationedit = findViewById(R.id.currentLocation);
         locationedit.setText(currentAddressOfUser);
         placepickerbtn = findViewById(R.id.placepickerbtn);
-        audio_mode = findViewById(R.id.audioModeButton);
+        //audio_mode = findViewById(R.id.audioModeButton);
         go = findViewById(R.id.GoButton);
         spinner = findViewById(R.id.role);
         //-------------------------------toolbar, location textbox & button-----------------------------------

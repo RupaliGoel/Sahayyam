@@ -26,15 +26,15 @@
             android:textSize="22dp"
             android:textStyle="bold"
             android:layout_gravity="center"/>
-        <ImageButton
-            android:id="@+id/audioModeButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:layout_alignParentEnd="true"
-            app:srcCompat="@drawable/ic_microphone" />
+        <!--<ImageButton-->
+            <!--android:id="@+id/audioModeButton"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:gravity="center"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--app:srcCompat="@drawable/ic_microphone" />-->
     </androidx.appcompat.widget.Toolbar>
 
     <AutoCompleteTextView
@@ -51,10 +51,9 @@
         android:drawableLeft="@drawable/ic_location"
         android:layout_toLeftOf="@+id/LocationButton"
         android:padding="5dip"
-        android:background="@drawable/edit_text_style"
         />
 
-    <com.example.rupali.sos.ClearableEditText
+    <EditText
         android:id="@+id/textSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,12 +74,14 @@
 
     <Button
         android:id="@+id/GoButton"
-        android:layout_width="60dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@+id/textSearch"
         android:layout_above="@+id/EmergencyListView"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
         android:text="Go"
         android:textColor="@color/white"
         android:textAllCaps="false" />

@@ -6,7 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
@@ -14,10 +19,14 @@ import java.util.List;
 
 public class PostHistory extends AppCompatActivity {
 
-    private Toolbar toolbar;
+  //  private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public String email;
+
+    String toolbarMessage;
+    Toolbar toolbar;
+    TextView appnametv;
 
 
     EmergencyHistory emergencyHistory = new EmergencyHistory();
@@ -43,6 +52,20 @@ public class PostHistory extends AppCompatActivity {
         emergencyHistory.setArguments(bundle2);*/
         emergencyHistory.setEmail(email);
         appealHistory.setEmail(email);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        toolbarMessage = prefs.getString("AppName","App");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appnametv = (TextView)findViewById(R.id.appname);
+        appnametv.setText(toolbarMessage);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

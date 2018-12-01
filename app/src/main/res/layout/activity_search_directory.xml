@@ -37,15 +37,15 @@
             android:textSize="22dp"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/audioModeButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:layout_alignParentEnd="true"
-            app:srcCompat="@drawable/ic_microphone" />
+        <!--<ImageButton-->
+            <!--android:id="@+id/audioModeButton"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:gravity="center"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--app:srcCompat="@drawable/ic_microphone" />-->
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -63,8 +63,7 @@
         android:textSize="15sp"
         android:drawableLeft="@drawable/ic_location"
         android:layout_toLeftOf="@+id/placepickerbtn"
-        android:padding="5dip"
-        android:background="@drawable/edit_text_style" />
+        android:padding="5dip" />
 
     <Spinner
         android:id="@+id/role"
@@ -77,7 +76,7 @@
 
     <Button
         android:id="@+id/GoButton"
-        android:layout_width="60dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
         android:layout_alignParentRight="true"
@@ -85,6 +84,8 @@
         android:layout_alignTop="@+id/role"
         android:layout_above="@+id/EmergencyListView"
         android:text="Go"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
         android:textColor="@color/white"
         android:textAllCaps="false" />
 

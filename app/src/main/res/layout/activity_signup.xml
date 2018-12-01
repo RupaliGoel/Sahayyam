@@ -7,9 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".SignupActivity">
 
+
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
 <androidx.appcompat.widget.Toolbar
     android:id="@+id/login1"
     android:layout_width="match_parent"
+    android:layout_below="@+id/toolbar"
     android:layout_height="30dp"
     android:background="@color/tab1"
     android:fitsSystemWindows="true"

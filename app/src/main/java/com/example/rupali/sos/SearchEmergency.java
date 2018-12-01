@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -72,7 +73,7 @@ public class SearchEmergency extends Fragment {
     //-------------------------------listview---------------------------------------------------
 
     ListView EmergencyListView = null;
-    ClearableEditText searchByText;
+    EditText searchByText;
     JSONArray jsonArray = null;
     JSONObject jsonObject;
 
@@ -131,7 +132,7 @@ public class SearchEmergency extends Fragment {
         locationedit = view.findViewById(R.id.currentLocation);
         getlocationbtn = view.findViewById(R.id.LocationButton);
         go = view.findViewById(R.id.GoButton);
-        audio_mode = view.findViewById(R.id.audioModeButton);
+        //audio_mode = view.findViewById(R.id.audioModeButton);
         searchByText = view.findViewById(R.id.textSearch);
         placepickerbtn = view.findViewById(R.id.placepickerbtn);
 
