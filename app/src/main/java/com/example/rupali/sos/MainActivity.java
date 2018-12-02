@@ -407,8 +407,6 @@ public class MainActivity extends AppCompatActivity {
 
             //-----------------------------code for Toolbar---------------------------------------------
             toolbar = (Toolbar) findViewById(R.id.toolbar);
-            appnametv = (TextView)findViewById(R.id.appname);
-            appnametv.setText(toolbarMessage);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
